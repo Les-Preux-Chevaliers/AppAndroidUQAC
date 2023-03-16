@@ -22,7 +22,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Greeting("Android")
+                    Greeting("Mode App!")
                 }
             }
         }
@@ -31,13 +31,13 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun Greeting(name: String) {
-    Text(text = "Hello $name!")
+    Text(text = "$name!")
 }
 
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
     LEpeeNiceTheme {
-        Greeting("J'aime vraiment beaucoup la bite !")
+        Greeting("Mode Preview")
     }
 }
