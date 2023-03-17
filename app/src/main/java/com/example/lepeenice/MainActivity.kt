@@ -7,7 +7,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Button
@@ -18,12 +17,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.lepeenice.ui.theme.LEpeeNiceTheme
-import com.example.lepeenice.PlaySound
-import com.example.lepeenice.Vibrate
 
 
 class MainActivity : ComponentActivity() {
@@ -49,27 +45,17 @@ fun ModeDisplay(name: String) {
         Surface(color = MaterialTheme.colors.primary,
             shape = MaterialTheme.shapes.medium
         ) {
-            Image(
-                painter = painterResource(R.drawable.logoepeenice),
-                contentDescription = "LEpeeNiceLogo",
-                modifier = Modifier
-                    .size(60.dp)
-                    .clip(CircleShape)
-                    .border(1.5.dp, MaterialTheme.colors.primary, CircleShape)
-                    .clickable { }
-            )
+            Prefab.CustomImage(source = R.drawable.logoepeenice, contentDescription = "LEpeeNiceLogo")
         }
         Spacer(modifier = Modifier.width(8.dp))
         Column {
             Spacer(modifier = Modifier.height(4.dp))
-            Text(text = "$name!",
-                color = MaterialTheme.colors.secondaryVariant,
-                style = MaterialTheme.typography.subtitle2
-            )
+            Prefab.CustomTitre(Content = "$name")
             Spacer(modifier = Modifier.height(8.dp))
-            Text(text = "Version : 0.0.1",
-                color = MaterialTheme.colors.error,
-                style = MaterialTheme.typography.subtitle2
+            Prefab.CustomSousTitre(Content = "Version : 0.0.1")
+            Prefab.CustomBouton(
+                text = "Cliquez-moi",
+                onClick = { /* Votre fonction de clic ici */ }
             )
         }
     }
@@ -86,6 +72,7 @@ fun DefaultPreview() {
         }
     }
 }
+
 
 //Zone de Alex
 @Preview(name = "GyroPreview",showBackground = true)

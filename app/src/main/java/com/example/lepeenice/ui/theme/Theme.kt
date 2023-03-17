@@ -27,12 +27,26 @@ private val LightColorPalette = lightColors(
     */
 )
 
+private val CustomLightColorPalette = lightColors(
+    primary = CustomBleu,
+    primaryVariant = CustomCyran,
+    secondary = CustomRouge,
+    background = CustomBlanc,
+    surface = CustomBlanc,
+    onPrimary = CustomBlanc,
+    onSecondary = CustomNoir,
+    onBackground = CustomNoir,
+    onSurface = CustomNoir
+)
+
+
+
 @Composable
 fun LEpeeNiceTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
     val colors = if (darkTheme) {
         DarkColorPalette
     } else {
-        LightColorPalette
+        CustomLightColorPalette
     }
 
     MaterialTheme(
