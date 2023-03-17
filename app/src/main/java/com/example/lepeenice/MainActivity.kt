@@ -1,6 +1,6 @@
 package com.example.lepeenice
 
-import android.R.color
+import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -10,16 +10,20 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.lepeenice.ui.theme.LEpeeNiceTheme
+import com.example.lepeenice.PlaySound
+import com.example.lepeenice.Vibrate
 
 
 class MainActivity : ComponentActivity() {
@@ -52,7 +56,7 @@ fun ModeDisplay(name: String) {
                     .size(60.dp)
                     .clip(CircleShape)
                     .border(1.5.dp, MaterialTheme.colors.primary, CircleShape)
-                    .clickable {  }
+                    .clickable { }
             )
         }
         Spacer(modifier = Modifier.width(8.dp))
@@ -98,9 +102,21 @@ fun GyroPreview() {
 @Preview(name = "VibroPreview",showBackground = true)
 @Composable
 fun VibroPreview() {
+    val currentContext: Context = LocalContext.current
     LEpeeNiceTheme {
         Surface(modifier = Modifier.fillMaxSize()){
-            Text(text = "Version : 0.0.1")
+            Column {
+                Text(text = "Version : 0.0.1")
+
+                Button(onClick =
+                {
+                    Vibrate.vibratePhone(currentContext, 500)
+                    PlaySound.playSound(currentContext, R.raw.sword_metal_woosh, false)
+                })
+                {
+                    Text(text = "test vibration + sound")
+                }
+            }
         }
     }
 }
