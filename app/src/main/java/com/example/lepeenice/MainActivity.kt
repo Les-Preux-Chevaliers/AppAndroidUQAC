@@ -40,6 +40,7 @@ class MainActivity : ComponentActivity() {
                         composable("Home") { CustomComposable.FirstHome(name = "Mode App",navController) }
                         composable("VibroPreview") { VibroClass.VibroPreview() }
                         composable("GyroPreview") { GyroClass.GyroPreview() }
+                        composable("MemoryPreview") { MemoryClass.MemoryPreview() }
                         composable("TestUI") { CustomComposable.FirstHome(name = "Mode App",navController) }
                     }
             }

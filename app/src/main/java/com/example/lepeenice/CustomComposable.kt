@@ -20,7 +20,7 @@ class CustomComposable {
                         Spacer(modifier = Modifier.height(4.dp))
                         Prefab.CustomTitre(content = "$name")
                         Spacer(modifier = Modifier.height(8.dp))
-                        Prefab.CustomSousTitre(content = "Version : 0.0.1")
+                        Prefab.CustomSousTitre(content = "Version : 0.0.2")
                     }
         }
 
@@ -29,7 +29,8 @@ class CustomComposable {
          */
         @Composable
         fun FirstHome(name : String,navController: NavController) {
-            Column {
+            Column(modifier = Modifier.fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally) {
                 Row(modifier = Modifier.padding(all = 8.dp)) {
                     Prefab.CustomSurface(
                         color = MaterialTheme.colors.primary,
@@ -37,7 +38,8 @@ class CustomComposable {
                     ) {
                         Prefab.CustomImage(
                             source = R.drawable.logoepeenice,
-                            contentDescription = "LEpeeNiceLogo"
+                            contentDescription = "LEpeeNiceLogo",
+                            size =  240.dp,
                         )
                     }
                     Spacer(modifier = Modifier.width(8.dp))
@@ -46,22 +48,29 @@ class CustomComposable {
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally)
                 {
-                    Row(modifier = Modifier.padding(all = 8.dp),) {
                         Prefab.CustomButton(
                             text = "Vibro Preview",
-                            onClick = { navController.navigate("VibroPreview") }
+                            onClick = { navController.navigate("VibroPreview")},
                         )
+                    Spacer(modifier = Modifier.height(8.dp))
                         Prefab.CustomButton(
                             text = "Gyro Preview",
                             onClick = { navController.navigate("GyroPreview") },
                             shape = RoundedCornerShape(32.dp)
                         )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Prefab.CustomButton(
+                        text = "Memory Preview",
+                        onClick = { navController.navigate("MemoryPreview") },
+                        shape = RoundedCornerShape(32.dp)
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
                         Prefab.CustomButton(
                             text = "TestUI",
                             onClick = { navController.navigate("TestUI") },
                             shape = RoundedCornerShape(0.dp)
                         )
-                    }
+
                 }
             }
             Column(modifier = Modifier.fillMaxSize(),

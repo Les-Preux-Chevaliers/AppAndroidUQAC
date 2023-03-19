@@ -117,7 +117,7 @@ class Prefab {
             shape: Shape = RoundedCornerShape(16.dp),
             backgroundColor: Color = MaterialTheme.colors.primary,
             contentColor: Color = MaterialTheme.colors.onPrimary,
-            contentPadding: PaddingValues = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+            contentPadding: PaddingValues = PaddingValues(horizontal = 16.dp, vertical = 16.dp),
             textStyle: TextStyle = MaterialTheme.typography.button
         ) {
             Button(

@@ -23,6 +23,7 @@ class VibroClass {
             LEpeeNiceTheme {
                 Surface(modifier = Modifier.fillMaxSize()) {
                     Column {
+                        Text(text = "Vibro Preview")
                         Text(text = "Version : 0.0.1")
 
                         Button(onClick =
