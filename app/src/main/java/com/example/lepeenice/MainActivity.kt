@@ -1,29 +1,19 @@
 package com.example.lepeenice
 
-import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
-import android.widget.Button
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -41,6 +31,7 @@ class MainActivity : ComponentActivity() {
                         composable("VibroPreview") { VibroClass.VibroPreview() }
                         composable("GyroPreview") { GyroClass.GyroPreview() }
                         composable("MemoryPreview") { MemoryClass.MemoryPreview() }
+                        composable("SplashScreen") { SplashScreen.SplashScreen(navController) }
                         composable("TestUI") { CustomComposable.FirstHome(name = "Mode App",navController) }
                     }
             }
@@ -57,7 +48,50 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun DefaultPreview() {
     LEpeeNiceTheme {
-        CustomComposable.ModeDisplay(name = "Preview Mode")
+        Box(
+            Modifier
+                .fillMaxSize()
+                .background(
+                    brush = Brush.verticalGradient(
+                        colors = listOf(
+                            MaterialTheme.colors.secondary,
+                            MaterialTheme.colors.surface
+                        ),
+                        startY = 1000f,
+                        endY = 2000f
+                    )
+                )) {
+            Box(modifier = Modifier.align(Alignment.TopCenter)) {
+                Prefab.CustomImage(
+                    source = R.drawable.logoepeenice,
+                    contentDescription = "LEpeeNiceLogo",
+                    size = 480.dp
+                )
+            }
+            Box(modifier = Modifier.align(Alignment.Center)) {
+                Column() {
+                    Spacer(modifier = Modifier.height(320.dp))
+                    Prefab.CustomIconButton(
+                        icon = painterResource(id = R.drawable.iconplay),
+                        iconSize = 120.dp,
+                        size = 240.dp,
+                        tint = MaterialTheme.colors.onBackground,
+                        onClick = { /* Votre fonction de clic ici */ }
+                    )
+                }
+            }
+
+
+
+
+            //Show version, dont remove this on the preview !
+            Box(modifier = Modifier.align(Alignment.BottomStart)){
+                CustomComposable.ModeDisplay(name = "Preview Mode")
+            }
+        }
     }
 }
+
+
+
 

@@ -3,13 +3,12 @@ package com.example.lepeenice
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.defaultMinSize
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -24,8 +23,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
-import com.example.lepeenice.ui.theme.CustomBlanc
-import com.example.lepeenice.ui.theme.CustomBleu
 
 class Prefab {
     companion object {
@@ -89,6 +86,23 @@ class Prefab {
             contentDescription: String,
             modifier: Modifier = Modifier,
             size: Dp = 60.dp,
+            shape: Shape = CircleShape
+        ) {
+            Image(
+                painter = painterResource(source),
+                contentDescription = contentDescription,
+                modifier = modifier
+                    .size(size)
+                    .clip(shape)
+            )
+        }
+
+        @Composable
+        fun CustomImageWithBorder(
+            source: Int,
+            contentDescription: String,
+            modifier: Modifier = Modifier,
+            size: Dp = 60.dp,
             shape: Shape = CircleShape,
             borderWidth: Dp = 1.5.dp,
             borderColor: Color = MaterialTheme.colors.primary
@@ -147,6 +161,66 @@ class Prefab {
             )
         }
 
+        @Composable
+        fun CustomIconButtonWithText(
+            text: String,
+            icon: Painter,
+            size: Dp = 48.dp,
+            onClick: () -> Unit
+        ) {
+            Button(
+                onClick = onClick,
+                colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.primary),
+                shape = CircleShape,
+                modifier = Modifier
+                    .size(size)
+            ) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Icon(
+                        painter = icon,
+                        contentDescription = "Icon",
+                        modifier = Modifier.size(size * 0.7f),
+                        tint = MaterialTheme.colors.onPrimary
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Text(
+                        text = text,
+                        style = MaterialTheme.typography.button,
+                        color = MaterialTheme.colors.onPrimary
+                    )
+                }
+            }
+        }
+
+        @Composable
+        fun CustomIconButton(
+            icon: Painter,
+            size: Dp = 48.dp,
+            iconSize: Dp = 24.dp,
+            contentDescription: String? = null,
+            onClick: () -> Unit = {},
+            enabled: Boolean = true,
+            modifier: Modifier = Modifier,
+            tint: Color = MaterialTheme.colors.primary
+        ) {
+            IconButton(
+                onClick = onClick,
+                enabled = enabled,
+                modifier = modifier.size(size),
+                content = {
+                    Icon(
+                        painter = icon,
+                        contentDescription = contentDescription,
+                        modifier = Modifier
+                            .size(iconSize),
+                        tint = tint
+                    )
+                }
+            )
+        }
+
 
 
 
@@ -176,3 +250,5 @@ class Prefab {
 
     }
 }
+
+
