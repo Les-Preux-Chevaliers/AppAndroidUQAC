@@ -35,12 +35,14 @@ class MemoryClass {
                         Text(text = "Version : 0.0.1")
                         Spacer(modifier = Modifier.height(16.dp))
 
-                        val p = Player("John")
-                        Text(text = "Pseudo : "+p.pseudo)
+                        val Player = Player.getInstance()
+                        Player.pseudo = "John"
+                        Text(text = "Pseudo : "+Player.pseudo)
+                        Text(text = "Pseudo : "+Player.pseudo)
                         //Text(text = "Score : "+p.score.toString())
 
                         //SERIALIZATION
-                        val EncodedJson = Json.encodeToString(p)
+                        val EncodedJson = Json.encodeToString(Player)
                         Text(text = "SerializedFiled : "+EncodedJson)
 
                         Spacer(modifier = Modifier.height(16.dp))
