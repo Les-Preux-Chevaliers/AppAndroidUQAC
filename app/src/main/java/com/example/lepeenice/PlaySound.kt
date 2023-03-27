@@ -16,7 +16,7 @@ class PlaySound {
                 mediaPlayer = MediaPlayer.create(context, soundID)
                 mediaPlayer.isLooping = toggleLoop
                 mediaPlayer.start()
-                mediaPlayer.setOnCompletionListener { mp ->
+                mediaPlayer!!.setOnCompletionListener { mp ->
                     mp.release()
                 }
             } else mediaPlayer.start()
