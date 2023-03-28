@@ -6,9 +6,9 @@ import kotlinx.serialization.Serializable
 public class Player private constructor() {
 
     var pseudo: String = "PlayerName"
-    var sword: Sword = Sword("Épée d'entrainement", 1.0f)
-    var hp: Float = 100.0f
-    var score: Int = 0
+    var sword: Sword = Sword("Épée d'entrainement", 1)
+    var hp: Int = 100
+    private var score: Int = 0
 
     companion object {
         private var instance: Player? = null
@@ -21,7 +21,11 @@ public class Player private constructor() {
         }
     }
 
-    fun doSomething() {
-        // Fait quelque chose ici
+    fun addScore(pts: Int) {
+        score += pts;
+    }
+
+    fun getScore(): Int {
+        return score
     }
 }

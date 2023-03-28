@@ -43,9 +43,9 @@ class MemoryClass {
                         //Text(text = "Score : "+p.score.toString())
 
                         val GameManager = GameManager.getInstance()
-                        GameManager.CreateSwords()
+                        GameManager.createSwords()
 
-                        GameManager.AddMonster("Gobelin",10.0f,1.0f,0,R.drawable.mob1, 1)
+                        GameManager.addMonster("Gobelin",10,1,0,R.drawable.mob1, 1)
 
 
 
