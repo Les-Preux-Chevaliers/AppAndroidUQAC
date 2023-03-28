@@ -14,6 +14,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.lepeenice.MemoryClassPackage.GameManager
 import com.example.lepeenice.MemoryClassPackage.Player
 import com.example.lepeenice.ui.theme.LEpeeNiceTheme
 import kotlinx.serialization.encodeToString
@@ -40,6 +41,15 @@ class MemoryClass {
                         Text(text = "Pseudo : "+Player.pseudo)
                         Text(text = "Pseudo : "+Player.pseudo)
                         //Text(text = "Score : "+p.score.toString())
+
+                        val GameManager = GameManager.getInstance()
+                        GameManager.CreateSwords()
+
+                        GameManager.AddMonster("Gobelin",10.0f,1.0f,0,R.drawable.mob1, 1)
+
+
+
+                        //Text(text = "InitGameManager : "+GameManager.printMonsters())
 
                         //SERIALIZATION
                         val EncodedJson = Json.encodeToString(Player)
