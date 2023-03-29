@@ -10,12 +10,8 @@ class SensorsUtilityClass : SensorEventListener {
     lateinit var sensorManager: SensorManager
     lateinit var accelerometer: Sensor
 
-    private var gravity = floatArrayOf(0.0f, 0.0f)
-
-    private val alpha = 0.8f // coefficient de filtrage passe-bas
-
-    private val deltaTime = SensorManager.SENSOR_DELAY_NORMAL
-    private var currentTime = 0L
+    private var lastUpdateTime = 0L
+    private var deltaTime = 0.08f
 
     private var velocity = floatArrayOf(0.0f, 0.0f)
 
@@ -34,32 +30,39 @@ class SensorsUtilityClass : SensorEventListener {
                 it,
                 SensorManager.SENSOR_DELAY_NORMAL)
         }
+
+        println("DT : " + deltaTime)
     }
 
     // Fonction pour délier l'accéléromètre
-    /*fun unuseAccelerometer() {
+    fun unuseAccelerometer() {
         sensorManager.unregisterListener(this)
-    }*/
+    }
 
     override fun onSensorChanged(event: SensorEvent?) {
         if(event?.sensor?.type == Sensor.TYPE_ACCELEROMETER) {
-            gravity[0] = alpha * gravity[0] + (1 - alpha) * event.values[0]
-            gravity[1] = alpha * gravity[1] + (1 - alpha) * event.values[1]
+            // Récuperer la valeur de l'accélération sur l'axe X et Y obtenue à l'appel de la fonction
+            val acceleration = floatArrayOf(event.values[0], event.values[1])
 
-            currentTime += deltaTime
-
-            // Retirer la gravité pour obtenir l'accélération linéaire
-            val linearAcceleration = FloatArray(2)
-            linearAcceleration[0] = event.values[0] - gravity[0]
-            linearAcceleration[1] = event.values[1] - gravity[1]
-
-            // Calculer la vitesse et la position en utilisant la méthode simple
-            for (i in 0 until 2) {
-                velocity[i] += linearAcceleration[i] * deltaTime
-                position[i] += velocity[i] * deltaTime
+            // Si l'accélération n'est pas assez significative ne rien faire
+            if (acceleration[0] <= -3.0f || acceleration[0] >= 3.0f) {
+                // Calculer la vitesse en X
+                velocity[0] = velocity[0] + acceleration[0] * deltaTime
+                // Calculer la position en X
+                position[0] = position[0] + velocity[0] * deltaTime
+            }
+            if (acceleration[1] <= -3.0f || acceleration[1] >= 3.0f) {
+                // Calculer la vitesse en Y
+                velocity[1] = velocity[1] + acceleration[1] * deltaTime
+                // Calculer la position en Y
+                position[1] = position[1] + velocity[1] * deltaTime
             }
 
-            println("Sensor get new Values")
+            /*if (event != null) {
+            println("Ax = " + event.values[0] + "Ay = " + event.values[1])
+            }*/
+
+            printThePos()
         }
     }
 
@@ -68,7 +71,6 @@ class SensorsUtilityClass : SensorEventListener {
     }
 
     fun printThePos() {
-        println("X : " + position[0])
-        println("Y : " + position[1])
+        println("X : " + position[0] + "   Y : " + position[1])
     }
 }

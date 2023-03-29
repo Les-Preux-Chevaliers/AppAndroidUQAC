@@ -30,9 +30,6 @@ class GyroClass {
             }
             accelerometer.useAccelerometer(context)
 
-            for (i in 0 until 5) {
-                accelerometer.printThePos()
-            }
             //Start bitcoin minor ^^
             //accelerometer.unuseAccelerometer()
         }
