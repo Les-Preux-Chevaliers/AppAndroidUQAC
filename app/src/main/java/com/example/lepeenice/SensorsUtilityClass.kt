@@ -37,9 +37,9 @@ class SensorsUtilityClass : SensorEventListener {
     }
 
     // Fonction pour délier l'accéléromètre
-    fun unuseAccelerometer() {
+    /*fun unuseAccelerometer() {
         sensorManager.unregisterListener(this)
-    }
+    }*/
 
     override fun onSensorChanged(event: SensorEvent?) {
         if(event?.sensor?.type == Sensor.TYPE_ACCELEROMETER) {
