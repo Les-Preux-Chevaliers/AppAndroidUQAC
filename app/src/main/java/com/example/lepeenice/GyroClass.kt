@@ -14,11 +14,12 @@ import com.example.lepeenice.ui.theme.LEpeeNiceTheme
 
 class GyroClass {
     companion object {
+        val accelerometer = SensorsUtilityClass()
 
         //Zone de Alex
         @Preview(name = "GyroPreview",showBackground = true)
         @Composable
-        fun GyroPreview() {
+        fun GyroPreview(context: Context) {
             LEpeeNiceTheme {
                 Surface(modifier = Modifier.fillMaxSize()){
                     Column() {
@@ -27,6 +28,13 @@ class GyroClass {
                     }
                 }
             }
+            accelerometer.useAccelerometer(context)
+
+            for (i in 0 until 5) {
+                accelerometer.printThePos()
+            }
+
+            accelerometer.unuseAccelerometer()
         }
     }
 }

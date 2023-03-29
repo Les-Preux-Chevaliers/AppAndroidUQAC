@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.StringRes
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -86,7 +87,7 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                         composable("VibroPreview") { VibroClass.VibroPreview() }
-                        composable("GyroPreview") { GyroClass.GyroPreview() }
+                        composable("GyroPreview") { GyroClass.GyroPreview(LocalContext.current) }
                         composable("MemoryPreview") { MemoryClass.MemoryPreview() }
                         composable("SplashScreen") { SplashScreen.SplashScreen(navController) }
                         composable("TestUI") { DefaultPreview() }
