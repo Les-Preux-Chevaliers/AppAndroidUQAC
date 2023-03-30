@@ -1,4 +1,4 @@
-package com.example.lepeenice
+package com.example.lepeenice.UIDisplay
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

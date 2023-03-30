@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 public class Player private constructor() {
 
     var pseudo: String = "PlayerName"
-    var sword: Sword = Sword("Épée d'entrainement", 1)
+    //var sword: Sword = Sword("Épée d'entrainement", 1)
     var hp: Int = 100
     private var score: Int = 0
 

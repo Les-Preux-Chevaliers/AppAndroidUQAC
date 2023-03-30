@@ -1,4 +1,4 @@
-package com.example.lepeenice
+package com.example.lepeenice.UIDisplay
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -10,6 +10,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.lepeenice.R
 
 class SplashScreen {
     companion object {

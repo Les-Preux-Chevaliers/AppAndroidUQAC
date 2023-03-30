@@ -1,6 +1,5 @@
-package com.example.lepeenice
+package com.example.lepeenice.UIDisplay
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.LinearProgressIndicator
@@ -8,10 +7,9 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.lepeenice.R
 
 class CustomComposable {
     companion object {
@@ -95,7 +93,7 @@ class CustomComposable {
                 horizontalAlignment = Alignment.Start
             ) {
                 Prefab.CustomSurface {
-                    CustomComposable.ModeDisplay(name, version)
+                    ModeDisplay(name, version)
                 }
             }
         }
@@ -106,7 +104,14 @@ class CustomComposable {
      */
         @Composable
         fun LifeBar(currentLife: Int, maxLife: Int) {
-            val lifePercentage = currentLife.toFloat() / maxLife.toFloat()
+            var life = currentLife
+            if (life > maxLife) {
+                life = maxLife
+            }else if(currentLife < 0) {
+                life = 0
+            }
+
+            val lifePercentage = life.toFloat() / maxLife.toFloat()
 
             LinearProgressIndicator(
                 progress = lifePercentage,

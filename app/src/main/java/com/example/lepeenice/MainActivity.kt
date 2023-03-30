@@ -6,12 +6,10 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.StringRes
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.runtime.*
@@ -20,7 +18,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -30,6 +27,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.lepeenice.UIDisplay.CustomComposable
+import com.example.lepeenice.UIDisplay.MainScreen
+import com.example.lepeenice.UIDisplay.Prefab
+import com.example.lepeenice.UIDisplay.SplashScreen
 import com.example.lepeenice.ui.theme.LEpeeNiceTheme
 
 
@@ -90,7 +91,7 @@ class MainActivity : ComponentActivity() {
                         composable("GyroPreview") { GyroClass.GyroPreview(LocalContext.current) }
                         composable("MemoryPreview") { MemoryClass.MemoryPreview() }
                         composable("SplashScreen") { SplashScreen.SplashScreen(navController) }
-                        composable("TestUI") { DefaultPreview() }
+                        composable("TestUI") { MainScreen.MainScreen()}
                     }
                 }
             }
@@ -194,7 +195,23 @@ fun DefaultPreview() {
                         PlaySound.playSound(currentContext, R.raw.sword_metal_woosh, false)
                     })
                 }
+
+                Box(
+                    modifier = Modifier
+                        .wrapContentHeight()
+                        .align(Alignment.CenterHorizontally)
+                ) {
+                    /*
+                    Image de l'épée
+                     */
+                    Prefab.CustomImage(
+                        source = R.drawable.logoepeenice,
+                        contentDescription = "SwordPicture",
+                        size = 480.dp,
+                    )
+                }
             }
+
 
 
             //Show version, dont remove this on the preview !
