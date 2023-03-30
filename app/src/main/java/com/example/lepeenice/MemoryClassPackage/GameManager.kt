@@ -6,12 +6,9 @@ import kotlin.random.Random
 @Serializable
 public class GameManager private constructor() {
 
+    companion object {
     val swords: MutableList<Sword> = mutableListOf()
 
-
-
-
-    companion object {
         val monsters: MutableList<Monster> = mutableListOf(
             Monster("Gigachiax",100,0,0,com.example.lepeenice.R.drawable.mob1,com.example.lepeenice.R.drawable.mob1_evolved, 0),
             Monster("Tractopulpeux",200,0,0,com.example.lepeenice.R.drawable.mob1,com.example.lepeenice.R.drawable.mob1_evolved, 0),
@@ -21,8 +18,6 @@ public class GameManager private constructor() {
         private var instance: GameManager? = null
 
         var currentMonster: Monster = monsters.random()
-
-        var money: Int = 0
 
         fun getInstance(): GameManager {
             if (instance == null) {
@@ -84,12 +79,7 @@ public class GameManager private constructor() {
     }
 
     fun finishCurrentFight(){
-        Player.getInstance().addScore(currentMonster.scoreGiven)
-        var randomNB = 0;
-        if(monsters.size > 1){
-            randomNB = (0..(monsters.size-1)).random()
-        }else{
-            currentMonster = monsters.get(randomNB);
-        }
+        Player.getInstance().addMoney(currentMonster.scoreGiven)
+        currentMonster = monsters.random()
     }
 }
