@@ -1,14 +1,21 @@
 package com.example.lepeenice.UIDisplay
 
+import android.content.res.Resources.Theme
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.LinearProgressIndicator
-import androidx.compose.material.MaterialTheme
-import androidx.compose.runtime.Composable
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.lepeenice.MemoryClassPackage.Sword
 import com.example.lepeenice.R
 
 class CustomComposable {
@@ -74,8 +81,8 @@ class CustomComposable {
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Prefab.CustomButton(
-                        text = "TestUI",
-                        onClick = { navController.navigate("TestUI") },
+                        text = "MainUI",
+                        onClick = { navController.navigate("MainUI") },
                         shape = RoundedCornerShape(0.dp)
                     )
                     Spacer(modifier = Modifier.height(8.dp))
@@ -107,7 +114,7 @@ class CustomComposable {
             var life = currentLife
             if (life > maxLife) {
                 life = maxLife
-            }else if(currentLife < 0) {
+            } else if (currentLife < 0) {
                 life = 0
             }
 
@@ -120,6 +127,93 @@ class CustomComposable {
                     .height(32.dp),
                 color = if (lifePercentage > 0.5f) MaterialTheme.colors.surface else MaterialTheme.colors.error
             )
+        }
+
+        /*
+    UI pour les éléments du shop
+     */
+        @Composable
+        fun Shop(swords: List<Sword>, onSwordClick: (sword: Sword) -> Unit) {
+            var startIndex by remember { mutableStateOf(0) }
+            val endIndex = minOf(startIndex + 5, swords.size)
+
+            Column(
+                Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+                    .background(MaterialTheme.colors.background.copy(alpha = 0.2f))
+            ) {
+                for (i in startIndex until endIndex) {
+                    val sword = swords[i]
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp)
+                            .background(MaterialTheme.colors.surface)
+                    ) {
+                        Image(
+                            painter = painterResource(id = sword.imageId),
+                            contentDescription = sword.name,
+                            modifier = Modifier
+                                .size(80.dp)
+                                .background(MaterialTheme.colors.primaryVariant)
+                        )
+                        Spacer(modifier = Modifier.width(16.dp))
+                        Column(Modifier.weight(1f)) {
+                            Text(
+                                text = sword.name,
+                                style = MaterialTheme.typography.h6,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
+                            )
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Button(
+                                    onClick = { onSwordClick(sword) },
+                                    colors = ButtonDefaults.buttonColors(
+                                        backgroundColor = if (sword.isPurchased) MaterialTheme.colors.primary else MaterialTheme.colors.secondary
+                                    ),
+                                    modifier = Modifier.padding(end = 8.dp)
+                                ) {
+                                    Text(
+                                        text = if (sword.isPurchased) "Equipé" else "Acheter ${sword.price}CAD",
+                                        style = MaterialTheme.typography.button
+                                    )
+                                }
+                                Text(
+                                    text = "Damage: ${sword.damage}",
+                                    style = MaterialTheme.typography.body1,
+                                    color = MaterialTheme.colors.onBackground.copy(alpha = 0.6f),
+                                    modifier = Modifier
+                                        .padding(start = 8.dp)
+                                        .align(Alignment.CenterVertically)
+                                )
+                            }
+                        }
+                    }
+                }
+                Row(
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.Bottom
+                ) {
+                    if (startIndex > 0) {
+                        Button(
+                            onClick = { startIndex -= 5 },
+                            modifier = Modifier.padding(end = 8.dp)
+                        ) {
+                            Text(text = "Précédent")
+                        }
+                    }
+                    if (endIndex < swords.size) {
+                        Button(
+                            onClick = { startIndex += 5 },
+                            modifier = Modifier.padding(start = 8.dp)
+                        ) {
+                            Text(text = "Suivant")
+                        }
+                    }
+                }
+            }
         }
 
 

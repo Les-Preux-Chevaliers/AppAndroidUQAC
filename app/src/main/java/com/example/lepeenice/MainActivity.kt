@@ -27,10 +27,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.lepeenice.UIDisplay.CustomComposable
-import com.example.lepeenice.UIDisplay.MainScreen
-import com.example.lepeenice.UIDisplay.Prefab
-import com.example.lepeenice.UIDisplay.SplashScreen
+import com.example.lepeenice.MemoryClassPackage.GameManager
+import com.example.lepeenice.MemoryClassPackage.Player
+import com.example.lepeenice.UIDisplay.*
 import com.example.lepeenice.ui.theme.LEpeeNiceTheme
 
 
@@ -91,7 +90,8 @@ class MainActivity : ComponentActivity() {
                         composable("GyroPreview") { GyroClass.GyroPreview(LocalContext.current) }
                         composable("MemoryPreview") { MemoryClass.MemoryPreview() }
                         composable("SplashScreen") { SplashScreen.SplashScreen(navController) }
-                        composable("TestUI") { MainScreen.MainScreen()}
+                        composable("Shop") { ShopScreen.ShopScreen()}
+                        composable("MainUI") { MainScreen.MainScreen()}
                     }
                 }
             }
@@ -101,7 +101,7 @@ class MainActivity : ComponentActivity() {
 
 sealed class Screen(val route: String, @StringRes val resourceId: Int, val icon: ImageVector) {
     object Home : Screen("Home", R.string.home, Icons.Filled.Home)
-    object Shop : Screen("SplashScreen", R.string.shop, Icons.Filled.ShoppingCart)
+    object Shop : Screen("Shop", R.string.shop, Icons.Filled.ShoppingCart)
 }
 
 
@@ -115,6 +115,7 @@ sealed class Screen(val route: String, @StringRes val resourceId: Int, val icon:
 fun DefaultPreview() {
     val currentContext: Context = LocalContext.current
     LEpeeNiceTheme {
+        GameManager.getInstance().createSwords()
         Box(
             Modifier
                 .fillMaxSize()
@@ -129,14 +130,43 @@ fun DefaultPreview() {
                     )
                 )
         ) {
-            
+            Column() {
+                /*
+                Score display code UI
+                 */
 
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(50.dp)
+                        .background(color = MaterialTheme.colors.background)
+                        .padding(start = 20.dp)
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .wrapContentSize()
+                            .align(Alignment.CenterStart)
+                    ) {
+                        Prefab.CustomTitre(content = "Money : ")
+                        /*
+                Texte pour le score à modifier lors du jeu
+                 */
+                        Prefab.CustomTitre(content = Player.getInstance().getMoney().toString())
+                        Prefab.CustomTitre(content = " CAD")
+                    }
+                }
 
+                /*
+            Ui pour tout les éléments du shop
+             */
+                CustomComposable.Shop(swords = GameManager.swords, onSwordClick = { })
+            }
             //Show version, dont remove this on the preview !
             Box(modifier = Modifier.align(Alignment.BottomStart)) {
                 CustomComposable.ModeDisplay(name = "Preview Mode", version = "Version : 0.0.4")
             }
         }
+
     }
 }
 

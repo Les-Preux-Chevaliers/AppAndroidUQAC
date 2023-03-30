@@ -1,5 +1,9 @@
 package com.example.lepeenice.MemoryClassPackage
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import kotlinx.serialization.Serializable
 import kotlin.random.Random
 
@@ -68,6 +72,22 @@ public class GameManager private constructor() {
      * Création de toutes les épées du jeu.
      */
     fun createSwords() {
+        swords.add(Sword("NonusÉpée d'entrainement",1,0,true,com.example.lepeenice.R.drawable.logoepeenice))
+        swords.add(Sword("BonusLame de l'ombre nocturne",10,1000,false,com.example.lepeenice.R.drawable.logoepeenice))
+        swords.add(Sword("proutÉpée de la licorne dorée",15,2500,false,com.example.lepeenice.R.drawable.logoepeenice))
+        swords.add(Sword("mamamamÉpée de la colère divine",20,5000,false,com.example.lepeenice.R.drawable.logoepeenice))
+        swords.add(Sword("PIZZZZAAAAÉpée de la vallée des âmes",30,10000,false,com.example.lepeenice.R.drawable.logoepeenice))
+        swords.add(Sword("NonusÉpée d'entrainement",1,0,true,com.example.lepeenice.R.drawable.logoepeenice))
+        swords.add(Sword("BonusLame de l'ombre nocturne",10,1000,false,com.example.lepeenice.R.drawable.logoepeenice))
+        swords.add(Sword("proutÉpée de la licorne dorée",15,2500,false,com.example.lepeenice.R.drawable.logoepeenice))
+        swords.add(Sword("mamamamÉpée de la colère divine",20,5000,false,com.example.lepeenice.R.drawable.logoepeenice))
+        swords.add(Sword("PIZZZZAAAAÉpée de la vallée des âmes",30,10000,false,com.example.lepeenice.R.drawable.logoepeenice))
+
+        swords.add(Sword("NonusÉpée d'entrainement",1,0,true,com.example.lepeenice.R.drawable.logoepeenice))
+        swords.add(Sword("BonusLame de l'ombre nocturne",10,1000,false,com.example.lepeenice.R.drawable.logoepeenice))
+        swords.add(Sword("proutÉpée de la licorne dorée",15,2500,false,com.example.lepeenice.R.drawable.logoepeenice))
+        swords.add(Sword("mamamamÉpée de la colère divine",20,5000,false,com.example.lepeenice.R.drawable.logoepeenice))
+        swords.add(Sword("PIZZZZAAAAÉpée de la vallée des âmes",30,10000,false,com.example.lepeenice.R.drawable.logoepeenice))
         //Création des Swords
             swords.add(Sword("Épée d'entrainement",1,0,true,com.example.lepeenice.R.drawable.logoepeenice))
             swords.add(Sword("Lame de l'ombre nocturne",10,1000,false,com.example.lepeenice.R.drawable.logoepeenice))

@@ -13,6 +13,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.example.lepeenice.MemoryClassPackage.GameManager
 import com.example.lepeenice.MemoryClassPackage.Monster
+import com.example.lepeenice.MemoryClassPackage.Player
 import com.example.lepeenice.PlaySound
 import com.example.lepeenice.ui.theme.LEpeeNiceTheme
 
@@ -59,8 +60,8 @@ class MainScreen {
                                 /*
                             Texte pour le score à modifier lors du jeu
                              */
-                                Prefab.CustomTitre(content = GameManager.money.toString())
-                                Prefab.CustomTitre(content = " donuts")
+                                Prefab.CustomTitre(content = Player.getInstance().getMoney().toString())
+                                Prefab.CustomTitre(content = " CAD")
                             }
                         }
 
@@ -96,12 +97,12 @@ class MainScreen {
                         Row {
                             Prefab.CustomButton(text = "+10", onClick = {
                                 Life += 10
-                                GameManager.money +=100
+                                Player.getInstance().addMoney(100)
                                 PlaySound.playSound(currentContext, com.example.lepeenice.R.raw.sword_metal_woosh, false)
                             })
                             Prefab.CustomButton(text = "-10", onClick = {
                                 Life -= 10
-                                GameManager.money +=100
+                                Player.getInstance().addMoney(100)
                                 PlaySound.playSound(currentContext, com.example.lepeenice.R.raw.sword_metal_woosh, false)
                             })
                         }
