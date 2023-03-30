@@ -129,94 +129,12 @@ fun DefaultPreview() {
                     )
                 )
         ) {
-            Column() {
-                var Life by remember { mutableStateOf(70) }
-                /*
-            Score display code UI
-             */
-
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(50.dp)
-                        .background(color = MaterialTheme.colors.background)
-                        .padding(start = 20.dp)
-                ) {
-                    Row(
-                        modifier = Modifier
-                            .wrapContentSize()
-                            .align(Alignment.CenterStart)
-                    ) {
-                        Prefab.CustomTitre(content = "Score : ")
-                        /*
-                        Texte pour le score à modifier lors du jeu
-                         */
-                        Prefab.CustomTitre(content = "666 888")
-                        Prefab.CustomTitre(content = " points")
-                    }
-                }
-
-                Box(
-                    modifier = Modifier
-                        .wrapContentHeight()
-                        .align(Alignment.CenterHorizontally)
-                ) {
-                    /*
-                    Image du monstre
-                     */
-                    Prefab.CustomImage(
-                        source = R.drawable.mob1,
-                        contentDescription = "MobPicture",
-                        size = 240.dp,
-                    )
-                }
-                Box(
-                    modifier = Modifier
-                        .width(200.dp)
-                        .align(Alignment.CenterHorizontally)
-                ) {
-
-                    CustomComposable.LifeBar(currentLife = Life, maxLife = 100)
-
-                    Box(modifier = Modifier.align(Alignment.Center)) {
-                        Prefab.CustomTitre(content = "Gigachiax")
-                    }
-                }
-                /*
-                Bouton pour tester la bar de vie volatile
-                 */
-                Row {
-                    Prefab.CustomButton(text = "+10", onClick = {
-                        Life += 10
-                        PlaySound.playSound(currentContext, R.raw.sword_metal_woosh, false)
-                    })
-                    Prefab.CustomButton(text = "-10", onClick = {
-                        Life -= 10
-                        PlaySound.playSound(currentContext, R.raw.sword_metal_woosh, false)
-                    })
-                }
-
-                Box(
-                    modifier = Modifier
-                        .wrapContentHeight()
-                        .align(Alignment.CenterHorizontally)
-                ) {
-                    /*
-                    Image de l'épée
-                     */
-                    Prefab.CustomImage(
-                        source = R.drawable.logoepeenice,
-                        contentDescription = "SwordPicture",
-                        size = 480.dp,
-                    )
-                }
-            }
-
+            
 
 
             //Show version, dont remove this on the preview !
             Box(modifier = Modifier.align(Alignment.BottomStart)) {
-                CustomComposable.ModeDisplay(name = "Preview Mode", version = "Version : 0.0.2")
+                CustomComposable.ModeDisplay(name = "Preview Mode", version = "Version : 0.0.4")
             }
         }
     }

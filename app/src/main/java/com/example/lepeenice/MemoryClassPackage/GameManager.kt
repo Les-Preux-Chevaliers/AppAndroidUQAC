@@ -75,25 +75,11 @@ public class GameManager private constructor() {
     fun createSwords() {
         //Création des Swords
             swords.add(Sword("Épée d'entrainement",1,0,true,com.example.lepeenice.R.drawable.logoepeenice))
-            //swords.add(Sword("Lame du dragon hurlant",18,0,true,com.example.lepeenice.R.drawable.logoepeenice))
-            //swords.add(Sword("Sabre de la chimère",15,0,true,com.example.lepeenice.R.drawable.logoepeenice))
-            //swords.add(Sword("Dague de la vipère noire",12,0,true,com.example.lepeenice.R.drawable.logoepeenice))
-            swords.add(Sword("Épée des brumes éternelles",20,0,true,com.example.lepeenice.R.drawable.logoepeenice))
-            //swords.add(Sword("Lame de la destinée",25,0,true,com.example.lepeenice.R.drawable.logoepeenice))
-            swords.add(Sword("Épée des cieux étoilés",30,0,true,com.example.lepeenice.R.drawable.logoepeenice))
-            //swords.add(Sword("Mjöllnir, le marteau divin",35,0,true,com.example.lepeenice.R.drawable.logoepeenice))
-            swords.add(Sword("Lame de l'ombre nocturne",40,0,true,com.example.lepeenice.R.drawable.logoepeenice))
-            swords.add(Sword("Épée de la foudre céleste",18,0,true,com.example.lepeenice.R.drawable.logoepeenice))
-            //swords.add(Sword("Lame de l'aigle royal",22,0,true,com.example.lepeenice.R.drawable.logoepeenice))
-            //swords.add(Sword("La faucheuse de l'enfer",14,0,true,com.example.lepeenice.R.drawable.logoepeenice))
-            swords.add(Sword("Épée de la licorne dorée",45,0,true,com.example.lepeenice.R.drawable.logoepeenice))
-            swords.add(Sword("Lame de l'esprit du vent",28,0,true,com.example.lepeenice.R.drawable.logoepeenice))
-            swords.add(Sword("Épée de la colère divine",16,0,true,com.example.lepeenice.R.drawable.logoepeenice))
-            swords.add(Sword("Épée de la guérison éternelle",38,0,true,com.example.lepeenice.R.drawable.logoepeenice))
-            swords.add(Sword("Lame de l'ombre de la lune",10,0,true,com.example.lepeenice.R.drawable.logoepeenice))
-            swords.add(Sword("Épée de la vallée des âmes",24,0,true,com.example.lepeenice.R.drawable.logoepeenice))
-            swords.add(Sword("La folie de la justice",32,0,true,com.example.lepeenice.R.drawable.logoepeenice))
-            swords.add(Sword("Lame du feu ardent",50,0,true,com.example.lepeenice.R.drawable.logoepeenice))
+            swords.add(Sword("Lame de l'ombre nocturne",10,1000,false,com.example.lepeenice.R.drawable.logoepeenice))
+            swords.add(Sword("Épée de la licorne dorée",15,2500,false,com.example.lepeenice.R.drawable.logoepeenice))
+            swords.add(Sword("Épée de la colère divine",20,5000,false,com.example.lepeenice.R.drawable.logoepeenice))
+            swords.add(Sword("Épée de la vallée des âmes",30,10000,false,com.example.lepeenice.R.drawable.logoepeenice))
+            swords.add(Sword("Lame du feu ardent",50,15000,false,com.example.lepeenice.R.drawable.logoepeenice))
         // Fin création des Swords
     }
 
