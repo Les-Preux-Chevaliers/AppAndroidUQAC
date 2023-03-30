@@ -1,22 +1,30 @@
 package com.example.lepeenice.MemoryClassPackage
 
+<<<<<<< Updated upstream
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import kotlinx.serialization.Serializable
 import kotlin.random.Random
+=======
+import android.content.Context
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
+import com.example.lepeenice.PlaySound
+>>>>>>> Stashed changes
 
 @Serializable
 public class GameManager private constructor() {
 
     companion object {
+
     val swords: MutableList<Sword> = mutableListOf()
 
         val monsters: MutableList<Monster> = mutableListOf(
-            Monster("Gigachiax",100,0,0,com.example.lepeenice.R.drawable.mob1,com.example.lepeenice.R.drawable.mob1_evolved, 0),
-            Monster("Tractopulpeux",200,0,0,com.example.lepeenice.R.drawable.mob1,com.example.lepeenice.R.drawable.mob1_evolved, 0),
-            Monster("Terminotron",50,0,0,com.example.lepeenice.R.drawable.mob1,com.example.lepeenice.R.drawable.mob1_evolved, 0)
+            Monster("Gigachiax",100,0,0,com.example.lepeenice.R.drawable.mob1,com.example.lepeenice.R.drawable.mob1_evolved, 0, com.example.lepeenice.R.raw.mob1_hurt),
+            Monster("Tractopulpeux",200,0,0,com.example.lepeenice.R.drawable.mob1,com.example.lepeenice.R.drawable.mob1_evolved, 0, com.example.lepeenice.R.raw.mob1_hurt),
+            Monster("Terminotron",50,0,0,com.example.lepeenice.R.drawable.mob1,com.example.lepeenice.R.drawable.mob1_evolved, 0, com.example.lepeenice.R.raw.mob1_hurt)
         )
 
         private var instance: GameManager? = null
@@ -28,6 +36,27 @@ public class GameManager private constructor() {
                 instance = GameManager()
             }
             return instance as GameManager
+        }
+
+        @Composable
+        fun dealDamages()
+        {
+            val currentContext: Context = LocalContext.current
+
+            var currentSword = Player.getInstance().sword.damage
+
+            var monsterSound = currentMonster.getHitSound
+            var monsterHp = currentMonster.hp
+            
+
+            //joue le son du monstre
+            PlaySound.playSound(currentContext, monsterSound, false)
+
+            //memoire tampon de hpMax du monstre pour lui infliger des degats
+
+
+
+
         }
     }
 
@@ -64,8 +93,8 @@ public class GameManager private constructor() {
      * @param imageUri Int, Adresse de l'image du Monstre (com.example.lepeenice.R.drawable."ImageName").
      * @param imageUri2 Int, Adresse de l'image du Monstre élovué (com.example.lepeenice.R.drawable."ImageName").
      */
-    fun addMonster(name:String, hp:Int, attack:Int, defense:Int, imageUri:Int,imageUri2:Int, scoreGiven:Int){
-        monsters.add(Monster(name,hp,attack,defense,imageUri,imageUri2,scoreGiven))
+    fun addMonster(name:String, hp:Int, attack:Int, defense:Int, imageUri:Int,imageUri2:Int, scoreGiven:Int, getHitSound:Int){
+        monsters.add(Monster(name,hp,attack,defense,imageUri,imageUri2,scoreGiven, getHitSound))
     }
 
     /**
@@ -102,4 +131,6 @@ public class GameManager private constructor() {
         Player.getInstance().addMoney(currentMonster.scoreGiven)
         currentMonster = monsters.random()
     }
+
+
 }

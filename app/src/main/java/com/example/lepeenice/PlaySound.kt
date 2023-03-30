@@ -2,14 +2,14 @@ package com.example.lepeenice
 
 import android.content.Context
 import android.media.MediaPlayer
+import com.example.lepeenice.MemoryClassPackage.GameManager
 
 class PlaySound {
 
     //import com.example.lepeenice.PlaySound
-    //PlaySound.playsound(this, R.raw.my_sound_name, toggleFalse/True)
+    //PlaySound.playSound(this, R.raw.my_sound_name, toggleFalse/True)
     companion object {
         fun playSound(context: Context, soundID: Int, toggleLoop: Boolean) {
-            print("sound")
             var mediaPlayer: MediaPlayer? = null
 
             if (mediaPlayer == null) {
@@ -22,9 +22,4 @@ class PlaySound {
             } else mediaPlayer.start()
         }
     }
-    /*companion object {
-        fun playsound(mainActivity: ColumnScope, mySoundName: Any, any: Any) {
-
-        }
-    }*/
 }

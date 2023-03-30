@@ -1,7 +1,10 @@
 package com.example.lepeenice.MemoryClassPackage
 
 @kotlinx.serialization.Serializable
-open class Monster(var name: String, var hp: Int, var attack: Int, var defense: Int, var imageUri: Int,var imageUri2: Int, var scoreGiven: Int) {
+open class Monster(
+    var name: String, var hp: Int, var attack: Int, var defense: Int, var imageUri: Int,
+    var imageUri2: Int, var scoreGiven: Int, var getHitSound: Int
+) {
 
     override fun toString(): String {
         return "Monster(name=$name, hp=$hp, attack=$attack, defense=$defense, imageUri=$imageUri, imageUri2=$imageUri2, scoreGiven=$scoreGiven)"
