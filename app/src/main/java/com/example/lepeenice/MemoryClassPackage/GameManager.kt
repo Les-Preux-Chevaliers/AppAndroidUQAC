@@ -1,18 +1,16 @@
 package com.example.lepeenice.MemoryClassPackage
 
-<<<<<<< Updated upstream
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import kotlinx.serialization.Serializable
 import kotlin.random.Random
-=======
+
 import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import com.example.lepeenice.PlaySound
->>>>>>> Stashed changes
 
 @Serializable
 public class GameManager private constructor() {
@@ -92,6 +90,7 @@ public class GameManager private constructor() {
      * @param defense Int, Nombre de point de défense du monstre.
      * @param imageUri Int, Adresse de l'image du Monstre (com.example.lepeenice.R.drawable."ImageName").
      * @param imageUri2 Int, Adresse de l'image du Monstre élovué (com.example.lepeenice.R.drawable."ImageName").
+     * @param HitSound Int, Adresse du sound.
      */
     fun addMonster(name:String, hp:Int, attack:Int, defense:Int, imageUri:Int,imageUri2:Int, scoreGiven:Int, getHitSound:Int){
         monsters.add(Monster(name,hp,attack,defense,imageUri,imageUri2,scoreGiven, getHitSound))

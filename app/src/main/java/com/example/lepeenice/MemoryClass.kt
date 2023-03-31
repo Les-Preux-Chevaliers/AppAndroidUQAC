@@ -45,7 +45,7 @@ class MemoryClass {
                         val GameManager = GameManager.getInstance()
                         GameManager.createSwords()
 
-                        GameManager.addMonster("Gobelin",10,1,0,R.drawable.mob1,R.drawable.mob1_evolved, 1)
+                        GameManager.addMonster("Gobelin",10,1,0,R.drawable.mob1,R.drawable.mob1_evolved, 1,-1)
 
 
 
