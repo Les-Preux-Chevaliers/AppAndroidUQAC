@@ -3,10 +3,9 @@ package com.example.lepeenice.MemoryClassPackage
 import kotlinx.serialization.Serializable
 import kotlin.random.Random
 
-@Serializable
 public class GameManager private constructor() {
 
-    companion object {
+
     val swords: MutableList<Sword> = mutableListOf()
 
         val monsters: MutableList<Monster> = mutableListOf(
@@ -15,9 +14,10 @@ public class GameManager private constructor() {
             Monster("Terminotron",50,0,0,com.example.lepeenice.R.drawable.mob1,com.example.lepeenice.R.drawable.mob1_evolved, 0)
         )
 
-        private var instance: GameManager? = null
+    var currentMonster: Monster = monsters.random()
 
-        var currentMonster: Monster = monsters.random()
+    companion object {
+        private var instance: GameManager? = null
 
         fun getInstance(): GameManager {
             if (instance == null) {
