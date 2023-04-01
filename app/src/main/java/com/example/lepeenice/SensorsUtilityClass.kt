@@ -10,19 +10,24 @@ import kotlin.math.sqrt
 class SensorsUtilityClass : SensorEventListener {
     lateinit var sensorManager: SensorManager
     lateinit var accelerometer: Sensor
+    lateinit var currContext: Context
 
     private var chrono = 0.0f
-    private var deltaTime = 0.08f
+    private val chronoStop = 1.2f
+    private val deltaTime = 0.08f
 
-    private var accDelta = 10f
+    private val accDelta = 10f
 
     private var velocity = floatArrayOf(0.0f, 0.0f)
 
     private var position = floatArrayOf(0.0f, 0.0f)
+    private val lengthToHit = 12.0f
     private var hit = false
 
     // Fonction pour utiliser l'accéléromètre
     fun useAccelerometer(context: Context) {
+        currContext = context
+
         // Récupérer le gestionnaire de capteurs
         sensorManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
 
@@ -47,11 +52,13 @@ class SensorsUtilityClass : SensorEventListener {
         if(event?.sensor?.type == Sensor.TYPE_ACCELEROMETER) {
             // Si la longueur du vecteur est supérieur à 40 la position est reset et un coup est porté
             var vectorLength = sqrt(position[0] * position[0] + position[1] * position[1])
-            if (vectorLength > 20.0f && hit == false) {
+            if (vectorLength > lengthToHit && hit == false) {
                 hit = true
                 position[0] = 0.0f
                 position[1] = 0.0f
                 println("====================HIT====================")
+                PlaySound.playSound(currContext, R.raw.sword_metal_woosh, false)
+                Vibrate.vibratePhone(currContext, 500)
             }
 
             if (hit == false) {
@@ -76,13 +83,13 @@ class SensorsUtilityClass : SensorEventListener {
                 // Si un coup a été porté, le chrono est lancé
                 chrono += deltaTime
                 // Au bout de 1 seconde le chrono est reset et le joueur peut à nouveau frapper
-                if (chrono >= 1.5f) {
+                if (chrono >= chronoStop) {
                     hit = false
                     chrono = 0.0f
                 }
             }
 
-            println(hit)
+            //println(hit)
             //println("Ax = " + event.values[0] + "   Ay = " + event.values[1])
             //println("Vx = " + velocity[0] + "   Vy = " + velocity[1])
             //printThePos()
