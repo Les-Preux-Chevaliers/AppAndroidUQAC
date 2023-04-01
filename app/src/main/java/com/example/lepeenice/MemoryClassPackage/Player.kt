@@ -28,4 +28,11 @@ public class Player private constructor() {
     fun getMoney(): Int {
         return money
     }
+
+    fun loadSave(p: Player){
+        this.pseudo = p.pseudo
+        this.money = p.money
+        this.hp = p.hp
+        this.sword = p.sword
+    }
 }
