@@ -11,12 +11,17 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.lepeenice.MemoryClassPackage.GameManager
+import com.example.lepeenice.MemoryClassPackage.Player
 import com.example.lepeenice.MemoryClassPackage.Sword
 import com.example.lepeenice.R
+
 
 class CustomComposable {
     companion object {
@@ -133,7 +138,7 @@ class CustomComposable {
     UI pour les éléments du shop
      */
         @Composable
-        fun Shop(swords: List<Sword>, onSwordClick: (sword: Sword) -> Unit) {
+        fun Shop(swords: List<Sword>) {
             var startIndex by remember { mutableStateOf(0) }
             val endIndex = minOf(startIndex + 5, swords.size)
 
@@ -144,7 +149,7 @@ class CustomComposable {
                     .background(MaterialTheme.colors.background.copy(alpha = 0.2f))
             ) {
                 for (i in startIndex until endIndex) {
-                    val sword = swords[i]
+                    var sword = swords[i]
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
@@ -169,7 +174,11 @@ class CustomComposable {
                             )
                             Row(verticalAlignment = Alignment.CenterVertically) {
                                 Button(
-                                    onClick = { onSwordClick(sword) },
+                                    onClick = {
+                                        GameManager.getInstance().onSwordClick(sword)
+                                        startIndex = i
+                                        startIndex = 0 // Actualiser la liste de swords après un clic
+                                    },
                                     colors = ButtonDefaults.buttonColors(
                                         backgroundColor = if (sword.isPurchased) MaterialTheme.colors.primary else MaterialTheme.colors.secondary
                                     ),
@@ -204,14 +213,20 @@ class CustomComposable {
                     ) {
                         if (startIndex > 0) {
                             Button(
-                                onClick = { startIndex -= 5 },
+                                onClick = {
+                                    startIndex -= 5
+                                    GameManager.getInstance().swords // Actualiser la liste de swords après un clic
+                                },
                             ) {
                                 Text(text = "Précédent")
                             }
                         }
                         if (endIndex < swords.size) {
                             Button(
-                                onClick = { startIndex += 5 },
+                                onClick = {
+                                    startIndex += 5
+                                    GameManager.getInstance().swords // Actualiser la liste de swords après un clic
+                                },
                             ) {
                                 Text(text = "Suivant")
                             }
@@ -220,6 +235,22 @@ class CustomComposable {
                     Box(modifier = Modifier.weight(1f)) {}
                 }
             }
+        }
+
+        /*
+        UI épée pouvant bouger en fonction du combat
+         */
+        @Composable
+        fun MirroredImage(image: Painter, isMirrored: Boolean) {
+            val scaleX = if (isMirrored) -1f else 1f
+            val scaleY = 1f
+            Image(
+                painter = image,
+                contentDescription = null,
+                modifier = Modifier
+                    .scale(scaleX, scaleY)
+                    .fillMaxSize()
+            )
         }
 
 

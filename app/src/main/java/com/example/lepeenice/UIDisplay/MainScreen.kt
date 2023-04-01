@@ -10,6 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.lepeenice.MemoryClassPackage.GameManager
 import com.example.lepeenice.MemoryClassPackage.Monster
@@ -39,7 +40,7 @@ class MainScreen {
                         )
                 ) {
                     Column() {
-                        var Life by remember { mutableStateOf(GameManager.getInstance().currentMonster.hp) }
+                        var Life by remember { mutableStateOf(GameManager.getInstance().currentMonsterLife) }
                         /*
                 Score display code UI
                  */
@@ -95,14 +96,10 @@ class MainScreen {
                     Bouton pour tester la bar de vie volatile
                      */
                         Row {
-                            Prefab.CustomButton(text = "+10", onClick = {
-                                Life += 10
-                                Player.getInstance().addMoney(100)
-                                PlaySound.playSound(currentContext, com.example.lepeenice.R.raw.sword_metal_woosh, false)
-                            })
-                            Prefab.CustomButton(text = "-10", onClick = {
-                                Life -= 10
-                                Player.getInstance().addMoney(100)
+                            Prefab.CustomButton(text = "Attaque", onClick = {
+                                GameManager.getInstance().dealDamagestest()
+                                Life = GameManager.getInstance().currentMonsterLife
+                                Player.getInstance().addMoney(1000)
                                 PlaySound.playSound(currentContext, com.example.lepeenice.R.raw.sword_metal_woosh, false)
                             })
                         }
@@ -115,11 +112,12 @@ class MainScreen {
                             /*
                         Image de l'épée
                          */
-                            Prefab.CustomImage(
-                                source = com.example.lepeenice.R.drawable.logoepeenice,
-                                contentDescription = "SwordPicture",
-                                size = 480.dp,
-                            )
+                            CustomComposable.MirroredImage(image = painterResource(Player.getInstance().sword.imageId), isMirrored = GameManager.getInstance().currentBoolAttack)
+//                            Prefab.CustomImage(
+//                                source = Player.getInstance().sword.imageId,
+//                                contentDescription = "SwordPicture",
+//                                size = 480.dp,
+//                            )
                         }
                     }
 

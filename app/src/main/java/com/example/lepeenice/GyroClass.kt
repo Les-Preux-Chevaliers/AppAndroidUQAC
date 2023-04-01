@@ -17,7 +17,6 @@ class GyroClass {
         val accelerometer = SensorsUtilityClass()
 
         //Zone de Alex
-        @Preview(name = "GyroPreview",showBackground = true)
         @Composable
         fun GyroPreview(context: Context) {
             LEpeeNiceTheme {

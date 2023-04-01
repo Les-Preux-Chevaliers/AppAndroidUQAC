@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -55,7 +55,8 @@ class ShopScreen {
                                 /*
                         Texte pour le score à modifier lors du jeu
                          */
-                                Prefab.CustomTitre(content = Player.getInstance().getMoney().toString())
+                                val money by remember { mutableStateOf(Player.getInstance().getMoney()) }
+                                Prefab.CustomTitre(content = money.toString())
                                 Prefab.CustomTitre(content = " CAD")
                             }
                         }
@@ -63,7 +64,8 @@ class ShopScreen {
                         /*
                     Ui pour tout les éléments du shop
                      */
-                        CustomComposable.Shop(swords = GameManager.getInstance().swords, onSwordClick = { })
+                        val swords by remember { mutableStateOf(GameManager.getInstance().swords) }
+                        CustomComposable.Shop(swords)
                     }
                     //Show version, dont remove this on the preview !
                     Box(modifier = Modifier.align(Alignment.BottomStart)) {

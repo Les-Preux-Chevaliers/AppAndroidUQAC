@@ -27,6 +27,10 @@ public class GameManager private constructor() {
 
     @Transient var currentMonster: Monster = monsters.random()
 
+    @Transient var currentMonsterLife: Int = currentMonster.hp
+
+    @Transient var currentBoolAttack: Boolean = false
+
     companion object {
         private var instance: GameManager? = null
 
@@ -51,14 +55,39 @@ public class GameManager private constructor() {
             var currentSword = Player.getInstance().sword.damage
 
             var monsterSound = currentMonster.getHitSound
-            
-            currentMonster.hp -= currentSword
+
+            currentMonsterLife -= currentSword
 
             //joue le son du monstre
             PlaySound.playSound(currentContext, monsterSound, false)
 
-            //memoire tampon de hpMax du monstre pour lui infliger des degats
+            currentBoolAttack = !currentBoolAttack
+
+            if (currentMonsterLife <= 0){
+                NewMonster()
+            }
         }
+
+    fun dealDamagestest()
+    {
+        var currentSword = Player.getInstance().sword.damage
+
+        var monsterSound = currentMonster.getHitSound
+
+        currentMonsterLife -= currentSword
+
+        currentBoolAttack = !currentBoolAttack
+
+        if (currentMonsterLife <= 0){
+            NewMonster()
+        }
+
+    }
+
+    fun NewMonster(){
+        currentMonster = monsters.random()
+        currentMonsterLife = currentMonster.hp
+    }
 
     /**
      * Cette fonction donne un string de toutes les épées du GameManager.
@@ -103,12 +132,12 @@ public class GameManager private constructor() {
      */
     fun createSwords() {
         //Création des Swords
-            swords.add(Sword("Épée d'entrainement",1,0,true,com.example.lepeenice.R.drawable.logoepeenice))
-            swords.add(Sword("Lame de l'ombre nocturne",10,1000,false,com.example.lepeenice.R.drawable.logoepeenice))
-            swords.add(Sword("Épée de la licorne dorée",15,2500,false,com.example.lepeenice.R.drawable.logoepeenice))
-            swords.add(Sword("Épée de la colère divine",20,5000,false,com.example.lepeenice.R.drawable.logoepeenice))
-            swords.add(Sword("Épée de la vallée des âmes",30,10000,false,com.example.lepeenice.R.drawable.logoepeenice))
-            swords.add(Sword("Lame du feu ardent",50,15000,false,com.example.lepeenice.R.drawable.logoepeenice))
+            swords.add(Sword("Épée d'entrainement",1,0,true,com.example.lepeenice.R.drawable.epeedentrainement))
+            swords.add(Sword("Lame de l'ombre nocturne",10,1000,false,com.example.lepeenice.R.drawable.epeedentrainement))
+            swords.add(Sword("Épée de la licorne dorée",15,2500,false,com.example.lepeenice.R.drawable.epeedentrainement))
+            swords.add(Sword("Épée de la colère divine",20,5000,false,com.example.lepeenice.R.drawable.epeedentrainement))
+            swords.add(Sword("Épée de la vallée des âmes",30,10000,false,com.example.lepeenice.R.drawable.epeedentrainement))
+            swords.add(Sword("Lame du feu ardent",50,15000,false,com.example.lepeenice.R.drawable.epeedentrainement))
         // Fin création des Swords
     }
 
@@ -118,11 +147,24 @@ public class GameManager private constructor() {
     }
 
     fun AcheterEpee(s: Sword){
-
         swords.forEach { item ->
             if(s == swords){
                 item.isPurchased = true
             }
+        }
+    }
+
+
+    fun onSwordClick(sword: Sword){
+        if (!sword.isPurchased){
+            if (Player.getInstance().getMoney()>=sword.price){
+                Player.getInstance().addMoney(-sword.price)
+                AcheterEpee(sword)
+                sword.isPurchased = true
+                Player.getInstance().EquipeEpee(sword)
+            }
+        }else{
+            Player.getInstance().EquipeEpee(sword)
         }
     }
 }

@@ -110,69 +110,69 @@ sealed class Screen(val route: String, @StringRes val resourceId: Int, val icon:
 }
 
 
-@Preview(name = "Light Mode")
-@Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-    showBackground = true,
-    name = "Dark Mode"
-)
-@Composable
-fun DefaultPreview() {
-    val currentContext: Context = LocalContext.current
-    LEpeeNiceTheme {
-        Box(
-            Modifier
-                .fillMaxSize()
-                .background(
-                    brush = Brush.verticalGradient(
-                        colors = listOf(
-                            MaterialTheme.colors.secondary,
-                            MaterialTheme.colors.surface
-                        ),
-                        startY = 1000f,
-                        endY = 2000f
-                    )
-                )
-        ) {
-            Column() {
-                /*
-                Score display code UI
-                 */
-
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(50.dp)
-                        .background(color = MaterialTheme.colors.background)
-                        .padding(start = 20.dp)
-                ) {
-                    Row(
-                        modifier = Modifier
-                            .wrapContentSize()
-                            .align(Alignment.CenterStart)
-                    ) {
-                        Prefab.CustomTitre(content = "Money : ")
-                        /*
-                Texte pour le score à modifier lors du jeu
-                 */
-                        Prefab.CustomTitre(content = Player.getInstance().getMoney().toString())
-                        Prefab.CustomTitre(content = " CAD")
-                    }
-                }
-
-                /*
-            Ui pour tout les éléments du shop
-             */
-                CustomComposable.Shop(swords = GameManager.getInstance().swords, onSwordClick = { })
-            }
-            //Show version, dont remove this on the preview !
-            Box(modifier = Modifier.align(Alignment.BottomStart)) {
-                CustomComposable.ModeDisplay(name = "Preview Mode", version = "Version : 0.0.4")
-            }
-        }
-    }
-}
-
+//@Preview(name = "Light Mode")
+//@Preview(
+//    uiMode = Configuration.UI_MODE_NIGHT_YES,
+//    showBackground = true,
+//    name = "Dark Mode"
+//)
+//@Composable
+//fun DefaultPreview() {
+//    val currentContext: Context = LocalContext.current
+//    LEpeeNiceTheme {
+//        Box(
+//            Modifier
+//                .fillMaxSize()
+//                .background(
+//                    brush = Brush.verticalGradient(
+//                        colors = listOf(
+//                            MaterialTheme.colors.secondary,
+//                            MaterialTheme.colors.surface
+//                        ),
+//                        startY = 1000f,
+//                        endY = 2000f
+//                    )
+//                )
+//        ) {
+//            Column() {
+//                /*
+//                Score display code UI
+//                 */
+//
+//                Box(
+//                    modifier = Modifier
+//                        .fillMaxWidth()
+//                        .height(50.dp)
+//                        .background(color = MaterialTheme.colors.background)
+//                        .padding(start = 20.dp)
+//                ) {
+//                    Row(
+//                        modifier = Modifier
+//                            .wrapContentSize()
+//                            .align(Alignment.CenterStart)
+//                    ) {
+//                        Prefab.CustomTitre(content = "Money : ")
+//                        /*
+//                Texte pour le score à modifier lors du jeu
+//                 */
+//                        Prefab.CustomTitre(content = Player.getInstance().getMoney().toString())
+//                        Prefab.CustomTitre(content = " CAD")
+//                    }
+//                }
+//
+//                /*
+//            Ui pour tout les éléments du shop
+//             */
+//                CustomComposable.Shop(swords = GameManager.getInstance().swords)
+//            }
+//            //Show version, dont remove this on the preview !
+//            Box(modifier = Modifier.align(Alignment.BottomStart)) {
+//                CustomComposable.ModeDisplay(name = "Preview Mode", version = "Version : 0.0.4")
+//            }
+//        }
+//    }
+//}
+//
 
 
 
