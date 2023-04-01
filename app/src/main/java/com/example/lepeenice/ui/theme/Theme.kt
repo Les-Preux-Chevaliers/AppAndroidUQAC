@@ -1,5 +1,6 @@
 package com.example.lepeenice.ui.theme
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
@@ -28,15 +29,28 @@ private val LightColorPalette = lightColors(
 )
 
 private val CustomLightColorPalette = lightColors(
-    primary = CustomBleu,
-    primaryVariant = CustomCyran,
-    secondary = CustomRouge,
-    background = CustomBlanc,
-    surface = CustomBlanc,
-    onPrimary = CustomBlanc,
-    onSecondary = CustomNoir,
-    onBackground = CustomNoir,
-    onSurface = CustomNoir
+    primary = primary_COLOR,
+    primaryVariant = primaryVariant_Color,
+    secondary = secondary_Color,
+    background = background_Color,
+    surface = surface_Color,
+    onPrimary = onPrimary_Color,
+    onSecondary = onSecondary_Color,
+    onBackground = onBackground_Color,
+    onSurface = onSurface_Color
+)
+
+@SuppressLint("ConflictingOnColor")
+private val CustomDarkColorPalette = darkColors(
+    primary = primaryVariant_Color,
+    primaryVariant = primary_COLOR,
+    secondary = secondaryVariant_Color,
+    background = background_Color,
+    surface = surface_Color,
+    onPrimary = onPrimary_Color,
+    onSecondary = onSecondary_Color,
+    onBackground = onBackground_Color,
+    onSurface = onSurface_Color
 )
 
 
@@ -44,7 +58,7 @@ private val CustomLightColorPalette = lightColors(
 @Composable
 fun LEpeeNiceTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
     val colors = if (darkTheme) {
-        DarkColorPalette
+        CustomDarkColorPalette
     } else {
         CustomLightColorPalette
     }

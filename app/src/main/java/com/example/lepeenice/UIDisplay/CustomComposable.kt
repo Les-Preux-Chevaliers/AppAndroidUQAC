@@ -157,7 +157,7 @@ class CustomComposable {
                             contentDescription = sword.name,
                             modifier = Modifier
                                 .size(80.dp)
-                                .background(MaterialTheme.colors.primaryVariant)
+                                .background(MaterialTheme.colors.surface)
                         )
                         Spacer(modifier = Modifier.width(16.dp))
                         Column(Modifier.weight(1f)) {
@@ -194,24 +194,30 @@ class CustomComposable {
                 }
                 Row(
                     horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.Bottom
+                    verticalAlignment = Alignment.Bottom,
+                    modifier = Modifier.fillMaxWidth()
                 ) {
-                    if (startIndex > 0) {
-                        Button(
-                            onClick = { startIndex -= 5 },
-                            modifier = Modifier.padding(end = 8.dp)
-                        ) {
-                            Text(text = "Précédent")
+                    Box(modifier = Modifier.weight(1f)) {}
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        if (startIndex > 0) {
+                            Button(
+                                onClick = { startIndex -= 5 },
+                            ) {
+                                Text(text = "Précédent")
+                            }
+                        }
+                        if (endIndex < swords.size) {
+                            Button(
+                                onClick = { startIndex += 5 },
+                            ) {
+                                Text(text = "Suivant")
+                            }
                         }
                     }
-                    if (endIndex < swords.size) {
-                        Button(
-                            onClick = { startIndex += 5 },
-                            modifier = Modifier.padding(start = 8.dp)
-                        ) {
-                            Text(text = "Suivant")
-                        }
-                    }
+                    Box(modifier = Modifier.weight(1f)) {}
                 }
             }
         }
