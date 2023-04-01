@@ -51,14 +51,13 @@ public class GameManager private constructor() {
             var currentSword = Player.getInstance().sword.damage
 
             var monsterSound = currentMonster.getHitSound
-            var monsterHp = currentMonster.hp
             
+            currentMonster.hp -= currentSword
 
             //joue le son du monstre
             PlaySound.playSound(currentContext, monsterSound, false)
 
             //memoire tampon de hpMax du monstre pour lui infliger des degats
-
         }
 
     /**

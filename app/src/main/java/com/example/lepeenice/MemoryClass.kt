@@ -43,7 +43,6 @@ class MemoryClass {
                         val Player = Player.getInstance()
                         Text(text = "Pseudo : "+Player.pseudo)
 
-
                         //SERIALIZATION
                         //val EncodedJson = Json.encodeToString(Player)
                         //SaveManager.getInstance().saveDataToSharedPreferences_Player(LocalContext.current, EncodedJson)
