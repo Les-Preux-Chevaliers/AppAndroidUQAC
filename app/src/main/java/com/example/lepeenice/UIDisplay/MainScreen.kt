@@ -39,7 +39,7 @@ class MainScreen {
                         )
                 ) {
                     Column() {
-                        var Life by remember { mutableStateOf(GameManager.currentMonster.hp) }
+                        var Life by remember { mutableStateOf(GameManager.getInstance().currentMonster.hp) }
                         /*
                 Score display code UI
                  */
@@ -74,7 +74,7 @@ class MainScreen {
                         Image du monstre
                          */
                             Prefab.CustomImage(
-                                source = if ((Life.toFloat() /GameManager.currentMonster.hp.toFloat())>0.5f){GameManager.currentMonster.imageUri}else{GameManager.currentMonster.imageUri2},
+                                source = if ((Life.toFloat() /GameManager.getInstance().currentMonster.hp.toFloat())>0.5f){GameManager.getInstance().currentMonster.imageUri}else{GameManager.getInstance().currentMonster.imageUri2},
                                 contentDescription = "MobPicture",
                                 size = 240.dp,
                             )
@@ -85,10 +85,10 @@ class MainScreen {
                                 .align(Alignment.CenterHorizontally)
                         ) {
 
-                            CustomComposable.LifeBar(currentLife = Life, maxLife = GameManager.currentMonster.hp)
+                            CustomComposable.LifeBar(currentLife = Life, maxLife = GameManager.getInstance().currentMonster.hp)
 
                             Box(modifier = Modifier.align(Alignment.Center)) {
-                                Prefab.CustomTitre(content = GameManager.currentMonster.name)
+                                Prefab.CustomTitre(content = GameManager.getInstance().currentMonster.name)
                             }
                         }
                         /*

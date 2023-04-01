@@ -14,7 +14,6 @@ import com.example.lepeenice.R
 
 class SplashScreen {
     companion object {
-
         @Composable
         fun SplashScreen(navController: NavController) {
             Box(

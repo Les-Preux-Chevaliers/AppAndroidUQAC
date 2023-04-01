@@ -34,18 +34,19 @@ public class SaveManager private constructor(){
         val sharedPreferences_Player = context.getSharedPreferences(PlayerKeySaved, Context.MODE_PRIVATE)
         val sharedPreferences_GameManager = context.getSharedPreferences(GameManagerKeySaved, Context.MODE_PRIVATE)
         val resString_Player = sharedPreferences_Player.getString(PlayerKeySaved, "") ?: ""
-        //val resString_GameManager = sharedPreferences_GameManager.getString(GameManagerKeySaved, "") ?: ""
+        val resString_GameManager = sharedPreferences_GameManager.getString(GameManagerKeySaved, "") ?: ""
 
         if(resString_Player != ""){
             val DecodedJson_Player = Json.decodeFromString<Player>(resString_Player)
             Player.getInstance().loadSave(DecodedJson_Player)
         }
-/*
+
         if(resString_GameManager != ""){
             val DecodedJson_GameManager = Json.decodeFromString<GameManager>(resString_GameManager)
-            Player.getInstance().loadSave(DecodedJson_Player)
+            GameManager.getInstance().loadSave(DecodedJson_GameManager)
+        }else{
+            GameManager.getInstance().createSwords()
         }
-         */
 
     }
 

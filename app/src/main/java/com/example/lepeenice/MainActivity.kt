@@ -29,6 +29,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.lepeenice.MemoryClassPackage.GameManager
 import com.example.lepeenice.MemoryClassPackage.Player
+import com.example.lepeenice.MemoryClassPackage.SaveManager
 import com.example.lepeenice.UIDisplay.*
 import com.example.lepeenice.ui.theme.LEpeeNiceTheme
 
@@ -37,6 +38,10 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+
+            // Load les data si il y en a !
+            SaveManager.getInstance().loadDataFromSharedPreferences(LocalContext.current)
+
             LEpeeNiceTheme {
                 val navController = rememberNavController()
 
@@ -115,7 +120,6 @@ sealed class Screen(val route: String, @StringRes val resourceId: Int, val icon:
 fun DefaultPreview() {
     val currentContext: Context = LocalContext.current
     LEpeeNiceTheme {
-        GameManager.getInstance().createSwords()
         Box(
             Modifier
                 .fillMaxSize()
@@ -159,14 +163,13 @@ fun DefaultPreview() {
                 /*
             Ui pour tout les éléments du shop
              */
-                CustomComposable.Shop(swords = GameManager.swords, onSwordClick = { })
+                CustomComposable.Shop(swords = GameManager.getInstance().swords, onSwordClick = { })
             }
             //Show version, dont remove this on the preview !
             Box(modifier = Modifier.align(Alignment.BottomStart)) {
                 CustomComposable.ModeDisplay(name = "Preview Mode", version = "Version : 0.0.4")
             }
         }
-
     }
 }
 

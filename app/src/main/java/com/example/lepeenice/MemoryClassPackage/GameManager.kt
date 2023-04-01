@@ -15,19 +15,21 @@ import com.example.lepeenice.PlaySound
 @Serializable
 public class GameManager private constructor() {
 
+
+
+    var swords: MutableList<Sword> = mutableListOf()
+
+    @Transient val monsters: MutableList<Monster> = mutableListOf(
+        Monster("Gigachiax",100,0,0,com.example.lepeenice.R.drawable.mob1,com.example.lepeenice.R.drawable.mob1_evolved, 0, com.example.lepeenice.R.raw.mob1_hurt),
+        Monster("Tractopulpeux",200,0,0,com.example.lepeenice.R.drawable.mob1,com.example.lepeenice.R.drawable.mob1_evolved, 0, com.example.lepeenice.R.raw.mob1_hurt),
+        Monster("Terminotron",50,0,0,com.example.lepeenice.R.drawable.mob1,com.example.lepeenice.R.drawable.mob1_evolved, 0, com.example.lepeenice.R.raw.mob1_hurt)
+    )
+
+    @Transient var currentMonster: Monster = monsters.random()
+
     companion object {
-
-    val swords: MutableList<Sword> = mutableListOf()
-
-        val monsters: MutableList<Monster> = mutableListOf(
-            Monster("Gigachiax",100,0,0,com.example.lepeenice.R.drawable.mob1,com.example.lepeenice.R.drawable.mob1_evolved, 0, com.example.lepeenice.R.raw.mob1_hurt),
-            Monster("Tractopulpeux",200,0,0,com.example.lepeenice.R.drawable.mob1,com.example.lepeenice.R.drawable.mob1_evolved, 0, com.example.lepeenice.R.raw.mob1_hurt),
-            Monster("Terminotron",50,0,0,com.example.lepeenice.R.drawable.mob1,com.example.lepeenice.R.drawable.mob1_evolved, 0, com.example.lepeenice.R.raw.mob1_hurt)
-        )
-
         private var instance: GameManager? = null
 
-        var currentMonster: Monster = monsters.random()
 
         fun getInstance(): GameManager {
             if (instance == null) {
@@ -35,6 +37,11 @@ public class GameManager private constructor() {
             }
             return instance as GameManager
         }
+    }
+
+    fun loadSave(g: GameManager){
+        this.swords = g.swords
+    }
 
         @Composable
         fun dealDamages()
@@ -52,11 +59,7 @@ public class GameManager private constructor() {
 
             //memoire tampon de hpMax du monstre pour lui infliger des degats
 
-
-
-
         }
-    }
 
     /**
      * Cette fonction donne un string de toutes les épées du GameManager.
@@ -100,22 +103,6 @@ public class GameManager private constructor() {
      * Création de toutes les épées du jeu.
      */
     fun createSwords() {
-        swords.add(Sword("NonusÉpée d'entrainement",1,0,true,com.example.lepeenice.R.drawable.logoepeenice))
-        swords.add(Sword("BonusLame de l'ombre nocturne",10,1000,false,com.example.lepeenice.R.drawable.logoepeenice))
-        swords.add(Sword("proutÉpée de la licorne dorée",15,2500,false,com.example.lepeenice.R.drawable.logoepeenice))
-        swords.add(Sword("mamamamÉpée de la colère divine",20,5000,false,com.example.lepeenice.R.drawable.logoepeenice))
-        swords.add(Sword("PIZZZZAAAAÉpée de la vallée des âmes",30,10000,false,com.example.lepeenice.R.drawable.logoepeenice))
-        swords.add(Sword("NonusÉpée d'entrainement",1,0,true,com.example.lepeenice.R.drawable.logoepeenice))
-        swords.add(Sword("BonusLame de l'ombre nocturne",10,1000,false,com.example.lepeenice.R.drawable.logoepeenice))
-        swords.add(Sword("proutÉpée de la licorne dorée",15,2500,false,com.example.lepeenice.R.drawable.logoepeenice))
-        swords.add(Sword("mamamamÉpée de la colère divine",20,5000,false,com.example.lepeenice.R.drawable.logoepeenice))
-        swords.add(Sword("PIZZZZAAAAÉpée de la vallée des âmes",30,10000,false,com.example.lepeenice.R.drawable.logoepeenice))
-
-        swords.add(Sword("NonusÉpée d'entrainement",1,0,true,com.example.lepeenice.R.drawable.logoepeenice))
-        swords.add(Sword("BonusLame de l'ombre nocturne",10,1000,false,com.example.lepeenice.R.drawable.logoepeenice))
-        swords.add(Sword("proutÉpée de la licorne dorée",15,2500,false,com.example.lepeenice.R.drawable.logoepeenice))
-        swords.add(Sword("mamamamÉpée de la colère divine",20,5000,false,com.example.lepeenice.R.drawable.logoepeenice))
-        swords.add(Sword("PIZZZZAAAAÉpée de la vallée des âmes",30,10000,false,com.example.lepeenice.R.drawable.logoepeenice))
         //Création des Swords
             swords.add(Sword("Épée d'entrainement",1,0,true,com.example.lepeenice.R.drawable.logoepeenice))
             swords.add(Sword("Lame de l'ombre nocturne",10,1000,false,com.example.lepeenice.R.drawable.logoepeenice))
@@ -130,6 +117,4 @@ public class GameManager private constructor() {
         Player.getInstance().addMoney(currentMonster.scoreGiven)
         currentMonster = monsters.random()
     }
-
-
 }

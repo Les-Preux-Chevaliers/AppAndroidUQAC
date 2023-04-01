@@ -20,7 +20,6 @@ class ShopScreen {
         fun ShopScreen() {
             val currentContext: Context = LocalContext.current
             LEpeeNiceTheme {
-                GameManager.getInstance().createSwords()
                 Box(
                     Modifier
                         .fillMaxSize()
@@ -64,7 +63,7 @@ class ShopScreen {
                         /*
                     Ui pour tout les éléments du shop
                      */
-                        CustomComposable.Shop(swords = GameManager.swords, onSwordClick = { })
+                        CustomComposable.Shop(swords = GameManager.getInstance().swords, onSwordClick = { })
                     }
                     //Show version, dont remove this on the preview !
                     Box(modifier = Modifier.align(Alignment.BottomStart)) {
