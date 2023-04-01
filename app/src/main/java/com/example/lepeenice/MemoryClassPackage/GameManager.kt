@@ -117,4 +117,13 @@ public class GameManager private constructor() {
         Player.getInstance().addMoney(currentMonster.scoreGiven)
         currentMonster = monsters.random()
     }
+
+    fun AcheterEpee(s: Sword){
+
+        swords.forEach { item ->
+            if(s == swords){
+                item.isPurchased = true
+            }
+        }
+    }
 }

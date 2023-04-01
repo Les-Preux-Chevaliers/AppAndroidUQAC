@@ -21,6 +21,10 @@ public class Player private constructor() {
         }
     }
 
+    fun EquipeEpee(s: Sword){
+        sword = s
+    }
+
     fun addMoney(value: Int) {
         money += value;
     }
