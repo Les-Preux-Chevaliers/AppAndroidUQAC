@@ -30,6 +30,9 @@ public class SaveManager private constructor(){
         sharedPreferences.edit().putString(GameManagerKeySaved, data).apply()
     }
 
+    /**
+     * LOAD LES DATA PAS TOUCHEEEEEEEEEEE !!!
+     */
     fun loadDataFromSharedPreferences(context: Context) {
         val sharedPreferences_Player = context.getSharedPreferences(PlayerKeySaved, Context.MODE_PRIVATE)
         val sharedPreferences_GameManager = context.getSharedPreferences(GameManagerKeySaved, Context.MODE_PRIVATE)
