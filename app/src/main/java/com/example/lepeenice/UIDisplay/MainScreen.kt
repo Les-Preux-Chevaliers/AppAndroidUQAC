@@ -80,7 +80,7 @@ class MainScreen {
                                     horizontalArrangement = Arrangement.Start,
                                 ) {
                                     Image(
-                                        painter = painterResource(com.example.lepeenice.R.drawable.mob1),
+                                        painter = painterResource(com.example.lepeenice.R.drawable.pieccesssesseseeses),
                                         contentDescription = "MoneyLogo",
                                         modifier = Modifier
                                             .height(50.dp)
@@ -169,14 +169,14 @@ class MainScreen {
 
                         }
                         CustomComposable.Shields(count = GameManager.getInstance().currentShildNumber)
-                        timer(initialDelay = 0, period = 5000) {
-                            GameManager.getInstance().MonsterAttack()
-                            PlaySound.playSound(
-                                currentContext,
-                                com.example.lepeenice.R.raw.sword_metal_woosh,
-                                false
-                            )
-                        }
+//                        timer(initialDelay = 0, period = 5000) {
+//                            GameManager.getInstance().MonsterAttack()
+//                            PlaySound.playSound(
+//                                currentContext,
+//                                com.example.lepeenice.R.raw.sword_metal_woosh,
+//                                false
+//                            )
+//                        }
 
 
                         Box(

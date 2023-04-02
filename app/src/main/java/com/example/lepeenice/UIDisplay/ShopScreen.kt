@@ -73,7 +73,7 @@ class ShopScreen {
                                     horizontalArrangement = Arrangement.Start,
                                 ) {
                                     Image(
-                                        painter = painterResource(R.drawable.mob1),
+                                        painter = painterResource(R.drawable.pieccesssesseseeses),
                                         contentDescription = "MoneyLogo",
                                         modifier = Modifier
                                             .height(50.dp)
