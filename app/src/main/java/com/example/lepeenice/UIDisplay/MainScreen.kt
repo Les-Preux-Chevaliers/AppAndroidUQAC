@@ -22,6 +22,7 @@ import com.example.lepeenice.MemoryClassPackage.Monster
 import com.example.lepeenice.MemoryClassPackage.Player
 import com.example.lepeenice.PlaySound
 import com.example.lepeenice.ui.theme.LEpeeNiceTheme
+import kotlin.concurrent.timer
 
 class MainScreen {
     companion object {
@@ -45,7 +46,7 @@ class MainScreen {
                             )
                         )
                 ) {
-                    Column() {
+                    Column {
                         var Life = GameManager.getInstance().currentMonsterLife
                         GameManager.getInstance().currentMoney = Player.getInstance().getMoney()
                         var money = GameManager.getInstance().currentMoney
@@ -126,7 +127,7 @@ class MainScreen {
                                     GameManager.getInstance().currentMonster.imageUri2
                                 },
                                 contentDescription = "MobPicture",
-                                size = 240.dp,
+                                size = 300.dp,
                             )
                         }
                         Box(
@@ -151,15 +152,32 @@ class MainScreen {
                         Row {
                             Prefab.CustomButton(text = "Attaque", onClick = {
                                 GameManager.getInstance().dealDamagestest()
-                                //Life = GameManager.getInstance().currentMonsterLife
-                                //Player.getInstance().addMoney(1000)
                                 PlaySound.playSound(
                                     currentContext,
                                     com.example.lepeenice.R.raw.sword_metal_woosh,
                                     false
                                 )
                             })
+                            Prefab.CustomButton(text = "Defense", onClick = {
+                                GameManager.getInstance().MonsterAttack()
+                                PlaySound.playSound(
+                                    currentContext,
+                                    com.example.lepeenice.R.raw.sword_metal_woosh,
+                                    false
+                                )
+                            })
+
                         }
+                        CustomComposable.Shields(count = GameManager.getInstance().currentShildNumber)
+                        timer(initialDelay = 0, period = 5000) {
+                            GameManager.getInstance().MonsterAttack()
+                            PlaySound.playSound(
+                                currentContext,
+                                com.example.lepeenice.R.raw.sword_metal_woosh,
+                                false
+                            )
+                        }
+
 
                         Box(
                             modifier = Modifier

@@ -1,34 +1,63 @@
 package com.example.lepeenice.MemoryClassPackage
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import kotlinx.serialization.Serializable
 import kotlin.random.Random
 
 import android.content.Context
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
 import com.example.lepeenice.PlaySound
 import com.example.lepeenice.UIDisplay.MainScreen
 import com.example.lepeenice.UIDisplay.ShopScreen
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeoutOrNull
+import java.util.*
 import kotlin.math.absoluteValue
+
 
 @Serializable
 public class GameManager private constructor() {
 
 
-
     var swords: MutableList<Sword> = mutableListOf()
 
-    @Transient val monsters: MutableList<Monster> = mutableListOf(
-        Monster("Gigachiax",100,0,0,com.example.lepeenice.R.drawable.mob1,com.example.lepeenice.R.drawable.mob1_evolved, 0, com.example.lepeenice.R.raw.mob1_hurt),
-        Monster("Tractopulpeux",200,0,0,com.example.lepeenice.R.drawable.mob1,com.example.lepeenice.R.drawable.mob1_evolved, 0, com.example.lepeenice.R.raw.mob1_hurt),
-        Monster("Terminotron",50,0,0,com.example.lepeenice.R.drawable.mob1,com.example.lepeenice.R.drawable.mob1_evolved, 0, com.example.lepeenice.R.raw.mob1_hurt)
+    @Transient
+    val monsters: MutableList<Monster> = mutableListOf(
+        Monster(
+            "Gigachiax",
+            100,
+            0,
+            0,
+            com.example.lepeenice.R.drawable.mob1,
+            com.example.lepeenice.R.drawable.mob1_evolved,
+            0,
+            com.example.lepeenice.R.raw.mob1_hurt
+        ),
+        Monster(
+            "Tractopulpeux",
+            200,
+            0,
+            0,
+            com.example.lepeenice.R.drawable.mob1,
+            com.example.lepeenice.R.drawable.mob1_evolved,
+            0,
+            com.example.lepeenice.R.raw.mob1_hurt
+        ),
+        Monster(
+            "Terminotron",
+            50,
+            0,
+            0,
+            com.example.lepeenice.R.drawable.mob1,
+            com.example.lepeenice.R.drawable.mob1_evolved,
+            0,
+            com.example.lepeenice.R.raw.mob1_hurt
+        )
     )
 
-    @Transient var currentMonster: Monster = monsters.random()
+    @Transient
+    var currentMonster: Monster = monsters.random()
 
     var currentMonsterLife: Int by mutableStateOf(currentMonster.hp)
 
@@ -36,7 +65,12 @@ public class GameManager private constructor() {
 
     var currentXp: Int by mutableStateOf(Player.getInstance().getXp())
 
-    @Transient var currentBoolAttack: Boolean = false
+    var currentShildNumber: Int by mutableStateOf(3)
+
+    var stateMouvement: Boolean by mutableStateOf(true)
+
+    @Transient
+    var currentBoolAttack: Boolean = false
 
     companion object {
         private var instance: GameManager? = null
@@ -50,33 +84,43 @@ public class GameManager private constructor() {
         }
     }
 
-    fun loadSave(g: GameManager){
+    fun loadSave(g: GameManager) {
         this.swords = g.swords
     }
 
-        @Composable
-        fun dealDamages()
-        {
-            val currentContext: Context = LocalContext.current
+    @Composable
+    fun dealDamages() {
+        val currentContext: Context = LocalContext.current
 
-            var currentSword = Player.getInstance().sword.damage
+        var currentSword = Player.getInstance().sword.damage
 
-            var monsterSound = currentMonster.getHitSound
+        var monsterSound = currentMonster.getHitSound
 
-            currentMonsterLife -= currentSword
+        currentMonsterLife -= currentSword
 
-            //joue le son du monstre
-            PlaySound.playSound(currentContext, monsterSound, false)
+        currentBoolAttack = !currentBoolAttack
 
-            currentBoolAttack = !currentBoolAttack
+        MainScreen.Life.value -= currentSword
 
-            if (currentMonsterLife <= 0){
-                NewMonster()
-            }
+        Player.getInstance().addXp(10)
+
+        Player.getInstance().addMoney(10 * Player.getInstance().getLevel())
+
+        //joue le son du monstre
+        PlaySound.playSound(currentContext, monsterSound, false)
+
+        currentBoolAttack = !currentBoolAttack
+
+        if (currentMonsterLife <= 0) {
+            Player.getInstance().addXp(currentMonster.hp)
+
+            Player.getInstance().addMoney(currentMonster.hp)
+
+            NewMonster()
         }
+    }
 
-    fun dealDamagestest()
-    {
+    fun dealDamagestest() {
         var currentSword = Player.getInstance().sword.damage
 
         currentMonsterLife -= currentSword
@@ -87,9 +131,9 @@ public class GameManager private constructor() {
 
         Player.getInstance().addXp(10)
 
-        Player.getInstance().addMoney(10*Player.getInstance().getLevel())
+        Player.getInstance().addMoney(10 * Player.getInstance().getLevel())
 
-        if (currentMonsterLife <= 0){
+        if (currentMonsterLife <= 0) {
             Player.getInstance().addXp(currentMonster.hp)
 
             Player.getInstance().addMoney(currentMonster.hp)
@@ -99,9 +143,21 @@ public class GameManager private constructor() {
 
     }
 
-    fun NewMonster(){
+
+    fun MonsterAttack() {
+        if (stateMouvement) {
+            currentShildNumber += -1
+            if (currentShildNumber == 0) {
+                currentShildNumber = 3
+                NewMonster()
+            }
+        }
+    }
+
+
+    fun NewMonster() {
         currentMonster = monsters.random()
-        currentMonster.hp = currentMonster.hp+100*Player.getInstance().getLevel()
+        currentMonster.hp = currentMonster.hp + 100 * Player.getInstance().getLevel()
         currentMonsterLife = currentMonster.hp
     }
 
@@ -109,10 +165,10 @@ public class GameManager private constructor() {
      * Cette fonction donne un string de toutes les épées du GameManager.
      * @return String Concatenation des toString() de chaque épée.
      */
-    fun printSwords() : String {
-        var res:String = ""
+    fun printSwords(): String {
+        var res: String = ""
         for (sword in swords) {
-            res += sword.toString()+", "
+            res += sword.toString() + ", "
         }
         return res
     }
@@ -121,10 +177,10 @@ public class GameManager private constructor() {
      * Cette fonction donne un string de toutes les monstres du GameManager.
      * @return String Concatenation des toString() de chaque monstre.
      */
-    fun printMonsters() : String {
-        var res:String = ""
+    fun printMonsters(): String {
+        var res: String = ""
         for (monster in monsters) {
-            res += monster.toString()+", "
+            res += monster.toString() + ", "
         }
         return res
     }
@@ -139,8 +195,28 @@ public class GameManager private constructor() {
      * @param imageUri2 Int, Adresse de l'image du Monstre élovué (com.example.lepeenice.R.drawable."ImageName").
      * @param HitSound Int, Adresse du sound.
      */
-    fun addMonster(name:String, hp:Int, attack:Int, defense:Int, imageUri:Int,imageUri2:Int, scoreGiven:Int, getHitSound:Int){
-        monsters.add(Monster(name,hp,attack,defense,imageUri,imageUri2,scoreGiven, getHitSound))
+    fun addMonster(
+        name: String,
+        hp: Int,
+        attack: Int,
+        defense: Int,
+        imageUri: Int,
+        imageUri2: Int,
+        scoreGiven: Int,
+        getHitSound: Int
+    ) {
+        monsters.add(
+            Monster(
+                name,
+                hp,
+                attack,
+                defense,
+                imageUri,
+                imageUri2,
+                scoreGiven,
+                getHitSound
+            )
+        )
     }
 
     /**
@@ -148,39 +224,87 @@ public class GameManager private constructor() {
      */
     fun createSwords() {
         //Création des Swords
-            swords.add(Sword("Épée d'entrainement",1,0,true,com.example.lepeenice.R.drawable.epeedentrainement))
-            swords.add(Sword("Lame de l'ombre nocturne",10,100,false,com.example.lepeenice.R.drawable.epeedentrainement))
-            swords.add(Sword("Épée de la licorne dorée",25,1500,false,com.example.lepeenice.R.drawable.epeedentrainement))
-            swords.add(Sword("Épée de la colère divine",50,5000,false,com.example.lepeenice.R.drawable.epeedentrainement))
-            swords.add(Sword("Épée de la vallée des âmes",75,10000,false,com.example.lepeenice.R.drawable.epeedentrainement))
-            swords.add(Sword("Lame du feu ardent",100,15000,false,com.example.lepeenice.R.drawable.epeedentrainement))
+        swords.add(
+            Sword(
+                "Épée d'entrainement",
+                1,
+                0,
+                true,
+                com.example.lepeenice.R.drawable.epeedentrainement
+            )
+        )
+        swords.add(
+            Sword(
+                "Lame de l'ombre nocturne",
+                10,
+                100,
+                false,
+                com.example.lepeenice.R.drawable.lamedufeuardent
+            )
+        )
+        swords.add(
+            Sword(
+                "Épée de la licorne dorée",
+                25,
+                1500,
+                false,
+                com.example.lepeenice.R.drawable.lamedufeuardent
+            )
+        )
+        swords.add(
+            Sword(
+                "Épée de la colère divine",
+                50,
+                5000,
+                false,
+                com.example.lepeenice.R.drawable.lamedufeuardent
+            )
+        )
+        swords.add(
+            Sword(
+                "Épée de la vallée des âmes",
+                75,
+                10000,
+                false,
+                com.example.lepeenice.R.drawable.lamedufeuardent
+            )
+        )
+        swords.add(
+            Sword(
+                "Lame du feu ardent",
+                100,
+                15000,
+                false,
+                com.example.lepeenice.R.drawable.lamedufeuardent
+            )
+        )
         // Fin création des Swords
     }
 
-    fun finishCurrentFight(){
+    fun finishCurrentFight() {
         Player.getInstance().addMoney(currentMonster.scoreGiven)
         currentMonster = monsters.random()
     }
 
-    fun AcheterEpee(s: Sword){
+    fun AcheterEpee(s: Sword) {
         swords.forEach { item ->
-            if(s == swords){
+            if (s == swords) {
                 item.isPurchased = true
             }
         }
     }
 
 
-    fun onSwordClick(sword: Sword){
-        if (!sword.isPurchased){
-            if (Player.getInstance().getMoney()>=sword.price){
+    fun onSwordClick(sword: Sword) {
+        if (!sword.isPurchased) {
+            if (Player.getInstance().getMoney() >= sword.price) {
                 Player.getInstance().addMoney(-sword.price)
-                currentMoney=Player.getInstance().getMoney()
+                currentMoney = Player.getInstance().getMoney()
                 AcheterEpee(sword)
                 sword.isPurchased = true
                 Player.getInstance().EquipeEpee(sword)
             }
-        }else{
+        } else {
             Player.getInstance().EquipeEpee(sword)
         }
     }

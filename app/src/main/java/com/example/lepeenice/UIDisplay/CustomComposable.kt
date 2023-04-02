@@ -260,7 +260,6 @@ class CustomComposable {
             )
         }
 
-
         /*
     UI pour la bar de level du joueur
      */
@@ -278,6 +277,35 @@ class CustomComposable {
                 color = MaterialTheme.colors.primaryVariant
             )
         }
+
+
+        /*
+        Ui pour les 3 points de vies
+         */
+        @Composable
+        fun Shields(count: Int) {
+            Row(
+                modifier = Modifier
+                    .height(60.dp)
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                for (i in 0 until count) {
+                    Image(
+                        painter = painterResource(id = R.drawable.mob1_evolved),
+                        contentDescription = "Shilds $i",
+                        modifier = Modifier
+                            .height(60.dp)
+                            .width(60.dp)
+                    )
+                    if (i != count - 1) {
+                        Spacer(modifier = Modifier.width(30.dp))
+                    }
+                }
+            }
+        }
+
 
     }
 }
