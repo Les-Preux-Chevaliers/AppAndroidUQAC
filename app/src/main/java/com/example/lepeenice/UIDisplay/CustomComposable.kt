@@ -177,7 +177,8 @@ class CustomComposable {
                                     onClick = {
                                         GameManager.getInstance().onSwordClick(sword)
                                         startIndex = 1
-                                        startIndex = 0 // Actualiser la liste de swords après un clic
+                                        startIndex =
+                                            0 // Actualiser la liste de swords après un clic
                                     },
                                     colors = ButtonDefaults.buttonColors(
                                         if (sword.isPurchased && sword == Player.getInstance().sword) {
@@ -186,7 +187,8 @@ class CustomComposable {
                                             MaterialTheme.colors.primary
                                         } else {
                                             MaterialTheme.colors.secondary
-                                        }                                    ),
+                                        }
+                                    ),
                                     modifier = Modifier.padding(end = 8.dp)
                                 ) {
                                     Text(
@@ -258,6 +260,24 @@ class CustomComposable {
             )
         }
 
+
+        /*
+    UI pour la bar de level du joueur
+     */
+        @Composable
+        fun LevelBar(niveau: Int, levelneed: Int) {
+            var levelneed = levelneed*100
+
+            val levelPercentage = niveau.toFloat() / levelneed.toFloat()
+
+            LinearProgressIndicator(
+                progress = levelPercentage,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(32.dp),
+                color = MaterialTheme.colors.primaryVariant
+            )
+        }
 
     }
 }

@@ -1,17 +1,23 @@
 package com.example.lepeenice.UIDisplay
 
 import android.content.Context
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.lepeenice.MemoryClassPackage.GameManager
 import com.example.lepeenice.MemoryClassPackage.Player
+import com.example.lepeenice.R
 import com.example.lepeenice.ui.theme.LEpeeNiceTheme
 
 class ShopScreen {
@@ -40,24 +46,60 @@ class ShopScreen {
                          */
                         GameManager.getInstance().currentMoney = Player.getInstance().getMoney()
                         var money = GameManager.getInstance().currentMoney
+                        var Level = Player.getInstance().getLevel()
+                        GameManager.getInstance().currentXp = Player.getInstance().getXp()
+                        var CurrentXp = GameManager.getInstance().currentXp
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(50.dp)
                                 .background(color = MaterialTheme.colors.background)
-                                .padding(start = 20.dp)
                         ) {
-                            Row(
-                                modifier = Modifier
-                                    .wrapContentSize()
-                                    .align(Alignment.CenterStart)
-                            ) {
-                                Prefab.CustomTitre(content = "Money : ")
-                                /*
-                        Texte pour le score à modifier lors du jeu
-                         */
-                                Prefab.CustomTitre(content = money.toString())
-                                Prefab.CustomTitre(content = " CAD")
+                            Box(modifier = Modifier
+                                .fillMaxWidth()
+                                .height(50.dp)) {
+                                Row(
+                                    modifier = Modifier
+                                        .wrapContentWidth()
+                                        .wrapContentHeight()
+                                        .padding(start = 20.dp)
+                                        .clip(RoundedCornerShape(10.dp))
+                                        .border(
+                                            3.dp,
+                                            MaterialTheme.colors.secondary,
+                                            RoundedCornerShape(10.dp)
+                                        ),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.Start,
+                                ) {
+                                    Image(
+                                        painter = painterResource(R.drawable.mob1),
+                                        contentDescription = "MoneyLogo",
+                                        modifier = Modifier
+                                            .height(50.dp)
+                                            .width(50.dp)
+                                            .padding(vertical = 8.dp)
+                                    )
+                                    Row(
+                                        modifier = Modifier
+                                            .padding(end = 12.dp)
+                                    )
+                                    {
+                                        Prefab.CustomTitre(content = money.toString())
+                                        Prefab.CustomTitre(content = " CAD")
+                                    }
+                                }
+                                Box(
+                                    modifier = Modifier
+                                        .width(200.dp)
+                                        .padding(end = 20.dp)
+                                        .align(Alignment.CenterEnd)
+                                ) {
+                                    CustomComposable.LevelBar(CurrentXp,Level)
+                                    Box(modifier = Modifier.align(Alignment.Center)) {
+                                        Prefab.CustomTitre(content = "Level $Level")
+                                    }
+                                }
                             }
                         }
 

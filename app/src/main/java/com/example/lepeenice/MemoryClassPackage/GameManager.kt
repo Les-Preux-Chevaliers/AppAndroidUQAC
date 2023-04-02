@@ -34,6 +34,8 @@ public class GameManager private constructor() {
 
     var currentMoney: Int by mutableStateOf(Player.getInstance().getMoney())
 
+    var currentXp: Int by mutableStateOf(Player.getInstance().getXp())
+
     @Transient var currentBoolAttack: Boolean = false
 
     companion object {
@@ -83,7 +85,15 @@ public class GameManager private constructor() {
 
         MainScreen.Life.value -= currentSword
 
+        Player.getInstance().addXp(10)
+
+        Player.getInstance().addMoney(10*Player.getInstance().getLevel())
+
         if (currentMonsterLife <= 0){
+            Player.getInstance().addXp(currentMonster.hp)
+
+            Player.getInstance().addMoney(currentMonster.hp)
+
             NewMonster()
         }
 
@@ -91,6 +101,7 @@ public class GameManager private constructor() {
 
     fun NewMonster(){
         currentMonster = monsters.random()
+        currentMonster.hp = currentMonster.hp+100*Player.getInstance().getLevel()
         currentMonsterLife = currentMonster.hp
     }
 
@@ -138,11 +149,11 @@ public class GameManager private constructor() {
     fun createSwords() {
         //Création des Swords
             swords.add(Sword("Épée d'entrainement",1,0,true,com.example.lepeenice.R.drawable.epeedentrainement))
-            swords.add(Sword("Lame de l'ombre nocturne",10,1000,false,com.example.lepeenice.R.drawable.epeedentrainement))
-            swords.add(Sword("Épée de la licorne dorée",15,2500,false,com.example.lepeenice.R.drawable.epeedentrainement))
-            swords.add(Sword("Épée de la colère divine",20,5000,false,com.example.lepeenice.R.drawable.epeedentrainement))
-            swords.add(Sword("Épée de la vallée des âmes",30,10000,false,com.example.lepeenice.R.drawable.epeedentrainement))
-            swords.add(Sword("Lame du feu ardent",50,15000,false,com.example.lepeenice.R.drawable.epeedentrainement))
+            swords.add(Sword("Lame de l'ombre nocturne",10,100,false,com.example.lepeenice.R.drawable.epeedentrainement))
+            swords.add(Sword("Épée de la licorne dorée",25,1500,false,com.example.lepeenice.R.drawable.epeedentrainement))
+            swords.add(Sword("Épée de la colère divine",50,5000,false,com.example.lepeenice.R.drawable.epeedentrainement))
+            swords.add(Sword("Épée de la vallée des âmes",75,10000,false,com.example.lepeenice.R.drawable.epeedentrainement))
+            swords.add(Sword("Lame du feu ardent",100,15000,false,com.example.lepeenice.R.drawable.epeedentrainement))
         // Fin création des Swords
     }
 
