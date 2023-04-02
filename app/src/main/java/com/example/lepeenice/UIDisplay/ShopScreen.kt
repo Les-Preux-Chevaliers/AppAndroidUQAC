@@ -109,10 +109,10 @@ class ShopScreen {
                         val swords by remember { mutableStateOf(GameManager.getInstance().swords) }
                         CustomComposable.Shop(swords)
                     }
-                    //Show version, dont remove this on the preview !
-                    Box(modifier = Modifier.align(Alignment.BottomStart)) {
-                        CustomComposable.ModeDisplay(name = "Preview Mode", version = "Version : 0.0.4")
-                    }
+//                    //Show version, dont remove this on the preview !
+//                    Box(modifier = Modifier.align(Alignment.BottomStart)) {
+//                        CustomComposable.ModeDisplay(name = "Preview Mode", version = "Version : 0.0.4")
+//                    }
                 }
 
             }

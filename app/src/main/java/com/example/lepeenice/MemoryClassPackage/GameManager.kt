@@ -157,7 +157,7 @@ public class GameManager private constructor() {
 
     fun NewMonster() {
         currentMonster = monsters.random()
-        currentMonster.hp = currentMonster.hp + 100 * Player.getInstance().getLevel()
+        currentMonster.hp = currentMonster.hp + 10 * Player.getInstance().getLevel()
         currentMonsterLife = currentMonster.hp
     }
 

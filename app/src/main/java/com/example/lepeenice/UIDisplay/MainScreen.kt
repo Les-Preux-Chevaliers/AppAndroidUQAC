@@ -196,12 +196,12 @@ class MainScreen {
 
 
                     //Show version, dont remove this on the preview !
-                    Box(modifier = Modifier.align(Alignment.BottomStart)) {
-                        CustomComposable.ModeDisplay(
-                            name = "App Mode",
-                            version = "Version : 0.0.3"
-                        )
-                    }
+//                    Box(modifier = Modifier.align(Alignment.BottomStart)) {
+//                        CustomComposable.ModeDisplay(
+//                            name = "App Mode",
+//                            version = "Version : 0.0.3"
+//                        )
+//                    }
                 }
             }
         }
