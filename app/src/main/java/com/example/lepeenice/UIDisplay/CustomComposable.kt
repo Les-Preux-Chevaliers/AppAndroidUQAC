@@ -176,12 +176,17 @@ class CustomComposable {
                                 Button(
                                     onClick = {
                                         GameManager.getInstance().onSwordClick(sword)
-                                        startIndex = i
+                                        startIndex = 1
                                         startIndex = 0 // Actualiser la liste de swords après un clic
                                     },
                                     colors = ButtonDefaults.buttonColors(
-                                        backgroundColor = if (sword.isPurchased) MaterialTheme.colors.primary else MaterialTheme.colors.secondary
-                                    ),
+                                        if (sword.isPurchased && sword == Player.getInstance().sword) {
+                                            MaterialTheme.colors.primaryVariant
+                                        } else if (sword.isPurchased) {
+                                            MaterialTheme.colors.primary
+                                        } else {
+                                            MaterialTheme.colors.secondary
+                                        }                                    ),
                                     modifier = Modifier.padding(end = 8.dp)
                                 ) {
                                     Text(

@@ -11,6 +11,9 @@ import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import com.example.lepeenice.PlaySound
+import com.example.lepeenice.UIDisplay.MainScreen
+import com.example.lepeenice.UIDisplay.ShopScreen
+import kotlin.math.absoluteValue
 
 @Serializable
 public class GameManager private constructor() {
@@ -27,7 +30,9 @@ public class GameManager private constructor() {
 
     @Transient var currentMonster: Monster = monsters.random()
 
-    @Transient var currentMonsterLife: Int = currentMonster.hp
+    var currentMonsterLife: Int by mutableStateOf(currentMonster.hp)
+
+    var currentMoney: Int by mutableStateOf(Player.getInstance().getMoney())
 
     @Transient var currentBoolAttack: Boolean = false
 
@@ -72,11 +77,11 @@ public class GameManager private constructor() {
     {
         var currentSword = Player.getInstance().sword.damage
 
-        var monsterSound = currentMonster.getHitSound
-
         currentMonsterLife -= currentSword
 
         currentBoolAttack = !currentBoolAttack
+
+        MainScreen.Life.value -= currentSword
 
         if (currentMonsterLife <= 0){
             NewMonster()
@@ -159,6 +164,7 @@ public class GameManager private constructor() {
         if (!sword.isPurchased){
             if (Player.getInstance().getMoney()>=sword.price){
                 Player.getInstance().addMoney(-sword.price)
+                currentMoney=Player.getInstance().getMoney()
                 AcheterEpee(sword)
                 sword.isPurchased = true
                 Player.getInstance().EquipeEpee(sword)

@@ -20,7 +20,7 @@ import com.example.lepeenice.ui.theme.LEpeeNiceTheme
 
 class MainScreen {
     companion object {
-
+        var Life = mutableStateOf(GameManager.getInstance().currentMonsterLife)
         @Composable
         fun MainScreen() {
             val currentContext: Context = LocalContext.current
@@ -40,11 +40,12 @@ class MainScreen {
                         )
                 ) {
                     Column() {
-                        var Life by remember { mutableStateOf(GameManager.getInstance().currentMonsterLife) }
+                        var Life = GameManager.getInstance().currentMonsterLife
+                        GameManager.getInstance().currentMoney = Player.getInstance().getMoney()
+                        var money = GameManager.getInstance().currentMoney
                         /*
                 Score display code UI
                  */
-
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -61,7 +62,7 @@ class MainScreen {
                                 /*
                             Texte pour le score à modifier lors du jeu
                              */
-                                Prefab.CustomTitre(content = Player.getInstance().getMoney().toString())
+                                Prefab.CustomTitre(content = money.toString())
                                 Prefab.CustomTitre(content = " CAD")
                             }
                         }
@@ -98,7 +99,7 @@ class MainScreen {
                         Row {
                             Prefab.CustomButton(text = "Attaque", onClick = {
                                 GameManager.getInstance().dealDamagestest()
-                                Life = GameManager.getInstance().currentMonsterLife
+                                //Life = GameManager.getInstance().currentMonsterLife
                                 Player.getInstance().addMoney(1000)
                                 PlaySound.playSound(currentContext, com.example.lepeenice.R.raw.sword_metal_woosh, false)
                             })
@@ -113,11 +114,6 @@ class MainScreen {
                         Image de l'épée
                          */
                             CustomComposable.MirroredImage(image = painterResource(Player.getInstance().sword.imageId), isMirrored = GameManager.getInstance().currentBoolAttack)
-//                            Prefab.CustomImage(
-//                                source = Player.getInstance().sword.imageId,
-//                                contentDescription = "SwordPicture",
-//                                size = 480.dp,
-//                            )
                         }
                     }
 

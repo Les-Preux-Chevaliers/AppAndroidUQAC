@@ -38,7 +38,8 @@ class ShopScreen {
                         /*
                         Score display code UI
                          */
-
+                        GameManager.getInstance().currentMoney = Player.getInstance().getMoney()
+                        var money = GameManager.getInstance().currentMoney
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -55,7 +56,6 @@ class ShopScreen {
                                 /*
                         Texte pour le score à modifier lors du jeu
                          */
-                                val money by remember { mutableStateOf(Player.getInstance().getMoney()) }
                                 Prefab.CustomTitre(content = money.toString())
                                 Prefab.CustomTitre(content = " CAD")
                             }
