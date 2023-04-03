@@ -74,9 +74,9 @@ class SensorsUtilityClass : SensorEventListener {
                 position[0] = 0.0f
                 position[1] = 0.0f
                 println("====================HIT====================")
-                GameManager.getInstance().dealDamages(currContext)
                 PlaySound.playSound(currContext, R.raw.sword_metal_woosh, false)
                 Vibrate.vibratePhone(currContext, 500)
+                GameManager.getInstance().dealDamages(currContext)
             }
 
             if (hit == false) {
