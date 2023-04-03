@@ -11,11 +11,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.lepeenice.R
+import com.example.lepeenice.SensorsUtilityClass
 
 class SplashScreen {
     companion object {
         @Composable
-        fun SplashScreen(navController: NavController) {
+        fun SplashScreen(navController: NavController, sensor : SensorsUtilityClass) {
             Box(
                 Modifier
                     .fillMaxSize()

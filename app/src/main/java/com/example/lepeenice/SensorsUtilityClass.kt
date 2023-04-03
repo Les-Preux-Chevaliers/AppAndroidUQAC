@@ -29,6 +29,9 @@ class SensorsUtilityClass : SensorEventListener {
             fun useAccelerometer(context: Context) {
                 currContext = context
 
+                position[0] = 0.0f
+                position[1] = 0.0f
+
                 // Récupérer le gestionnaire de capteurs
                 sensorManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
 
@@ -71,7 +74,7 @@ class SensorsUtilityClass : SensorEventListener {
                 position[0] = 0.0f
                 position[1] = 0.0f
                 println("====================HIT====================")
-                GameManager.getInstance().dealDamagestest()
+                GameManager.getInstance().dealDamages(currContext)
                 PlaySound.playSound(currContext, R.raw.sword_metal_woosh, false)
                 Vibrate.vibratePhone(currContext, 500)
             }

@@ -93,7 +93,7 @@ class MainActivity : ComponentActivity() {
                         composable("VibroPreview") { VibroClass.VibroPreview() }
                         composable("GyroPreview") { GyroClass.GyroPreview() }
                         composable("MemoryPreview") { MemoryClass.MemoryPreview() }
-                        composable("SplashScreen") { SplashScreen.SplashScreen(navController) }
+                        composable("SplashScreen") { SplashScreen.SplashScreen(navController, Accelerometer) }
                         composable("Shop") { ShopScreen.ShopScreen(Accelerometer)}
                         composable("MainUI") { MainScreen.MainScreen(Accelerometer)}
                     }
