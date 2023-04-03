@@ -169,7 +169,7 @@ public class GameManager private constructor() {
                 return
             }
         } else if (!boolThirdAttack) {
-            if (lifePercentage <= 0.50) {
+            if (lifePercentage <= 0.25) {
                 MonsterAttack(currentContext)
                 boolThirdAttack = true
                 return
@@ -182,13 +182,13 @@ public class GameManager private constructor() {
 
     fun MonsterAttack(currentContext : Context) {
         PlaySound.playSound(currentContext, R.raw.monsterattack, false)
-        Vibrate.vibratePhone(currentContext, 3000)
+        Vibrate.vibratePhone(currentContext, 30000)
         CoroutineScope(Dispatchers.Default).launch {
             delay(3000) // Attendre 3 secondes
             if (stateMouvement) {
                 currentShildNumber += -1
                 PlaySound.playSound(currentContext, R.raw.damaged, false)
-                Vibrate.vibratePhone(currentContext, 500)
+                Vibrate.vibratePhone(currentContext, 5000)
                 if (currentShildNumber == 0) {
                     currentShildNumber = 3
                     NewMonster()

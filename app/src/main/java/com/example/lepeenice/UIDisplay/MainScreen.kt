@@ -162,25 +162,25 @@ class MainScreen {
                         /*
                     Bouton pour tester la bar de vie volatile
                      */
-                        Row {
-                            Prefab.CustomButton(text = "Attaque", onClick = {
-                                GameManager.getInstance().dealDamagestest()
-                                PlaySound.playSound(
-                                    currentContext,
-                                    com.example.lepeenice.R.raw.sword_metal_woosh,
-                                    false
-                                )
-                            })
-                            Prefab.CustomButton(text = "Defense", onClick = {
-                                GameManager.getInstance().MonsterAttack(currentContext)
-                                PlaySound.playSound(
-                                    currentContext,
-                                    com.example.lepeenice.R.raw.sword_metal_woosh,
-                                    false
-                                )
-                            })
-
-                        }
+//                        Row {
+//                            Prefab.CustomButton(text = "Attaque", onClick = {
+//                                GameManager.getInstance().dealDamagestest()
+//                                PlaySound.playSound(
+//                                    currentContext,
+//                                    com.example.lepeenice.R.raw.sword_metal_woosh,
+//                                    false
+//                                )
+//                            })
+//                            Prefab.CustomButton(text = "Defense", onClick = {
+//                                GameManager.getInstance().MonsterAttack(currentContext)
+//                                PlaySound.playSound(
+//                                    currentContext,
+//                                    com.example.lepeenice.R.raw.sword_metal_woosh,
+//                                    false
+//                                )
+//                            })
+//
+//                        }
                         CustomComposable.Shields(count = GameManager.getInstance().currentShildNumber)
 //                        timer(initialDelay = 0, period = 5000) {
 //                            GameManager.getInstance().MonsterAttack()
