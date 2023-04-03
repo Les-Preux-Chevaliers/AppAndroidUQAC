@@ -80,7 +80,7 @@ class MainActivity : ComponentActivity() {
                 ) { innerPadding ->
                     NavHost(
                         navController = navController,
-                        startDestination = Screen.Home.route,
+                        startDestination = "SplashScreen",
                         Modifier.padding(innerPadding)
                     ) {
                         composable("Home") {
@@ -104,7 +104,7 @@ class MainActivity : ComponentActivity() {
 }
 
 sealed class Screen(val route: String, @StringRes val resourceId: Int, val icon: ImageVector) {
-    object Home : Screen("Home", R.string.home, Icons.Filled.Home)
+    object Home : Screen("MainUI", R.string.home, Icons.Filled.Home)
     object Shop : Screen("Shop", R.string.shop, Icons.Filled.ShoppingCart)
 }
 
