@@ -1,19 +1,16 @@
 package com.example.lepeenice.MemoryClassPackage
 
 import kotlinx.serialization.Serializable
-import kotlin.random.Random
 
 import android.content.Context
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
 import com.example.lepeenice.PlaySound
 import com.example.lepeenice.UIDisplay.MainScreen
-import com.example.lepeenice.UIDisplay.ShopScreen
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withTimeoutOrNull
+import kotlinx.coroutines.*
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import java.util.*
-import kotlin.math.absoluteValue
 
 
 @Serializable
@@ -72,6 +69,15 @@ public class GameManager private constructor() {
     @Transient
     var currentBoolAttack: Boolean = false
 
+    @Transient
+    var boolFirstAttack: Boolean = false
+
+    @Transient
+    var boolSecondeAttack: Boolean = false
+
+    @Transient
+    var boolThirdAttack: Boolean = false
+
     companion object {
         private var instance: GameManager? = null
 
@@ -88,10 +94,8 @@ public class GameManager private constructor() {
         this.swords = g.swords
     }
 
-    @Composable
-    fun dealDamages() {
-        val currentContext: Context = LocalContext.current
 
+    fun dealDamages(currentContext: Context) {
         var currentSword = Player.getInstance().sword.damage
 
         var monsterSound = currentMonster.getHitSound
@@ -102,7 +106,9 @@ public class GameManager private constructor() {
 
         MainScreen.Life.value -= currentSword
 
-        Player.getInstance().addXp(10)
+        tryMonsterAttack()
+
+        //Player.getInstance().addXp(10)
 
         Player.getInstance().addMoney(10 * Player.getInstance().getLevel())
 
@@ -129,7 +135,9 @@ public class GameManager private constructor() {
 
         MainScreen.Life.value -= currentSword
 
-        Player.getInstance().addXp(10)
+        tryMonsterAttack()
+
+        //Player.getInstance().addXp(10)
 
         Player.getInstance().addMoney(10 * Player.getInstance().getLevel())
 
@@ -143,13 +151,47 @@ public class GameManager private constructor() {
 
     }
 
+    fun tryMonsterAttack() {
+        val lifePercentage =
+            currentMonsterLife.toFloat() / (currentMonster.hp * Player.getInstance()
+                .getLevel()).toFloat()
+        if (!boolFirstAttack) {
+            if (lifePercentage <= 0.75) {
+                MonsterAttack()
+                boolFirstAttack = true
+                return
+            } else {
+                return
+            }
+        } else if (!boolSecondeAttack) {
+            if (lifePercentage <= 0.50) {
+                MonsterAttack()
+                boolSecondeAttack = true
+                return
+            } else {
+                return
+            }
+        } else if (!boolThirdAttack) {
+            if (lifePercentage <= 0.50) {
+                MonsterAttack()
+                boolThirdAttack = true
+                return
+            } else {
+                return
+            }
+        }
+    }
+
 
     fun MonsterAttack() {
-        if (stateMouvement) {
-            currentShildNumber += -1
-            if (currentShildNumber == 0) {
-                currentShildNumber = 3
-                NewMonster()
+        CoroutineScope(Dispatchers.Default).launch {
+            delay(3000) // Attendre 3 secondes
+            if (stateMouvement) {
+                currentShildNumber += -1
+                if (currentShildNumber == 0) {
+                    currentShildNumber = 3
+                    NewMonster()
+                }
             }
         }
     }
@@ -157,8 +199,7 @@ public class GameManager private constructor() {
 
     fun NewMonster() {
         currentMonster = monsters.random()
-        currentMonster.hp = currentMonster.hp + 10 * Player.getInstance().getLevel()
-        currentMonsterLife = currentMonster.hp
+        currentMonsterLife = currentMonster.hp * Player.getInstance().getLevel()
     }
 
     /**
@@ -286,7 +327,7 @@ public class GameManager private constructor() {
         currentMonster = monsters.random()
     }
 
-    fun AcheterEpee(s: Sword) {
+    fun AcheterEpee(s: Sword, currentContext : Context) {
         swords.forEach { item ->
             if (s == swords) {
                 item.isPurchased = true
@@ -295,14 +336,18 @@ public class GameManager private constructor() {
     }
 
 
-    fun onSwordClick(sword: Sword) {
+    fun onSwordClick(sword: Sword, currentContext: Context) {
         if (!sword.isPurchased) {
             if (Player.getInstance().getMoney() >= sword.price) {
                 Player.getInstance().addMoney(-sword.price)
                 currentMoney = Player.getInstance().getMoney()
-                AcheterEpee(sword)
+                AcheterEpee(sword,currentContext)
                 sword.isPurchased = true
                 Player.getInstance().EquipeEpee(sword)
+                val EncodedPlayer = Json.encodeToString(Player.getInstance())
+                SaveManager.getInstance().saveDataToSharedPreferences_Player(currentContext,EncodedPlayer)
+                val EncodedGameManager = Json.encodeToString(GameManager.getInstance())
+                SaveManager.getInstance().saveDataToSharedPreferences_GameManager(currentContext,EncodedGameManager)
             }
         } else {
             Player.getInstance().EquipeEpee(sword)

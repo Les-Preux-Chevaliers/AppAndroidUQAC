@@ -109,7 +109,7 @@ class ShopScreen {
                     Ui pour tout les éléments du shop
                      */
                         val swords by remember { mutableStateOf(GameManager.getInstance().swords) }
-                        CustomComposable.Shop(swords)
+                        CustomComposable.Shop(swords, currentContext)
                     }
 //                    //Show version, dont remove this on the preview !
 //                    Box(modifier = Modifier.align(Alignment.BottomStart)) {

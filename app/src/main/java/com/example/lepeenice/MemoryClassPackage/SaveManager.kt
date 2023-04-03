@@ -23,6 +23,7 @@ public class SaveManager private constructor(){
     fun saveDataToSharedPreferences_Player(context: Context, data: String) {
         val sharedPreferences = context.getSharedPreferences(PlayerKeySaved, Context.MODE_PRIVATE)
         sharedPreferences.edit().putString(PlayerKeySaved, data).apply()
+        println("saved")
     }
 
     fun saveDataToSharedPreferences_GameManager(context: Context, data: String) {
@@ -50,7 +51,7 @@ public class SaveManager private constructor(){
         }else{
             GameManager.getInstance().createSwords()
         }
-
+        println("loaded")
     }
 
 

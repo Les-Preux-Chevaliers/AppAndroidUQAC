@@ -1,6 +1,6 @@
 package com.example.lepeenice.UIDisplay
 
-import android.content.res.Resources.Theme
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -138,7 +138,7 @@ class CustomComposable {
     UI pour les éléments du shop
      */
         @Composable
-        fun Shop(swords: List<Sword>) {
+        fun Shop(swords: List<Sword>, currentContext : Context) {
             var startIndex by remember { mutableStateOf(0) }
             val endIndex = minOf(startIndex + 5, swords.size)
 
@@ -175,7 +175,7 @@ class CustomComposable {
                             Row(verticalAlignment = Alignment.CenterVertically) {
                                 Button(
                                     onClick = {
-                                        GameManager.getInstance().onSwordClick(sword)
+                                        GameManager.getInstance().onSwordClick(sword,currentContext)
                                         startIndex = 1
                                         startIndex =
                                             0 // Actualiser la liste de swords après un clic

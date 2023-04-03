@@ -102,7 +102,7 @@ class SensorsUtilityClass : SensorEventListener {
             }
 
             //println(hit)
-            println(GameManager.getInstance().stateMouvement)
+            //println(GameManager.getInstance().stateMouvement)
             //println("Ax = " + event.values[0] + "   Ay = " + event.values[1])
             //println("Vx = " + velocity[0] + "   Vy = " + velocity[1])
             //printThePos()

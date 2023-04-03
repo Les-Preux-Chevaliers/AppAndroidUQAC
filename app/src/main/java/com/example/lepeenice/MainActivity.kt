@@ -40,10 +40,8 @@ class MainActivity : ComponentActivity() {
         val Accelerometer = SensorsUtilityClass()
         println("In home")
         setContent {
-
             // Load les data si il y en a !
             SaveManager.getInstance().loadDataFromSharedPreferences(LocalContext.current)
-
             LEpeeNiceTheme {
                 val navController = rememberNavController()
 
@@ -51,7 +49,6 @@ class MainActivity : ComponentActivity() {
                     Screen.Home,
                     Screen.Shop,
                 )
-
                 Scaffold(
                     bottomBar = {
                         BottomNavigation {

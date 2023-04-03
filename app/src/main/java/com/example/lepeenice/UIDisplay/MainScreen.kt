@@ -22,9 +22,12 @@ import androidx.compose.ui.unit.dp
 import com.example.lepeenice.MemoryClassPackage.GameManager
 import com.example.lepeenice.MemoryClassPackage.Monster
 import com.example.lepeenice.MemoryClassPackage.Player
+import com.example.lepeenice.MemoryClassPackage.SaveManager
 import com.example.lepeenice.PlaySound
 import com.example.lepeenice.SensorsUtilityClass
 import com.example.lepeenice.ui.theme.LEpeeNiceTheme
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import kotlin.concurrent.timer
 
 class MainScreen {
@@ -37,6 +40,11 @@ class MainScreen {
             sensor.useAccelerometer(currentContext)
 
             LEpeeNiceTheme {
+                val EncodedPlayer = Json.encodeToString(Player.getInstance())
+                SaveManager.getInstance().saveDataToSharedPreferences_Player(currentContext,EncodedPlayer)
+                val EncodedGameManager = Json.encodeToString(GameManager.getInstance())
+                SaveManager.getInstance().saveDataToSharedPreferences_GameManager(currentContext,EncodedGameManager)
+
                 Box(
                     Modifier
                         .fillMaxSize()
@@ -143,7 +151,7 @@ class MainScreen {
 
                             CustomComposable.LifeBar(
                                 currentLife = Life,
-                                maxLife = GameManager.getInstance().currentMonster.hp
+                                maxLife = GameManager.getInstance().currentMonster.hp* Player.getInstance().getLevel()
                             )
 
                             Box(modifier = Modifier.align(Alignment.Center)) {
