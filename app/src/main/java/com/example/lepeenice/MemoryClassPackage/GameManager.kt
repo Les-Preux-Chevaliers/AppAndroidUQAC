@@ -70,13 +70,10 @@ public class GameManager private constructor() {
     @Transient
     var currentBoolAttack: Boolean = false
 
-    @Transient
     var boolFirstAttack: Boolean = false
 
-    @Transient
     var boolSecondeAttack: Boolean = false
 
-    @Transient
     var boolThirdAttack: Boolean = false
 
     companion object {
@@ -194,6 +191,8 @@ public class GameManager private constructor() {
                     NewMonster()
                 }
             }
+            PlaySound.playSound(currentContext, R.raw.shields, false)
+            Vibrate.vibratePhone(currentContext, 1000)
         }
     }
 
