@@ -90,6 +90,7 @@ public class GameManager private constructor() {
 
     fun loadSave(g: GameManager) {
         this.swords = g.swords
+        NewMonster()
     }
 
 
