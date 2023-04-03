@@ -113,8 +113,6 @@ public class GameManager private constructor() {
 
         Player.getInstance().addMoney(10 * Player.getInstance().getLevel())
 
-        currentBoolAttack = !currentBoolAttack
-
         if (currentMonsterLife <= 0) {
             Player.getInstance().addXp(currentMonster.hp)
 
