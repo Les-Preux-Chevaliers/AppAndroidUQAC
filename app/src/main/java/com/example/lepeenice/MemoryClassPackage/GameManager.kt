@@ -4,9 +4,10 @@ import kotlinx.serialization.Serializable
 
 import android.content.Context
 import androidx.compose.runtime.*
-import androidx.compose.ui.platform.LocalContext
 import com.example.lepeenice.PlaySound
+import com.example.lepeenice.R
 import com.example.lepeenice.UIDisplay.MainScreen
+import com.example.lepeenice.Vibrate
 import kotlinx.coroutines.*
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -106,14 +107,11 @@ public class GameManager private constructor() {
 
         MainScreen.Life.value -= currentSword
 
-        tryMonsterAttack()
+        tryMonsterAttack(currentContext)
 
         //Player.getInstance().addXp(10)
 
         Player.getInstance().addMoney(10 * Player.getInstance().getLevel())
-
-        //joue le son du monstre
-        PlaySound.playSound(currentContext, monsterSound, false)
 
         currentBoolAttack = !currentBoolAttack
 
@@ -135,7 +133,7 @@ public class GameManager private constructor() {
 
         MainScreen.Life.value -= currentSword
 
-        tryMonsterAttack()
+        //tryMonsterAttack(currentContext)
 
         //Player.getInstance().addXp(10)
 
@@ -151,13 +149,14 @@ public class GameManager private constructor() {
 
     }
 
-    fun tryMonsterAttack() {
+    fun tryMonsterAttack(currentContext: Context) {
         val lifePercentage =
             currentMonsterLife.toFloat() / (currentMonster.hp * Player.getInstance()
                 .getLevel()).toFloat()
+        //println(lifePercentage)
         if (!boolFirstAttack) {
             if (lifePercentage <= 0.75) {
-                MonsterAttack()
+                MonsterAttack(currentContext)
                 boolFirstAttack = true
                 return
             } else {
@@ -165,7 +164,7 @@ public class GameManager private constructor() {
             }
         } else if (!boolSecondeAttack) {
             if (lifePercentage <= 0.50) {
-                MonsterAttack()
+                MonsterAttack(currentContext)
                 boolSecondeAttack = true
                 return
             } else {
@@ -173,7 +172,7 @@ public class GameManager private constructor() {
             }
         } else if (!boolThirdAttack) {
             if (lifePercentage <= 0.50) {
-                MonsterAttack()
+                MonsterAttack(currentContext)
                 boolThirdAttack = true
                 return
             } else {
@@ -183,11 +182,15 @@ public class GameManager private constructor() {
     }
 
 
-    fun MonsterAttack() {
+    fun MonsterAttack(currentContext : Context) {
+        PlaySound.playSound(currentContext, R.raw.monsterattack, false)
+        Vibrate.vibratePhone(currentContext, 3000)
         CoroutineScope(Dispatchers.Default).launch {
             delay(3000) // Attendre 3 secondes
             if (stateMouvement) {
                 currentShildNumber += -1
+                PlaySound.playSound(currentContext, R.raw.damaged, false)
+                Vibrate.vibratePhone(currentContext, 500)
                 if (currentShildNumber == 0) {
                     currentShildNumber = 3
                     NewMonster()

@@ -172,7 +172,7 @@ class MainScreen {
                                 )
                             })
                             Prefab.CustomButton(text = "Defense", onClick = {
-                                GameManager.getInstance().MonsterAttack()
+                                GameManager.getInstance().MonsterAttack(currentContext)
                                 PlaySound.playSound(
                                     currentContext,
                                     com.example.lepeenice.R.raw.sword_metal_woosh,
