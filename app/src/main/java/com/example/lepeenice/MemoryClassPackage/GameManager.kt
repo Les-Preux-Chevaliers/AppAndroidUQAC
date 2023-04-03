@@ -201,6 +201,9 @@ public class GameManager private constructor() {
     fun NewMonster() {
         currentMonster = monsters.random()
         currentMonsterLife = currentMonster.hp * Player.getInstance().getLevel()
+        boolFirstAttack = false
+        boolSecondeAttack = false
+        boolThirdAttack = false
     }
 
     /**
