@@ -18,13 +18,15 @@ import androidx.compose.ui.unit.dp
 import com.example.lepeenice.MemoryClassPackage.GameManager
 import com.example.lepeenice.MemoryClassPackage.Player
 import com.example.lepeenice.R
+import com.example.lepeenice.SensorsUtilityClass
 import com.example.lepeenice.ui.theme.LEpeeNiceTheme
 
 class ShopScreen {
     companion object {
         @Composable
-        fun ShopScreen() {
+        fun ShopScreen(sensor : SensorsUtilityClass) {
             val currentContext: Context = LocalContext.current
+            sensor.unuseAccelerometer()
             LEpeeNiceTheme {
                 Box(
                     Modifier

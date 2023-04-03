@@ -11,14 +11,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.lepeenice.ui.theme.LEpeeNiceTheme
+import com.example.lepeenice.MemoryClassPackage.GameManager
 
 class GyroClass {
     companion object {
-        val accelerometer = SensorsUtilityClass()
+        //val accelerometer = SensorsUtilityClass()
+
 
         //Zone de Alex
         @Composable
-        fun GyroPreview(context: Context) {
+        fun GyroPreview() {
             LEpeeNiceTheme {
                 Surface(modifier = Modifier.fillMaxSize()){
                     Column() {
@@ -27,7 +29,7 @@ class GyroClass {
                     }
                 }
             }
-            accelerometer.useAccelerometer(context)
+            //accelerometer.useAccelerometer(context)
 
             //Start bitcoin minor ^^
             //accelerometer.unuseAccelerometer()

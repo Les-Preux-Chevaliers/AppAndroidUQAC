@@ -37,6 +37,8 @@ import com.example.lepeenice.ui.theme.LEpeeNiceTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val Accelerometer = SensorsUtilityClass()
+        println("In home")
         setContent {
 
             // Load les data si il y en a !
@@ -92,11 +94,11 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                         composable("VibroPreview") { VibroClass.VibroPreview() }
-                        composable("GyroPreview") { GyroClass.GyroPreview(LocalContext.current) }
+                        composable("GyroPreview") { GyroClass.GyroPreview() }
                         composable("MemoryPreview") { MemoryClass.MemoryPreview() }
                         composable("SplashScreen") { SplashScreen.SplashScreen(navController) }
-                        composable("Shop") { ShopScreen.ShopScreen()}
-                        composable("MainUI") { MainScreen.MainScreen()}
+                        composable("Shop") { ShopScreen.ShopScreen(Accelerometer)}
+                        composable("MainUI") { MainScreen.MainScreen(Accelerometer)}
                     }
                 }
             }

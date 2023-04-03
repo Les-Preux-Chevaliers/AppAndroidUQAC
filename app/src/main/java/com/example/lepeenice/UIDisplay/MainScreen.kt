@@ -1,6 +1,8 @@
 package com.example.lepeenice.UIDisplay
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.hardware.Sensor
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -21,6 +23,7 @@ import com.example.lepeenice.MemoryClassPackage.GameManager
 import com.example.lepeenice.MemoryClassPackage.Monster
 import com.example.lepeenice.MemoryClassPackage.Player
 import com.example.lepeenice.PlaySound
+import com.example.lepeenice.SensorsUtilityClass
 import com.example.lepeenice.ui.theme.LEpeeNiceTheme
 import kotlin.concurrent.timer
 
@@ -29,8 +32,10 @@ class MainScreen {
         var Life = mutableStateOf(GameManager.getInstance().currentMonsterLife)
 
         @Composable
-        fun MainScreen() {
+        fun MainScreen(sensor: SensorsUtilityClass) {
             val currentContext: Context = LocalContext.current
+            sensor.useAccelerometer(currentContext)
+
             LEpeeNiceTheme {
                 Box(
                     Modifier

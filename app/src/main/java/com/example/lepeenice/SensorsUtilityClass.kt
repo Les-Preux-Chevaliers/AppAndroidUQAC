@@ -6,6 +6,7 @@ import android.hardware.SensorManager
 import android.content.Context
 import android.os.Bundle
 import kotlin.math.sqrt
+import com.example.lepeenice.MemoryClassPackage.GameManager
 
 class SensorsUtilityClass : SensorEventListener {
     lateinit var sensorManager: SensorManager
@@ -18,26 +19,26 @@ class SensorsUtilityClass : SensorEventListener {
 
     private val accDelta = 10f
 
-    private var velocity = floatArrayOf(0.0f, 0.0f)
+            private var velocity = floatArrayOf(0.0f, 0.0f)
 
-    private var position = floatArrayOf(0.0f, 0.0f)
-    private val lengthToHit = 12.0f
-    private var hit = false
+            private var position = floatArrayOf(0.0f, 0.0f)
+            private val lengthToHit = 12.0f
+            private var hit = false
 
-    // Fonction pour utiliser l'accéléromètre
-    fun useAccelerometer(context: Context) {
-        currContext = context
+            // Fonction pour utiliser l'accéléromètre
+            fun useAccelerometer(context: Context) {
+                currContext = context
 
-        // Récupérer le gestionnaire de capteurs
-        sensorManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
+                // Récupérer le gestionnaire de capteurs
+                sensorManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
 
-        // Récupérer l'accéléromètre
-        accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER).also {
-            // Enregistrer l'écouteur de capteur pour l'accéléromètre
-            sensorManager.registerListener(
-                this,
-                it,
-                SensorManager.SENSOR_DELAY_NORMAL)
+                // Récupérer l'accéléromètre
+                accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER).also {
+                    // Enregistrer l'écouteur de capteur pour l'accéléromètre
+                    sensorManager.registerListener(
+                        this,
+                        it,
+                        SensorManager.SENSOR_DELAY_NORMAL)
         }
 
         //println("DT : " + deltaTime)
@@ -50,21 +51,32 @@ class SensorsUtilityClass : SensorEventListener {
 
     override fun onSensorChanged(event: SensorEvent?) {
         if(event?.sensor?.type == Sensor.TYPE_ACCELEROMETER) {
-            // Si la longueur du vecteur est supérieur à 40 la position est reset et un coup est porté
+            // Récuperer la valeur de l'accélération sur l'axe X et Y obtenue à l'appel de la fonction
+            val acceleration = floatArrayOf(event.values[0], event.values[1])
+
+            // Si le téléphone est en mouvement, changé l'état du joueur dans le gameManager
+            if (acceleration[0] <= -accDelta || acceleration[0] >= accDelta
+                || acceleration[1] <= -accDelta || acceleration[1] >= accDelta)
+            {
+                GameManager.getInstance().stateMouvement = true
+            }
+            else {
+                GameManager.getInstance().stateMouvement = false
+            }
+
+            // Si la longueur du vecteur est supérieur à une certaine valeur la position est reset et un coup est porté
             var vectorLength = sqrt(position[0] * position[0] + position[1] * position[1])
             if (vectorLength > lengthToHit && hit == false) {
                 hit = true
                 position[0] = 0.0f
                 position[1] = 0.0f
                 println("====================HIT====================")
+                GameManager.getInstance().dealDamagestest()
                 PlaySound.playSound(currContext, R.raw.sword_metal_woosh, false)
                 Vibrate.vibratePhone(currContext, 500)
             }
 
             if (hit == false) {
-                // Récuperer la valeur de l'accélération sur l'axe X et Y obtenue à l'appel de la fonction
-                val acceleration = floatArrayOf(event.values[0], event.values[1])
-
                 // Si l'accélération n'est pas assez significative ne rien faire
                 if (acceleration[0] <= -accDelta || acceleration[0] >= accDelta) {
                     // Calculer la vitesse en X
@@ -90,6 +102,7 @@ class SensorsUtilityClass : SensorEventListener {
             }
 
             //println(hit)
+            println(GameManager.getInstance().stateMouvement)
             //println("Ax = " + event.values[0] + "   Ay = " + event.values[1])
             //println("Vx = " + velocity[0] + "   Vy = " + velocity[1])
             //printThePos()
