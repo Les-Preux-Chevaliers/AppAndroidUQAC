@@ -124,10 +124,8 @@ class SensorsUtilityClass : SensorEventListener {
     val lock = Object()
 
     fun executeHit() {
-        //println("hit")
         synchronized(lock) {
             if (isExecuting) {
-                //println("je suis un appel de merde")
                 return // la coroutine est déjà en cours d'exécution, on ne fait rien
             }
             isExecuting = true // on marque la coroutine comme étant en cours d'exécution
