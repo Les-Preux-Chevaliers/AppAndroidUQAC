@@ -35,13 +35,14 @@ import com.example.lepeenice.ui.theme.LEpeeNiceTheme
 
 
 class MainActivity : ComponentActivity() {
+    val Accelerometer = SensorsUtilityClass()
+    var currentContext: Context? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val Accelerometer = SensorsUtilityClass()
-        println("In home")
         setContent {
             // Load les data si il y en a !
             SaveManager.getInstance().loadDataFromSharedPreferences(LocalContext.current)
+            currentContext = LocalContext.current
             LEpeeNiceTheme {
                 val navController = rememberNavController()
 
@@ -99,6 +100,18 @@ class MainActivity : ComponentActivity() {
                     }
                 }
             }
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Accelerometer.unuseAccelerometer()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if(Accelerometer.isOnCombatScreen == true) {
+            Accelerometer.useAccelerometer(currentContext!!)
         }
     }
 }

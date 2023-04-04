@@ -27,6 +27,7 @@ class ShopScreen {
         fun ShopScreen(sensor : SensorsUtilityClass) {
             val currentContext: Context = LocalContext.current
             sensor.unuseAccelerometer()
+            sensor.isOnCombatScreen = false
             LEpeeNiceTheme {
                 Box(
                     Modifier

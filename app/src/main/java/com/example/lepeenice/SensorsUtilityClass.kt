@@ -17,6 +17,8 @@ class SensorsUtilityClass : SensorEventListener {
     lateinit var accelerometer: Sensor
     lateinit var currContext: Context
 
+    var isOnCombatScreen = false
+
     private var chrono = 0.0f
     private val chronoStop = 1.2f
     private val deltaTime = 0.08f

@@ -23,6 +23,7 @@ class SplashScreen {
             val currentContext: Context = LocalContext.current
             sensor.useAccelerometer(currentContext)
             sensor.unuseAccelerometer()
+            sensor.isOnCombatScreen = false
 
             SaveManager.getInstance().loadDataFromSharedPreferences(LocalContext.current)
             Box(

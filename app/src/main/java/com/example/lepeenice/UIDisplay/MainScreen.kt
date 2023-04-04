@@ -38,6 +38,7 @@ class MainScreen {
         fun MainScreen(sensor: SensorsUtilityClass) {
             val currentContext: Context = LocalContext.current
             sensor.useAccelerometer(currentContext)
+            sensor.isOnCombatScreen = true
 
             LEpeeNiceTheme {
                 val EncodedPlayer = Json.encodeToString(Player.getInstance())
