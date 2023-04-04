@@ -268,6 +268,9 @@ public class GameManager private constructor() {
      * Création de toutes les épées du jeu.
      */
     fun createSwords() {
+        if (swords.size >0){
+            return
+        }
         //Création des Swords
         swords.add(
             Sword(

@@ -7,6 +7,10 @@ import android.content.Context
 import android.os.Bundle
 import kotlin.math.sqrt
 import com.example.lepeenice.MemoryClassPackage.GameManager
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.util.concurrent.locks.ReentrantLock
 
 class SensorsUtilityClass : SensorEventListener {
     lateinit var sensorManager: SensorManager
@@ -95,13 +99,7 @@ class SensorsUtilityClass : SensorEventListener {
                 }
             }
             else {
-                // Si un coup a été porté, le chrono est lancé
-                chrono += deltaTime
-                // Au bout de 1 seconde le chrono est reset et le joueur peut à nouveau frapper
-                if (chrono >= chronoStop) {
-                    hit = false
-                    chrono = 0.0f
-                }
+                executeHit()
             }
 
             //println(hit)
@@ -119,4 +117,36 @@ class SensorsUtilityClass : SensorEventListener {
     fun printThePos() {
         println("X : " + position[0] + "   Y : " + position[1])
     }
+
+    var isExecuting = false
+    val lock = Object()
+
+    fun executeHit() {
+        //println("hit")
+        synchronized(lock) {
+            if (isExecuting) {
+                //println("je suis un appel de merde")
+                return // la coroutine est déjà en cours d'exécution, on ne fait rien
+            }
+            isExecuting = true // on marque la coroutine comme étant en cours d'exécution
+        }
+
+        CoroutineScope(Dispatchers.Default).launch {
+            // exécution de la coroutine
+
+            // Si un coup a été porté, le chrono est lancé
+            chrono += deltaTime
+            // Au bout de 1 seconde le chrono est reset et le joueur peut à nouveau frapper
+            if (chrono >= chronoStop) {
+                hit = false
+                chrono = 0.0f
+            }
+
+            synchronized(lock) {
+                isExecuting = false // on marque la coroutine comme étant terminée
+            }
+        }
+    }
+
+
 }

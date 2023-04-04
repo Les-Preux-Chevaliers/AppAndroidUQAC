@@ -177,8 +177,7 @@ class CustomComposable {
                                     onClick = {
                                         GameManager.getInstance().onSwordClick(sword,currentContext)
                                         startIndex = 1
-                                        startIndex =
-                                            0 // Actualiser la liste de swords après un clic
+                                        startIndex = findInterval(i)
                                     },
                                     colors = ButtonDefaults.buttonColors(
                                         if (sword.isPurchased && sword == Player.getInstance().sword) {
@@ -304,6 +303,10 @@ class CustomComposable {
                     }
                 }
             }
+        }
+
+        fun findInterval(value: Int): Int {
+            return (value / 5) * 5
         }
 
 
