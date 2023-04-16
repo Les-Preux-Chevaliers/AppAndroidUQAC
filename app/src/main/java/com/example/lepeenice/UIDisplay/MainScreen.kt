@@ -1,38 +1,36 @@
 package com.example.lepeenice.UIDisplay
 
-import android.annotation.SuppressLint
 import android.content.Context
-import android.hardware.Sensor
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.layout.R
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.semantics.Role.Companion.Image
 import androidx.compose.ui.unit.dp
 import com.example.lepeenice.MemoryClassPackage.GameManager
-import com.example.lepeenice.MemoryClassPackage.Monster
 import com.example.lepeenice.MemoryClassPackage.Player
 import com.example.lepeenice.MemoryClassPackage.SaveManager
-import com.example.lepeenice.PlaySound
 import com.example.lepeenice.SensorsUtilityClass
 import com.example.lepeenice.ui.theme.LEpeeNiceTheme
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import kotlin.concurrent.timer
+
 
 class MainScreen {
     companion object {
         var Life = mutableStateOf(GameManager.getInstance().currentMonsterLife)
+
 
         @Composable
         fun MainScreen(sensor: SensorsUtilityClass) {
@@ -42,9 +40,11 @@ class MainScreen {
 
             LEpeeNiceTheme {
                 val EncodedPlayer = Json.encodeToString(Player.getInstance())
-                SaveManager.getInstance().saveDataToSharedPreferences_Player(currentContext,EncodedPlayer)
+                SaveManager.getInstance()
+                    .saveDataToSharedPreferences_Player(currentContext, EncodedPlayer)
                 val EncodedGameManager = Json.encodeToString(GameManager.getInstance())
-                SaveManager.getInstance().saveDataToSharedPreferences_GameManager(currentContext,EncodedGameManager)
+                SaveManager.getInstance()
+                    .saveDataToSharedPreferences_GameManager(currentContext, EncodedGameManager)
 
                 Box(
                     Modifier
@@ -60,6 +60,12 @@ class MainScreen {
                             )
                         )
                 ) {
+                    Image(
+                        painter = painterResource(com.example.lepeenice.R.drawable.mainbackground),
+                        contentDescription = null,
+                        modifier = Modifier.fillMaxSize(),
+                        contentScale = ContentScale.Crop,
+                    )
                     Column {
                         var Life = GameManager.getInstance().currentMonsterLife
                         GameManager.getInstance().currentMoney = Player.getInstance().getMoney()
@@ -74,11 +80,13 @@ class MainScreen {
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(50.dp)
-                                .background(color = MaterialTheme.colors.background)
+                                .background(color = MaterialTheme.colors.surface)
                         ) {
-                            Box(modifier = Modifier
-                                .fillMaxWidth()
-                                .height(50.dp)) {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(50.dp)
+                            ) {
                                 Row(
                                     modifier = Modifier
                                         .wrapContentWidth()
@@ -112,19 +120,88 @@ class MainScreen {
                                 }
                                 Box(
                                     modifier = Modifier
-                                        .width(200.dp)
-                                        .padding(end = 20.dp)
+                                        .width(250.dp)
+                                        .padding(end = 50.dp)
                                         .align(Alignment.CenterEnd)
                                 ) {
-                                    CustomComposable.LevelBar(CurrentXp,Level)
+                                    CustomComposable.LevelBar(CurrentXp, Level)
                                     Box(modifier = Modifier.align(Alignment.Center)) {
                                         Prefab.CustomTitre(content = "Level $Level")
                                     }
                                 }
+                                Box(
+                                    modifier = Modifier
+                                        .width(50.dp)
+                                        .align(Alignment.CenterEnd)
+                                ) {
+                                    IconButton(
+                                        onClick = { GameManager.getInstance().needFirstTutoriel = true },
+                                        modifier = Modifier.size(50.dp)
+                                    ) {
+                                        Icon(
+                                            Icons.Default.Info,
+                                            contentDescription = "Ouvrir la popup"
+                                        )
+                                    }
+                                }
+
                             }
                         }
 
 
+                        /*
+                        PopUp Tutoriel
+                         */
+                        /*
+                        Pour combattre des monstres, c'est très simple.
+                        Il vous suffit de prendre votre smartphone en mains comme si celui-ci était le manche d'une épée et de réaliser un grand mouvement avec votre bras comme si vous vouliez trancher quelque chose devant vous.
+                        Si votre attaque est réussie, vous allez ressentir une vibration et entendre le bruit de votre épée qui frappe le monstre.
+                        Bravo vous êtes fin prêt à terrasser des monstres, maintenant à vous de jouer !
+                         */
+                        if (GameManager.getInstance().needFirstTutoriel) {
+                            CustomComposable.PopUpTutorial(
+                                title = "Comment combatre ?",
+                                text = "Pour combattre des monstres, c'est très simple." +
+                                        "\n" +
+                                        "Il vous suffit de prendre votre smartphone en mains comme si celui-ci était le manche d'une épée et de réaliser un grand mouvement avec votre bras comme si vous vouliez trancher quelque chose devant vous.\n" +
+                                        "\n" +
+                                        "Si votre attaque est réussie, vous allez ressentir une vibration et entendre le bruit de votre épée qui frappe le monstre.\n" +
+                                        "\n" +
+                                        "Bravo vous êtes fin prêt à terrasser des monstres, maintenant à vous de jouer !\n",
+                                gifResource = com.example.lepeenice.R.raw.attaque,
+                                onClose = {
+                                    Player.getInstance().needfirsttuto = false
+                                    GameManager.getInstance().needFirstTutoriel = false
+                                },
+                                onChange = {
+                                    GameManager.getInstance().needSecondTutoriel = true
+                                    GameManager.getInstance().needFirstTutoriel = false
+                                }
+                            )
+                        }
+                        if (GameManager.getInstance().needSecondTutoriel) {
+                            CustomComposable.PopUpTutorial(
+                                title = "Comment se défendre ?",
+                                text = "Pour se défendre des attaques de monstres, c'est très simple." +
+                                        "\n" +
+                                        "Il vous suffit de prendre votre smartphone en mains comme si celui-ci était le manche d'une épée et de ne pas bouger toute la durée de la vibration d'indication de l'attaque..\n" +
+                                        "\n" +
+                                        "Si votre défense est réussie, vous allez ressentir une vibration et entendre le bruit de bouclier frappé par le monstre.\n" +
+                                        "\n" +
+                                        "Sinon si c'est un échec, vous allez ressentir une vibration et entendre le bruit de votre corps frappé par le monstre.\n" +
+                                        "\n" +
+                                        "Bravo vous êtes fin prêt à vous défendre des monstres, maintenant à vous de jouer !\n",
+                                gifResource = com.example.lepeenice.R.drawable.parade,
+                                onClose = {
+                                    Player.getInstance().needsecondetuto = false
+                                    GameManager.getInstance().needSecondTutoriel = false
+                                },
+                                onChange = {
+                                    GameManager.getInstance().needFirstTutoriel = true
+                                    GameManager.getInstance().needSecondTutoriel = false
+                                }
+                            )
+                        }
 
                         Box(
                             modifier = Modifier
@@ -138,21 +215,21 @@ class MainScreen {
                                 source = if ((Life.toFloat() / GameManager.getInstance().currentMonster.hp.toFloat()) > 0.5f) {
                                     GameManager.getInstance().currentMonster.imageUri
                                 } else {
-                                    GameManager.getInstance().currentMonster.imageUri2
+                                    GameManager.getInstance().currentMonster.imageUri
                                 },
                                 contentDescription = "MobPicture",
-                                size = 300.dp,
+                                size = 400.dp,
                             )
                         }
                         Box(
                             modifier = Modifier
-                                .width(200.dp)
+                                .width(300.dp)
                                 .align(Alignment.CenterHorizontally)
                         ) {
 
                             CustomComposable.LifeBar(
                                 currentLife = Life,
-                                maxLife = GameManager.getInstance().currentMonster.hp* Player.getInstance().getLevel()
+                                maxLife = GameManager.getInstance().currentMonster.hp// * Player.getInstance().getLevel()
                             )
 
                             Box(modifier = Modifier.align(Alignment.Center)) {

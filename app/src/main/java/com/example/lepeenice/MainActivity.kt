@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -49,6 +51,7 @@ class MainActivity : ComponentActivity() {
                 val items = listOf(
                     Screen.Home,
                     Screen.Shop,
+                    Screen.Param,
                 )
                 Scaffold(
                     bottomBar = {
@@ -97,6 +100,7 @@ class MainActivity : ComponentActivity() {
                         composable("SplashScreen") { SplashScreen.SplashScreen(navController, Accelerometer) }
                         composable("Shop") { ShopScreen.ShopScreen(Accelerometer)}
                         composable("MainUI") { MainScreen.MainScreen(Accelerometer)}
+                        composable("Param") { Parameters.Parameters(sensor = Accelerometer)}
                     }
                 }
             }
@@ -117,8 +121,9 @@ class MainActivity : ComponentActivity() {
 }
 
 sealed class Screen(val route: String, @StringRes val resourceId: Int, val icon: ImageVector) {
-    object Home : Screen("MainUI", R.string.home, Icons.Filled.Home)
+    object Home : Screen("MainUI", R.string.home, Icons.Filled.PlayArrow)
     object Shop : Screen("Shop", R.string.shop, Icons.Filled.ShoppingCart)
+    object Param : Screen("Param", R.string.param, Icons.Filled.Settings)
 }
 
 

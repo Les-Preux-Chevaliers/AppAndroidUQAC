@@ -23,31 +23,91 @@ public class GameManager private constructor() {
     @Transient
     val monsters: MutableList<Monster> = mutableListOf(
         Monster(
-            "Gigachiax",
-            100,
-            0,
-            0,
-            com.example.lepeenice.R.drawable.mob1,
-            com.example.lepeenice.R.drawable.mob1_evolved,
-            0,
-            com.example.lepeenice.R.raw.mob1_hurt
-        ),
-        Monster(
-            "Tractopulpeux",
-            200,
-            0,
-            0,
-            com.example.lepeenice.R.drawable.mob1,
-            com.example.lepeenice.R.drawable.mob1_evolved,
-            0,
-            com.example.lepeenice.R.raw.mob1_hurt
-        ),
-        Monster(
-            "Terminotron",
+            "Corrosicœur",
             50,
             0,
             0,
             com.example.lepeenice.R.drawable.mob1,
+            com.example.lepeenice.R.drawable.mob1_evolved,
+            0,
+            com.example.lepeenice.R.raw.mob1_hurt
+        ),
+        Monster(
+            "Tourmentum",
+            100,
+            0,
+            0,
+            com.example.lepeenice.R.drawable.mob2,
+            com.example.lepeenice.R.drawable.mob1_evolved,
+            0,
+            com.example.lepeenice.R.raw.mob1_hurt
+        ),
+        Monster(
+            "Assombros",
+            200,
+            0,
+            0,
+            com.example.lepeenice.R.drawable.mob3,
+            com.example.lepeenice.R.drawable.mob1_evolved,
+            0,
+            com.example.lepeenice.R.raw.mob1_hurt
+        ),
+        Monster(
+            "Grouillombre",
+            275,
+            0,
+            0,
+            com.example.lepeenice.R.drawable.mob4,
+            com.example.lepeenice.R.drawable.mob1_evolved,
+            0,
+            com.example.lepeenice.R.raw.mob1_hurt
+        ),
+        Monster(
+            "Rouillefureur",
+            375,
+            0,
+            0,
+            com.example.lepeenice.R.drawable.mob5,
+            com.example.lepeenice.R.drawable.mob1_evolved,
+            0,
+            com.example.lepeenice.R.raw.mob1_hurt
+        ),
+        Monster(
+            "Épinesang",
+            550,
+            0,
+            0,
+            com.example.lepeenice.R.drawable.mob6,
+            com.example.lepeenice.R.drawable.mob1_evolved,
+            0,
+            com.example.lepeenice.R.raw.mob1_hurt
+        ),
+        Monster(
+            "Crocsombre",
+            650,
+            0,
+            0,
+            com.example.lepeenice.R.drawable.mob7,
+            com.example.lepeenice.R.drawable.mob1_evolved,
+            0,
+            com.example.lepeenice.R.raw.mob1_hurt
+        ),
+        Monster(
+            "Glacécaille",
+            850,
+            0,
+            0,
+            com.example.lepeenice.R.drawable.mob8,
+            com.example.lepeenice.R.drawable.mob1_evolved,
+            0,
+            com.example.lepeenice.R.raw.mob1_hurt
+        ),
+        Monster(
+            "Crâneroc",
+            1000,
+            0,
+            0,
+            com.example.lepeenice.R.drawable.mob9,
             com.example.lepeenice.R.drawable.mob1_evolved,
             0,
             com.example.lepeenice.R.raw.mob1_hurt
@@ -66,6 +126,12 @@ public class GameManager private constructor() {
     var currentShildNumber: Int by mutableStateOf(3)
 
     var stateMouvement: Boolean by mutableStateOf(true)
+
+    var sensibility: Float by mutableStateOf(Player.getInstance().sensibility)
+
+    var needFirstTutoriel: Boolean by mutableStateOf(Player.getInstance().needfirsttuto)
+
+    var needSecondTutoriel: Boolean by mutableStateOf(false)
 
     @Transient
     var currentBoolAttack: Boolean = false
@@ -90,7 +156,8 @@ public class GameManager private constructor() {
 
     fun loadSave(g: GameManager) {
         this.swords = g.swords
-        NewMonster()
+        println(currentMonster)
+        //NewMonster()
     }
 
 
@@ -147,11 +214,11 @@ public class GameManager private constructor() {
 
     fun tryMonsterAttack(currentContext: Context) {
         val lifePercentage =
-            currentMonsterLife.toFloat() / (currentMonster.hp * Player.getInstance()
-                .getLevel()).toFloat()
+            currentMonsterLife.toFloat() / (currentMonster.hp) //* Player.getInstance().getLevel()).toFloat()
         //println(lifePercentage)
         if (!boolFirstAttack) {
             if (lifePercentage <= 0.75) {
+                if (Player.getInstance().needsecondetuto == true){needSecondTutoriel=true}
                 MonsterAttack(currentContext)
                 boolFirstAttack = true
                 return
@@ -186,21 +253,27 @@ public class GameManager private constructor() {
             if (stateMouvement) {
                 currentShildNumber += -1
                 PlaySound.playSound(currentContext, R.raw.damaged, false)
-                Vibrate.vibratePhone(currentContext, 1000)
+                Vibrate.vibratePhone(currentContext, 500)
                 if (currentShildNumber == 0) {
                     currentShildNumber = 3
                     NewMonster()
                 }
             }
             PlaySound.playSound(currentContext, R.raw.shields, false)
-            Vibrate.vibratePhone(currentContext, 1000)
+            Vibrate.vibratePhone(currentContext, 500)
         }
     }
 
 
     fun NewMonster() {
-        currentMonster = monsters.random()
-        currentMonsterLife = currentMonster.hp * Player.getInstance().getLevel()
+        if (monsters.size < Player.getInstance().getLevel()){
+            currentMonster = monsters.random()
+        }else{
+            val random = Random()
+            val index = random.nextInt(Player.getInstance().getLevel())
+            currentMonster = monsters[index]
+        }
+        currentMonsterLife = currentMonster.hp// * Player.getInstance().getLevel()
         boolFirstAttack = false
         boolSecondeAttack = false
         boolThirdAttack = false
@@ -238,7 +311,7 @@ public class GameManager private constructor() {
      * @param defense Int, Nombre de point de défense du monstre.
      * @param imageUri Int, Adresse de l'image du Monstre (com.example.lepeenice.R.drawable."ImageName").
      * @param imageUri2 Int, Adresse de l'image du Monstre élovué (com.example.lepeenice.R.drawable."ImageName").
-     * @param HitSound Int, Adresse du sound.
+     * @param getHitSound Int, Adresse du sound.
      */
     fun addMonster(
         name: String,
@@ -287,7 +360,7 @@ public class GameManager private constructor() {
                 10,
                 100,
                 false,
-                com.example.lepeenice.R.drawable.lamedufeuardent
+                com.example.lepeenice.R.drawable.lamedelombrenocturne
             )
         )
         swords.add(
@@ -296,7 +369,7 @@ public class GameManager private constructor() {
                 25,
                 1500,
                 false,
-                com.example.lepeenice.R.drawable.lamedufeuardent
+                com.example.lepeenice.R.drawable.epeedelalicornedoree
             )
         )
         swords.add(
@@ -305,7 +378,7 @@ public class GameManager private constructor() {
                 50,
                 5000,
                 false,
-                com.example.lepeenice.R.drawable.lamedufeuardent
+                com.example.lepeenice.R.drawable.epeedelacoleredivine
             )
         )
         swords.add(
@@ -314,7 +387,7 @@ public class GameManager private constructor() {
                 75,
                 10000,
                 false,
-                com.example.lepeenice.R.drawable.lamedufeuardent
+                com.example.lepeenice.R.drawable.epeedelavalleedesames
             )
         )
         swords.add(

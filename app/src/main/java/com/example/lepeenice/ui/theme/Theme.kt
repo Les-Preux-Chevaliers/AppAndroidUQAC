@@ -6,6 +6,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 
 private val DarkColorPalette = darkColors(
     primary = Purple200,
@@ -50,7 +51,7 @@ private val CustomDarkColorPalette = darkColors(
     onPrimary = onPrimary_Color,
     onSecondary = onSecondary_Color,
     onBackground = onBackground_Color,
-    onSurface = onSurface_Color
+    onSurface = Color.White
 )
 
 
@@ -60,7 +61,7 @@ fun LEpeeNiceTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composa
     val colors = if (darkTheme) {
         CustomDarkColorPalette
     } else {
-        CustomLightColorPalette
+        CustomDarkColorPalette
     }
 
     MaterialTheme(

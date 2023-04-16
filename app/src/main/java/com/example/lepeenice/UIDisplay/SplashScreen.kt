@@ -1,6 +1,7 @@
 package com.example.lepeenice.UIDisplay
 
 import android.content.Context
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
@@ -8,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -40,6 +42,12 @@ class SplashScreen {
                         )
                     )
             ) {
+                Image(
+                    painter = painterResource(R.drawable.splashbackground),
+                    contentDescription = null,
+                    modifier = Modifier.fillMaxSize(),
+                    contentScale = ContentScale.Crop,
+                )
                 Box(modifier = Modifier.align(Alignment.TopCenter)) {
                     Prefab.CustomImage(
                         source = R.drawable.logoepeenice,

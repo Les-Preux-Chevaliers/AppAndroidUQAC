@@ -1,4 +1,5 @@
 package com.example.lepeenice
+
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -25,29 +26,30 @@ class SensorsUtilityClass : SensorEventListener {
 
     private val accDelta = 10f
 
-            private var velocity = floatArrayOf(0.0f, 0.0f)
+    private var velocity = floatArrayOf(0.0f, 0.0f)
 
-            private var position = floatArrayOf(0.0f, 0.0f)
-            private val lengthToHit = 12.0f
-            private var hit = false
+    private var position = floatArrayOf(0.0f, 0.0f)
+    private val lengthToHit = 12.0f
+    private var hit = false
 
-            // Fonction pour utiliser l'accéléromètre
-            fun useAccelerometer(context: Context) {
-                currContext = context
+    // Fonction pour utiliser l'accéléromètre
+    fun useAccelerometer(context: Context) {
+        currContext = context
 
-                position[0] = 0.0f
-                position[1] = 0.0f
+        position[0] = 0.0f
+        position[1] = 0.0f
 
-                // Récupérer le gestionnaire de capteurs
-                sensorManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        // Récupérer le gestionnaire de capteurs
+        sensorManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
 
-                // Récupérer l'accéléromètre
-                accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER).also {
-                    // Enregistrer l'écouteur de capteur pour l'accéléromètre
-                    sensorManager.registerListener(
-                        this,
-                        it,
-                        SensorManager.SENSOR_DELAY_NORMAL)
+        // Récupérer l'accéléromètre
+        accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER).also {
+            // Enregistrer l'écouteur de capteur pour l'accéléromètre
+            sensorManager.registerListener(
+                this,
+                it,
+                SensorManager.SENSOR_DELAY_NORMAL
+            )
         }
 
         //println("DT : " + deltaTime)
@@ -59,29 +61,24 @@ class SensorsUtilityClass : SensorEventListener {
     }
 
     override fun onSensorChanged(event: SensorEvent?) {
-        if(event?.sensor?.type == Sensor.TYPE_ACCELEROMETER) {
+        if (event?.sensor?.type == Sensor.TYPE_ACCELEROMETER) {
             // Récuperer la valeur de l'accélération sur l'axe X et Y obtenue à l'appel de la fonction
             val acceleration = floatArrayOf(event.values[0], event.values[1])
 
             // Si le téléphone est en mouvement, changé l'état du joueur dans le gameManager
-            if (acceleration[0] <= -accDelta || acceleration[0] >= accDelta
-                || acceleration[1] <= -accDelta || acceleration[1] >= accDelta)
-            {
-                GameManager.getInstance().stateMouvement = true
-            }
-            else {
-                GameManager.getInstance().stateMouvement = false
-            }
+            GameManager.getInstance().stateMouvement = (acceleration[0] <= -accDelta || acceleration[0] >= accDelta
+                    || acceleration[1] <= -accDelta || acceleration[1] >= accDelta)
 
             // Si la longueur du vecteur est supérieur à une certaine valeur la position est reset et un coup est porté
             var vectorLength = sqrt(position[0] * position[0] + position[1] * position[1])
-            if (vectorLength > lengthToHit && hit == false) {
+//            println(vectorLength)
+            if (vectorLength > GameManager.getInstance().sensibility && !hit) {
                 hit = true
                 position[0] = 0.0f
                 position[1] = 0.0f
                 println("====================HIT====================")
                 PlaySound.playSound(currContext, R.raw.sword_metal_woosh, false)
-                Vibrate.vibratePhone(currContext, 500)
+                Vibrate.vibratePhone(currContext, 200)
                 GameManager.getInstance().dealDamages(currContext)
             }
 
@@ -99,8 +96,7 @@ class SensorsUtilityClass : SensorEventListener {
                     // Calculer la position en Y
                     position[1] = position[1] + velocity[1] * deltaTime
                 }
-            }
-            else {
+            } else {
                 executeHit()
             }
 

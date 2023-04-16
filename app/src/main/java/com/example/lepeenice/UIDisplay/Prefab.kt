@@ -1,5 +1,6 @@
 package com.example.lepeenice.UIDisplay
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -62,9 +63,12 @@ class Prefab {
         fun CustomTitre(
             content : String
         ) {
-            Text(text = content,
-            color = MaterialTheme.colors.primary,
-            style = MaterialTheme.typography.body1)
+            Text(
+                text = content,
+                color = MaterialTheme.colors.onSurface,
+                style = MaterialTheme.typography.body1
+            )
+
         }
 
         @Composable
@@ -73,7 +77,8 @@ class Prefab {
         ) {
             Text(text = content,
                 color = MaterialTheme.colors.secondary,
-                style = MaterialTheme.typography.body2)
+                style = MaterialTheme.typography.body2
+            )
         }
 
         /*

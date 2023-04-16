@@ -12,6 +12,9 @@ public class Player private constructor() {
     private var level: Int = 1
     private var curentXp: Int = 0
     private var money: Int = 0
+    var needfirsttuto: Boolean = true
+    var needsecondetuto: Boolean = true
+    var sensibility: Float = 12.0f
 
     companion object {
         private var instance: Player? = null
@@ -59,5 +62,8 @@ public class Player private constructor() {
         this.level = p.level
         this.curentXp = p.curentXp
         this.sword = p.sword
+        this.needfirsttuto = p.needfirsttuto
+        this.needsecondetuto = p.needsecondetuto
+        this.sensibility = p.sensibility
     }
 }

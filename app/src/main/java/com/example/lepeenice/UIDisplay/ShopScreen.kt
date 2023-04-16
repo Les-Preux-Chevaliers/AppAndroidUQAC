@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -43,6 +44,12 @@ class ShopScreen {
                             )
                         )
                 ) {
+                    Image(
+                        painter = painterResource(com.example.lepeenice.R.drawable.shopbackground),
+                        contentDescription = null,
+                        modifier = Modifier.fillMaxSize(),
+                        contentScale = ContentScale.Crop,
+                    )
                     Column() {
                         /*
                         Score display code UI
@@ -56,7 +63,7 @@ class ShopScreen {
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(50.dp)
-                                .background(color = MaterialTheme.colors.background)
+                                .background(color = MaterialTheme.colors.surface)
                         ) {
                             Box(modifier = Modifier
                                 .fillMaxWidth()
