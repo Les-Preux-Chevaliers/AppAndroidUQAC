@@ -1,6 +1,7 @@
 package com.example.lepeenice
 
 import android.content.Context
+import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -41,6 +42,7 @@ class MainActivity : ComponentActivity() {
     var currentContext: Context? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         setContent {
             // Load les data si il y en a !
             SaveManager.getInstance().loadDataFromSharedPreferences(LocalContext.current)
