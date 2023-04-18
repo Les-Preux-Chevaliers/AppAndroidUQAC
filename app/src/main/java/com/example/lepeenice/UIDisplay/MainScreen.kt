@@ -89,59 +89,72 @@ class MainScreen {
                             ) {
                                 Row(
                                     modifier = Modifier
-                                        .wrapContentWidth()
-                                        .wrapContentHeight()
-                                        .padding(start = 20.dp)
-                                        .clip(RoundedCornerShape(10.dp))
-                                        .border(
-                                            3.dp,
-                                            MaterialTheme.colors.secondary,
-                                            RoundedCornerShape(10.dp)
-                                        ),
+                                        .fillMaxWidth()
+                                        .padding(vertical = 8.dp),
+                                    horizontalArrangement = Arrangement.SpaceBetween,
                                     verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.Start,
                                 ) {
-                                    Image(
-                                        painter = painterResource(com.example.lepeenice.R.drawable.pieccesssesseseeses),
-                                        contentDescription = "MoneyLogo",
-                                        modifier = Modifier
-                                            .height(50.dp)
-                                            .width(50.dp)
-                                            .padding(vertical = 8.dp)
-                                    )
                                     Row(
                                         modifier = Modifier
-                                            .padding(end = 12.dp)
-                                    )
-                                    {
-                                        Prefab.CustomTitre(content = money.toString())
-                                        Prefab.CustomTitre(content = " CAD")
-                                    }
-                                }
-                                Box(
-                                    modifier = Modifier
-                                        .width(250.dp)
-                                        .padding(end = 50.dp)
-                                        .align(Alignment.CenterEnd)
-                                ) {
-                                    CustomComposable.LevelBar(CurrentXp, Level)
-                                    Box(modifier = Modifier.align(Alignment.Center)) {
-                                        Prefab.CustomTitre(content = "Level $Level")
-                                    }
-                                }
-                                Box(
-                                    modifier = Modifier
-                                        .width(50.dp)
-                                        .align(Alignment.CenterEnd)
-                                ) {
-                                    IconButton(
-                                        onClick = { GameManager.getInstance().needFirstTutoriel = true },
-                                        modifier = Modifier.size(50.dp)
+                                            .wrapContentWidth()
+                                            .wrapContentHeight()
+                                            .padding(start = 20.dp)
+                                            .padding(end = 16.dp)
+                                            .clip(RoundedCornerShape(10.dp))
+                                            .border(
+                                                3.dp,
+                                                MaterialTheme.colors.secondary,
+                                                RoundedCornerShape(10.dp)
+                                            ),
+                                        verticalAlignment = Alignment.CenterVertically, // Ajout de l'alignement vertical
+                                        horizontalArrangement = Arrangement.Start,
                                     ) {
-                                        Icon(
-                                            Icons.Default.Info,
-                                            contentDescription = "Ouvrir la popup"
+                                        Image(
+                                            painter = painterResource(com.example.lepeenice.R.drawable.pieccesssesseseeses),
+                                            contentDescription = "MoneyLogo",
+                                            modifier = Modifier
+                                                .height(50.dp)
+                                                .width(50.dp)
+                                                .padding(vertical = 8.dp)
                                         )
+                                        Row(
+                                            modifier = Modifier
+                                                .padding(start = 12.dp, end = 12.dp),
+                                            verticalAlignment = Alignment.CenterVertically // Ajout de l'alignement vertical
+                                        ) {
+                                            Prefab.CustomTitre(content = money.toString())
+                                            Prefab.CustomTitre(
+                                                content = " CAD"
+                                            )
+                                        }
+                                    }
+                                    Row(modifier = Modifier
+                                        .fillMaxWidth()
+                                    ) {
+                                        Box(
+                                            modifier = Modifier.weight(3f),
+                                        ) {
+                                            CustomComposable.LevelBar(CurrentXp, Level)
+                                            Box(modifier = Modifier.align(Alignment.Center)) {
+                                                Prefab.CustomTitre(content = "Level $Level")
+                                            }
+                                        }
+                                        Box(
+                                            modifier = Modifier.weight(1f),
+                                        ) {
+                                            IconButton(
+                                                onClick = {
+                                                    GameManager.getInstance().needFirstTutoriel =
+                                                        true
+                                                },
+                                                modifier = Modifier.size(50.dp)
+                                            ) {
+                                                Icon(
+                                                    Icons.Default.Info,
+                                                    contentDescription = "Ouvrir la popup"
+                                                )
+                                            }
+                                        }
                                     }
                                 }
 
@@ -152,22 +165,16 @@ class MainScreen {
                         /*
                         PopUp Tutoriel
                          */
-                        /*
-                        Pour combattre des monstres, c'est très simple.
-                        Il vous suffit de prendre votre smartphone en mains comme si celui-ci était le manche d'une épée et de réaliser un grand mouvement avec votre bras comme si vous vouliez trancher quelque chose devant vous.
-                        Si votre attaque est réussie, vous allez ressentir une vibration et entendre le bruit de votre épée qui frappe le monstre.
-                        Bravo vous êtes fin prêt à terrasser des monstres, maintenant à vous de jouer !
-                         */
                         if (GameManager.getInstance().needFirstTutoriel) {
                             CustomComposable.PopUpTutorial(
                                 title = "Comment combatre ?",
-                                text = "Pour combattre des monstres, c'est très simple." +
+                                text = "Pour combattre les monstres, votre téléphone est votre épée !" +
                                         "\n" +
-                                        "Il vous suffit de prendre votre smartphone en mains comme si celui-ci était le manche d'une épée et de réaliser un grand mouvement avec votre bras comme si vous vouliez trancher quelque chose devant vous.\n" +
+                                        "Utilisez votre téléphone comme si le monstre était devant vous.\n" +
                                         "\n" +
-                                        "Si votre attaque est réussie, vous allez ressentir une vibration et entendre le bruit de votre épée qui frappe le monstre.\n" +
+                                        "Privilégiez des mouvements amples.\n" +
                                         "\n" +
-                                        "Bravo vous êtes fin prêt à terrasser des monstres, maintenant à vous de jouer !\n",
+                                        "Pour chaque attaque réussite, vous obtiendrez une petite récompense, maintenant à vous de jouer !\n",
                                 gifResource = com.example.lepeenice.R.raw.attaque,
                                 onClose = {
                                     Player.getInstance().needfirsttuto = false
@@ -182,15 +189,16 @@ class MainScreen {
                         if (GameManager.getInstance().needSecondTutoriel) {
                             CustomComposable.PopUpTutorial(
                                 title = "Comment se défendre ?",
-                                text = "Pour se défendre des attaques de monstres, c'est très simple." +
+                                text = "Lorsque le montre attaque, restez immobile avec votre téléphone devant vous." +
                                         "\n" +
-                                        "Il vous suffit de prendre votre smartphone en mains comme si celui-ci était le manche d'une épée et de ne pas bouger toute la durée de la vibration d'indication de l'attaque..\n" +
+                                        "Son attaque et caractérisée par un cri et une vibration prolongée.\n" +
                                         "\n" +
-                                        "Si votre défense est réussie, vous allez ressentir une vibration et entendre le bruit de bouclier frappé par le monstre.\n" +
+                                        "Si la parade est réussie, un son de bouclier sera émit.\n" +
+                                        "Si c'est un échec, vous perdez une vie.\n" +
                                         "\n" +
-                                        "Sinon si c'est un échec, vous allez ressentir une vibration et entendre le bruit de votre corps frappé par le monstre.\n" +
+                                        "Lorsque vous perdez toutes vos vies, le monstre actuel vous bat, et vous passez au monstre suivant sans récupérer les récompenses.\n" +
                                         "\n" +
-                                        "Bravo vous êtes fin prêt à vous défendre des monstres, maintenant à vous de jouer !\n",
+                                        "Bon courage !\n",
                                 gifResource = com.example.lepeenice.R.drawable.parade,
                                 onClose = {
                                     Player.getInstance().needsecondetuto = false

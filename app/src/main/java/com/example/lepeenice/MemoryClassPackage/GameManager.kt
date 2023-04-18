@@ -133,6 +133,8 @@ public class GameManager private constructor() {
 
     var needSecondTutoriel: Boolean by mutableStateOf(false)
 
+    var creaditTutorial: Boolean by mutableStateOf(false)
+
     @Transient
     var currentBoolAttack: Boolean = false
 

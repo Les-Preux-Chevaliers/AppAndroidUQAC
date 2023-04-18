@@ -7,6 +7,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -80,7 +83,8 @@ class Parameters {
                     Sensibilité
                      */
                     Column() {
-                        val sensibilityString = String.format("%.1f", Player.getInstance().sensibility)
+                        val sensibilityString =
+                            String.format("%.1f", Player.getInstance().sensibility)
                         Text(text = "Sensibilité : " + sensibilityString)
                         Slider(
                             value = GameManager.getInstance().sensibility,
@@ -88,7 +92,10 @@ class Parameters {
                                 GameManager.getInstance().sensibility = it
                                 Player.getInstance().sensibility = it
                                 val EncodedPlayer = Json.encodeToString(Player.getInstance())
-                                SaveManager.getInstance().saveDataToSharedPreferences_Player(currentContext,EncodedPlayer)
+                                SaveManager.getInstance().saveDataToSharedPreferences_Player(
+                                    currentContext,
+                                    EncodedPlayer
+                                )
 //                                val EncodedGameManager = Json.encodeToString(GameManager.getInstance())
 //                                SaveManager.getInstance().saveDataToSharedPreferences_GameManager(currentContext,EncodedGameManager)
                             },
@@ -122,9 +129,60 @@ class Parameters {
                             )
                         }
 
+                        /*
+                        Crédit
+                         */
+                        Spacer(modifier = Modifier.padding(vertical = 20.dp))
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .align(Alignment.CenterHorizontally)
+                        ) {
+                            Button(
+                                modifier = Modifier
+                                    .fillMaxWidth(),
+                                onClick = {
+                                    GameManager.getInstance().creaditTutorial = true
+                                },
+                                colors = ButtonDefaults.buttonColors(
+                                    backgroundColor = MaterialTheme.colors.primaryVariant
+                                ),
+                            ){
+                                Text(
+                                    text = "Crédits",
+                                )
+                            }
+                        }
+
+
                     }
                 }
-
+                if (GameManager.getInstance().creaditTutorial) {
+                    CustomComposable.PopUpCreadit(
+                        title = "Qui sommes-nous ?",
+                        text = "Étudiants à l'université du Québec à Chicoutimi.\n" +
+                                "\n" +
+                                "Nous avons réalisé cette application en 2 mois lors de notre cours d'informatique Mobile. Notre équipe est constituée de 5 preux chevaliers avec pour objectif de repousser les limites de l'interactivité des applications mobiles.\n" +
+                                "\n" +
+                                "Les 5 preux chevaliers : \n" +
+                                "\n" +
+                                "Alex Jurbert : Mage noir de la technique et des capteurs, maîtrise l'accélération des téléphones à la perfection.\n" +
+                                "\n" +
+                                "Cyrielle Bracher : Barde graphiste et conceptrice UI, avec son stylo elle est capable de créer de la vie.\n" +
+                                "\n" +
+                                "Julien Pirat : Sage de la mémoire et des sauvegardes, sans lui, l'application n'aurait aucun souvenir.\n" +
+                                "\n" +
+                                "Gabin Demonet : Assassin de l'ombre et des feedback, si ton téléphone vibre, c'est de sa faute.\n" +
+                                "\n" +
+                                "Rémi Covizzi : Paladin du gameplay et de l'UI, assembleur d'élément graphique et manipulateur de données.\n" +
+                                "\n" +
+                                "Notre joyeuse bande espère que vous passerez un bon moment sur notre application !\n",
+                        gifResource = com.example.lepeenice.R.raw.creaditslepeenice,
+                        onClose = {
+                            GameManager.getInstance().creaditTutorial = false
+                        },
+                    )
+                }
             }
         }
     }

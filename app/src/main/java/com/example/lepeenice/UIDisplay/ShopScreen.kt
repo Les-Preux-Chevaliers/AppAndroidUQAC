@@ -6,7 +6,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -65,51 +69,71 @@ class ShopScreen {
                                 .height(50.dp)
                                 .background(color = MaterialTheme.colors.surface)
                         ) {
-                            Box(modifier = Modifier
-                                .fillMaxWidth()
-                                .height(50.dp)) {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(50.dp)
+                            ) {
                                 Row(
                                     modifier = Modifier
-                                        .wrapContentWidth()
-                                        .wrapContentHeight()
-                                        .padding(start = 20.dp)
-                                        .clip(RoundedCornerShape(10.dp))
-                                        .border(
-                                            3.dp,
-                                            MaterialTheme.colors.secondary,
-                                            RoundedCornerShape(10.dp)
-                                        ),
+                                        .fillMaxWidth()
+                                        .padding(vertical = 8.dp),
+                                    horizontalArrangement = Arrangement.SpaceBetween,
                                     verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.Start,
                                 ) {
-                                    Image(
-                                        painter = painterResource(R.drawable.pieccesssesseseeses),
-                                        contentDescription = "MoneyLogo",
-                                        modifier = Modifier
-                                            .height(50.dp)
-                                            .width(50.dp)
-                                            .padding(vertical = 8.dp)
-                                    )
                                     Row(
                                         modifier = Modifier
-                                            .padding(end = 12.dp)
-                                    )
-                                    {
-                                        Prefab.CustomTitre(content = money.toString())
-                                        Prefab.CustomTitre(content = " CAD")
+                                            .wrapContentWidth()
+                                            .wrapContentHeight()
+                                            .padding(start = 20.dp)
+                                            .padding(end = 16.dp)
+                                            .clip(RoundedCornerShape(10.dp))
+                                            .border(
+                                                3.dp,
+                                                MaterialTheme.colors.secondary,
+                                                RoundedCornerShape(10.dp)
+                                            ),
+                                        verticalAlignment = Alignment.CenterVertically, // Ajout de l'alignement vertical
+                                        horizontalArrangement = Arrangement.Start,
+                                    ) {
+                                        Image(
+                                            painter = painterResource(com.example.lepeenice.R.drawable.pieccesssesseseeses),
+                                            contentDescription = "MoneyLogo",
+                                            modifier = Modifier
+                                                .height(50.dp)
+                                                .width(50.dp)
+                                                .padding(vertical = 8.dp)
+                                        )
+                                        Row(
+                                            modifier = Modifier
+                                                .padding(start = 12.dp, end = 12.dp),
+                                            verticalAlignment = Alignment.CenterVertically // Ajout de l'alignement vertical
+                                        ) {
+                                            Prefab.CustomTitre(content = money.toString())
+                                            Prefab.CustomTitre(
+                                                content = " CAD"
+                                            )
+                                        }
+                                    }
+                                    Row(modifier = Modifier
+                                        .fillMaxWidth()
+                                    ) {
+                                        Box(
+                                            modifier = Modifier.weight(3f),
+                                        ) {
+                                            CustomComposable.LevelBar(CurrentXp, Level)
+                                            Box(modifier = Modifier.align(Alignment.Center)) {
+                                                Prefab.CustomTitre(content = "Level $Level")
+                                            }
+                                        }
+                                        Box(
+                                            modifier = Modifier.weight(1f),
+                                        ) {
+
+                                        }
                                     }
                                 }
-                                Box(
-                                    modifier = Modifier
-                                        .width(200.dp)
-                                        .padding(end = 20.dp)
-                                        .align(Alignment.CenterEnd)
-                                ) {
-                                    CustomComposable.LevelBar(CurrentXp,Level)
-                                    Box(modifier = Modifier.align(Alignment.Center)) {
-                                        Prefab.CustomTitre(content = "Level $Level")
-                                    }
-                                }
+
                             }
                         }
 

@@ -192,10 +192,11 @@ class CustomComposable {
                             Spacer(modifier = Modifier.width(16.dp))
                             Column(Modifier.weight(1f)) {
                                 Text(
+                                    modifier = Modifier.fillMaxWidth(),
                                     text = sword.name,
                                     color = Color.White,
                                     style = MaterialTheme.typography.body1.copy(
-                                        fontSize = 16.sp,
+                                        fontSize = 14.sp,
                                         shadow = Shadow(
                                             color = Color.Black,
                                             offset = Offset(-2.0f, -2.0f),
@@ -366,7 +367,7 @@ class CustomComposable {
             ) {
                 Surface(
                     modifier = Modifier
-                        .width(300.dp)
+                        .width(450.dp)
                         .wrapContentHeight()
                         .padding(16.dp),
                     shape = RoundedCornerShape(8.dp)
@@ -453,6 +454,113 @@ class CustomComposable {
                                     }
                                 )
                                 Spacer(modifier = Modifier.width(8.dp))
+                                Button(
+                                    onClick = onClose,
+                                    colors = ButtonDefaults.buttonColors(MaterialTheme.colors.primaryVariant),
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .height(IntrinsicSize.Min)
+                                        .padding(8.dp),
+                                    content = {
+                                        Text(
+                                            text = "Fermer",
+                                            textAlign = TextAlign.Center
+                                        )
+                                    }
+                                )
+                            }
+
+                        }
+
+                    }
+                }
+            }
+        }
+
+        @Composable
+        fun PopUpCreadit(
+            title: String,
+            text: String,
+            gifResource: Int,
+            onClose: () -> Unit
+        ) {
+            Dialog(
+                onDismissRequest = onClose
+            ) {
+                Surface(
+                    modifier = Modifier
+                        .width(450.dp)
+                        .wrapContentHeight()
+                        .padding(16.dp),
+                    shape = RoundedCornerShape(8.dp)
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .wrapContentHeight(),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        // Titre
+                        Text(
+                            text = title,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 20.sp,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.padding(bottom = 8.dp)
+                        )
+
+                        // GIF
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .weight(1f)
+                        ) {
+                            val imageLoader = ImageLoader.Builder(LocalContext.current)
+                                .components {
+                                    if (SDK_INT >= 28) {
+                                        add(ImageDecoderDecoder.Factory())
+                                    } else {
+                                        add(GifDecoder.Factory())
+                                    }
+                                }
+                                .build()
+
+                            Image(
+                                painter = rememberAsyncImagePainter(gifResource, imageLoader),
+                                contentDescription = null,
+                                modifier = Modifier.fillMaxSize()
+                            )
+
+                        }
+
+                        // Texte avec scroll
+                        LazyColumn(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .weight(1f)
+                        ) {
+                            item {
+                                Text(
+                                    text = text,
+                                    fontSize = 16.sp,
+                                    modifier = Modifier.padding(vertical = 8.dp, horizontal = 8.dp)
+                                )
+                            }
+                        }
+
+                        // Boutons
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 8.dp)
+                                .padding(horizontal = 16.dp) // Ajouter un padding horizontal de 16 dp
+                                .wrapContentWidth(align = Alignment.CenterHorizontally) // Centrer les boutons horrizontalement
+                        ) {
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(IntrinsicSize.Min)
+                            ) {
                                 Button(
                                     onClick = onClose,
                                     colors = ButtonDefaults.buttonColors(MaterialTheme.colors.primaryVariant),
