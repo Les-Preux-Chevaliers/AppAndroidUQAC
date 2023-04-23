@@ -115,7 +115,7 @@ public class GameManager private constructor() {
     )
 
     @Transient
-    var currentMonster: Monster = monsters.random()
+    var currentMonster: Monster = monsters[0]
 
     var currentMonsterLife: Int by mutableStateOf(currentMonster.hp)
 

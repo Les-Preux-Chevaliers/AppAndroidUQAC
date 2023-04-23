@@ -2,9 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- Ajoutez les permissions nécessaires -->
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.BODY_SENSORS" />
-    <uses-permission android:name="android.permission.SENSOR_ACCELEROMETER" />
+
+    <!-- Ajoutez la déclaration de la fonctionnalité "android.hardware.sensor.accelerometer" -->
+    <uses-feature android:name="android.hardware.sensor.accelerometer" android:required="true" />
 
     <application
         android:screenOrientation="portrait"
@@ -24,7 +27,6 @@
             android:theme="@style/Theme.LEpeeNice">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
