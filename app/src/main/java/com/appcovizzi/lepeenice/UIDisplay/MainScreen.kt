@@ -1,6 +1,10 @@
 package com.appcovizzi.lepeenice.UIDisplay
 
+import android.Manifest
+import android.app.Activity
 import android.content.Context
+import android.content.pm.PackageManager
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -18,6 +22,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.appcovizzi.lepeenice.MemoryClassPackage.GameManager
 import com.appcovizzi.lepeenice.MemoryClassPackage.Player
 import com.appcovizzi.lepeenice.MemoryClassPackage.SaveManager
@@ -30,12 +36,20 @@ import kotlinx.serialization.json.Json
 class MainScreen {
     companion object {
         var Life = mutableStateOf(GameManager.getInstance().currentMonsterLife)
-
+        private const val REQUEST_BODY_SENSORS_PERMISSION = 1
 
         @Composable
         fun MainScreen(sensor: SensorsUtilityClass) {
             val currentContext: Context = LocalContext.current
-            sensor.useAccelerometer(currentContext)
+            if (ContextCompat.checkSelfPermission(currentContext, Manifest.permission.BODY_SENSORS) == PackageManager.PERMISSION_GRANTED) {
+                // L'autorisation d'accéder aux capteurs est accordée
+                sensor.useAccelerometer(currentContext)
+            } else {
+                // L'autorisation d'accéder aux capteurs n'est pas encore accordée, donc on demande la permission à l'utilisateur
+                ActivityCompat.requestPermissions(currentContext as Activity, arrayOf(Manifest.permission.BODY_SENSORS), REQUEST_BODY_SENSORS_PERMISSION)
+                Toast.makeText(currentContext, "Accès aux capteurs non autorisé", Toast.LENGTH_SHORT).show()
+            }
+
             sensor.isOnCombatScreen = true
 
             LEpeeNiceTheme {
