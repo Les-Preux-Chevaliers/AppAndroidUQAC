@@ -2,8 +2,10 @@ package com.appcovizzi.lepeenice.UIDisplay
 
 import android.Manifest
 import android.app.Activity
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.pm.PackageManager
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -37,28 +39,54 @@ class MainScreen {
     companion object {
         var Life = mutableStateOf(GameManager.getInstance().currentMonsterLife)
         private const val REQUEST_BODY_SENSORS_PERMISSION = 1
+        private const val REQUEST_WRITE_EXTERNAL_STORAGE_PERMISSION = 2
+
 
         @Composable
         fun MainScreen(sensor: SensorsUtilityClass) {
             val currentContext: Context = LocalContext.current
-            if (ContextCompat.checkSelfPermission(currentContext, Manifest.permission.BODY_SENSORS) == PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(
+                    currentContext,
+                    Manifest.permission.BODY_SENSORS
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
                 // L'autorisation d'accéder aux capteurs est accordée
+//                Toast.makeText(currentContext, "Activation du capteur", Toast.LENGTH_SHORT).show()
                 sensor.useAccelerometer(currentContext)
+//                println("activate accelerometer")
             } else {
                 // L'autorisation d'accéder aux capteurs n'est pas encore accordée, donc on demande la permission à l'utilisateur
-                ActivityCompat.requestPermissions(currentContext as Activity, arrayOf(Manifest.permission.BODY_SENSORS), REQUEST_BODY_SENSORS_PERMISSION)
-                Toast.makeText(currentContext, "Accès aux capteurs non autorisé", Toast.LENGTH_SHORT).show()
+                ActivityCompat.requestPermissions(
+                    currentContext as Activity,
+                    arrayOf(Manifest.permission.BODY_SENSORS),
+                    REQUEST_BODY_SENSORS_PERMISSION
+                )
+                Toast.makeText(
+                    currentContext,
+                    "Accès aux capteurs non autorisé",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
-
-            sensor.isOnCombatScreen = true
-
-            LEpeeNiceTheme {
+            val hasPermission = ContextCompat.checkSelfPermission(currentContext, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+            if (hasPermission) {
                 val EncodedPlayer = Json.encodeToString(Player.getInstance())
                 SaveManager.getInstance()
                     .saveDataToSharedPreferences_Player(currentContext, EncodedPlayer)
                 val EncodedGameManager = Json.encodeToString(GameManager.getInstance())
                 SaveManager.getInstance()
                     .saveDataToSharedPreferences_GameManager(currentContext, EncodedGameManager)
+//                println("saved")
+            } else {
+                // L'autorisation d'écriture externe n'est pas encore accordée, donc on demande la permission à l'utilisateur
+                ActivityCompat.requestPermissions(currentContext as Activity, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), REQUEST_WRITE_EXTERNAL_STORAGE_PERMISSION)
+                // Afficher un message indiquant le problème
+            }
+
+            sensor.isOnCombatScreen = true
+
+            LEpeeNiceTheme {
+
+
 
                 Box(
                     Modifier
@@ -138,12 +166,13 @@ class MainScreen {
                                         ) {
                                             Prefab.CustomTitre(content = money.toString())
                                             Prefab.CustomTitre(
-                                                content = " CAD"
+                                                content = " OR"
                                             )
                                         }
                                     }
-                                    Row(modifier = Modifier
-                                        .fillMaxWidth()
+                                    Row(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
                                     ) {
                                         Box(
                                             modifier = Modifier.weight(3f),

@@ -232,7 +232,7 @@ class CustomComposable {
                                             } else if (sword.isPurchased) {
                                                 "Equiper"
                                             } else {
-                                                "Acheter ${sword.price} CAD"
+                                                "Acheter ${sword.price} OR"
                                             },
                                             style = MaterialTheme.typography.button
                                         )
@@ -307,9 +307,9 @@ class CustomComposable {
      */
         @Composable
         fun LevelBar(niveau: Int, levelneed: Int) {
-            val levelneed = levelneed * 100
+            val leveled = levelneed * 100
 
-            var levelPercentage = niveau.toFloat() / levelneed.toFloat()
+            var levelPercentage = niveau.toFloat() / leveled.toFloat()
             if(levelPercentage > 1.0f){levelPercentage=1.0f}
 
             LinearProgressIndicator(

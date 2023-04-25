@@ -9,13 +9,14 @@ import com.appcovizzi.lepeenice.R
 import com.appcovizzi.lepeenice.UIDisplay.MainScreen
 import com.appcovizzi.lepeenice.Vibrate
 import kotlinx.coroutines.*
+import kotlinx.serialization.Transient
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.util.*
 
 
 @Serializable
-public class GameManager private constructor() {
+class GameManager private constructor() {
 
 
     var swords: MutableList<Sword> = mutableListOf()
@@ -27,90 +28,90 @@ public class GameManager private constructor() {
             50,
             0,
             0,
-            com.appcovizzi.lepeenice.R.drawable.mob1,
-            com.appcovizzi.lepeenice.R.drawable.mob1_evolved,
+            R.drawable.mob1,
+            R.drawable.mob1_evolved,
             0,
-            com.appcovizzi.lepeenice.R.raw.mob1_hurt
+            R.raw.mob1_hurt
         ),
         Monster(
             "Tourmentum",
             100,
             0,
             0,
-            com.appcovizzi.lepeenice.R.drawable.mob2,
-            com.appcovizzi.lepeenice.R.drawable.mob1_evolved,
+            R.drawable.mob2,
+            R.drawable.mob1_evolved,
             0,
-            com.appcovizzi.lepeenice.R.raw.mob1_hurt
+            R.raw.mob1_hurt
         ),
         Monster(
             "Assombros",
             200,
             0,
             0,
-            com.appcovizzi.lepeenice.R.drawable.mob3,
-            com.appcovizzi.lepeenice.R.drawable.mob1_evolved,
+            R.drawable.mob3,
+            R.drawable.mob1_evolved,
             0,
-            com.appcovizzi.lepeenice.R.raw.mob1_hurt
+            R.raw.mob1_hurt
         ),
         Monster(
             "Grouillombre",
             275,
             0,
             0,
-            com.appcovizzi.lepeenice.R.drawable.mob4,
-            com.appcovizzi.lepeenice.R.drawable.mob1_evolved,
+            R.drawable.mob4,
+            R.drawable.mob1_evolved,
             0,
-            com.appcovizzi.lepeenice.R.raw.mob1_hurt
+            R.raw.mob1_hurt
         ),
         Monster(
             "Rouillefureur",
             375,
             0,
             0,
-            com.appcovizzi.lepeenice.R.drawable.mob5,
-            com.appcovizzi.lepeenice.R.drawable.mob1_evolved,
+            R.drawable.mob5,
+            R.drawable.mob1_evolved,
             0,
-            com.appcovizzi.lepeenice.R.raw.mob1_hurt
+            R.raw.mob1_hurt
         ),
         Monster(
             "Épinesang",
             550,
             0,
             0,
-            com.appcovizzi.lepeenice.R.drawable.mob6,
-            com.appcovizzi.lepeenice.R.drawable.mob1_evolved,
+            R.drawable.mob6,
+            R.drawable.mob1_evolved,
             0,
-            com.appcovizzi.lepeenice.R.raw.mob1_hurt
+            R.raw.mob1_hurt
         ),
         Monster(
             "Crocsombre",
             650,
             0,
             0,
-            com.appcovizzi.lepeenice.R.drawable.mob7,
-            com.appcovizzi.lepeenice.R.drawable.mob1_evolved,
+            R.drawable.mob7,
+            R.drawable.mob1_evolved,
             0,
-            com.appcovizzi.lepeenice.R.raw.mob1_hurt
+            R.raw.mob1_hurt
         ),
         Monster(
             "Glacécaille",
             850,
             0,
             0,
-            com.appcovizzi.lepeenice.R.drawable.mob8,
-            com.appcovizzi.lepeenice.R.drawable.mob1_evolved,
+            R.drawable.mob8,
+            R.drawable.mob1_evolved,
             0,
-            com.appcovizzi.lepeenice.R.raw.mob1_hurt
+            R.raw.mob1_hurt
         ),
         Monster(
             "Crâneroc",
             1000,
             0,
             0,
-            com.appcovizzi.lepeenice.R.drawable.mob9,
-            com.appcovizzi.lepeenice.R.drawable.mob1_evolved,
+            R.drawable.mob9,
+            R.drawable.mob1_evolved,
             0,
-            com.appcovizzi.lepeenice.R.raw.mob1_hurt
+            R.raw.mob1_hurt
         )
     )
 
@@ -158,15 +159,13 @@ public class GameManager private constructor() {
 
     fun loadSave(g: GameManager) {
         this.swords = g.swords
-        println(currentMonster)
+        //println(currentMonster)
         //NewMonster()
     }
 
 
     fun dealDamages(currentContext: Context) {
         var currentSword = Player.getInstance().sword.damage
-
-        var monsterSound = currentMonster.getHitSound
 
         currentMonsterLife -= currentSword
 
@@ -187,31 +186,6 @@ public class GameManager private constructor() {
 
             NewMonster()
         }
-    }
-
-    fun dealDamagestest() {
-        var currentSword = Player.getInstance().sword.damage
-
-        currentMonsterLife -= currentSword
-
-        currentBoolAttack = !currentBoolAttack
-
-        MainScreen.Life.value -= currentSword
-
-        //tryMonsterAttack(currentContext)
-
-        //Player.getInstance().addXp(10)
-
-        Player.getInstance().addMoney(10 * Player.getInstance().getLevel())
-
-        if (currentMonsterLife <= 0) {
-            Player.getInstance().addXp(currentMonster.hp)
-
-            Player.getInstance().addMoney(currentMonster.hp)
-
-            NewMonster()
-        }
-
     }
 
     fun tryMonsterAttack(currentContext: Context) {
@@ -282,64 +256,6 @@ public class GameManager private constructor() {
     }
 
     /**
-     * Cette fonction donne un string de toutes les épées du GameManager.
-     * @return String Concatenation des toString() de chaque épée.
-     */
-    fun printSwords(): String {
-        var res: String = ""
-        for (sword in swords) {
-            res += sword.toString() + ", "
-        }
-        return res
-    }
-
-    /**
-     * Cette fonction donne un string de toutes les monstres du GameManager.
-     * @return String Concatenation des toString() de chaque monstre.
-     */
-    fun printMonsters(): String {
-        var res: String = ""
-        for (monster in monsters) {
-            res += monster.toString() + ", "
-        }
-        return res
-    }
-
-    /**
-     * Ajoute un Monstre la liste des monstres du GameManager.
-     * @param name String, Nom du monstre.
-     * @param hp Float, Point de vie du monstre.
-     * @param attack Float, Nombre de dégâts du monstre.
-     * @param defense Int, Nombre de point de défense du monstre.
-     * @param imageUri Int, Adresse de l'image du Monstre (com.example.lepeenice.R.drawable."ImageName").
-     * @param imageUri2 Int, Adresse de l'image du Monstre élovué (com.example.lepeenice.R.drawable."ImageName").
-     * @param getHitSound Int, Adresse du sound.
-     */
-    fun addMonster(
-        name: String,
-        hp: Int,
-        attack: Int,
-        defense: Int,
-        imageUri: Int,
-        imageUri2: Int,
-        scoreGiven: Int,
-        getHitSound: Int
-    ) {
-        monsters.add(
-            Monster(
-                name,
-                hp,
-                attack,
-                defense,
-                imageUri,
-                imageUri2,
-                scoreGiven,
-                getHitSound
-            )
-        )
-    }
-
-    /**
      * Création de toutes les épées du jeu.
      */
     fun createSwords() {
@@ -353,7 +269,7 @@ public class GameManager private constructor() {
                 1,
                 0,
                 true,
-                com.appcovizzi.lepeenice.R.drawable.epeedentrainement
+                R.drawable.epeedentrainement
             )
         )
         swords.add(
@@ -362,7 +278,7 @@ public class GameManager private constructor() {
                 10,
                 100,
                 false,
-                com.appcovizzi.lepeenice.R.drawable.lamedelombrenocturne
+                R.drawable.lamedelombrenocturne
             )
         )
         swords.add(
@@ -371,7 +287,7 @@ public class GameManager private constructor() {
                 25,
                 1500,
                 false,
-                com.appcovizzi.lepeenice.R.drawable.epeedelalicornedoree
+                R.drawable.epeedelalicornedoree
             )
         )
         swords.add(
@@ -380,7 +296,7 @@ public class GameManager private constructor() {
                 50,
                 5000,
                 false,
-                com.appcovizzi.lepeenice.R.drawable.epeedelacoleredivine
+                R.drawable.epeedelacoleredivine
             )
         )
         swords.add(
@@ -389,7 +305,7 @@ public class GameManager private constructor() {
                 75,
                 10000,
                 false,
-                com.appcovizzi.lepeenice.R.drawable.epeedelavalleedesames
+                R.drawable.epeedelavalleedesames
             )
         )
         swords.add(
@@ -398,7 +314,7 @@ public class GameManager private constructor() {
                 100,
                 15000,
                 false,
-                com.appcovizzi.lepeenice.R.drawable.lamedufeuardent
+                R.drawable.lamedufeuardent
             )
         )
         // Fin création des Swords
@@ -409,9 +325,9 @@ public class GameManager private constructor() {
         currentMonster = monsters.random()
     }
 
-    fun AcheterEpee(s: Sword, currentContext : Context) {
+    fun AcheterEpee(s: Sword) {
         swords.forEach { item ->
-            if (s == swords) {
+            if (s == item) {
                 item.isPurchased = true
             }
         }
@@ -423,12 +339,12 @@ public class GameManager private constructor() {
             if (Player.getInstance().getMoney() >= sword.price) {
                 Player.getInstance().addMoney(-sword.price)
                 currentMoney = Player.getInstance().getMoney()
-                AcheterEpee(sword,currentContext)
+                AcheterEpee(sword)
                 sword.isPurchased = true
                 Player.getInstance().EquipeEpee(sword)
                 val EncodedPlayer = Json.encodeToString(Player.getInstance())
                 SaveManager.getInstance().saveDataToSharedPreferences_Player(currentContext,EncodedPlayer)
-                val EncodedGameManager = Json.encodeToString(GameManager.getInstance())
+                val EncodedGameManager = Json.encodeToString(getInstance())
                 SaveManager.getInstance().saveDataToSharedPreferences_GameManager(currentContext,EncodedGameManager)
             }
         } else {

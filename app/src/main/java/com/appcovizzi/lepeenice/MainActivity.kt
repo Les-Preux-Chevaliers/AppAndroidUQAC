@@ -1,7 +1,9 @@
 package com.appcovizzi.lepeenice
 
+import android.Manifest
 import android.content.Context
 import android.content.pm.ActivityInfo
+import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -17,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.core.content.ContextCompat
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
@@ -26,6 +29,7 @@ import androidx.navigation.compose.rememberNavController
 import com.appcovizzi.lepeenice.MemoryClassPackage.SaveManager
 import com.appcovizzi.lepeenice.UIDisplay.*
 import com.appcovizzi.lepeenice.ui.theme.LEpeeNiceTheme
+import kotlinx.serialization.json.Json
 
 
 class MainActivity : ComponentActivity() {
@@ -34,6 +38,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        Json { isLenient = true; ignoreUnknownKeys = true }
 
         setContent {
             // Load les data si il y en a !
@@ -108,8 +113,18 @@ class MainActivity : ComponentActivity() {
 
     override fun onResume() {
         super.onResume()
-        if(Accelerometer.isOnCombatScreen == true) {
-            Accelerometer.useAccelerometer(currentContext!!)
+        if (currentContext?.let {
+                ContextCompat.checkSelfPermission(
+                    it,
+                    Manifest.permission.BODY_SENSORS
+                )
+            } == PackageManager.PERMISSION_GRANTED
+        ) {
+            // L'autorisation d'accéder aux capteurs est accordée
+//            println("activate accelerometer")
+            if (Accelerometer.isOnCombatScreen == true) {
+                Accelerometer.useAccelerometer(currentContext!!)
+            }
         }
     }
 }
@@ -119,71 +134,5 @@ sealed class Screen(val route: String, @StringRes val resourceId: Int, val icon:
     object Shop : Screen("Shop", R.string.shop, Icons.Filled.ShoppingCart)
     object Param : Screen("Param", R.string.param, Icons.Filled.Settings)
 }
-
-
-//@Preview(name = "Light Mode")
-//@Preview(
-//    uiMode = Configuration.UI_MODE_NIGHT_YES,
-//    showBackground = true,
-//    name = "Dark Mode"
-//)
-//@Composable
-//fun DefaultPreview() {
-//    val currentContext: Context = LocalContext.current
-//    LEpeeNiceTheme {
-//        Box(
-//            Modifier
-//                .fillMaxSize()
-//                .background(
-//                    brush = Brush.verticalGradient(
-//                        colors = listOf(
-//                            MaterialTheme.colors.secondary,
-//                            MaterialTheme.colors.surface
-//                        ),
-//                        startY = 1000f,
-//                        endY = 2000f
-//                    )
-//                )
-//        ) {
-//            Column() {
-//                /*
-//                Score display code UI
-//                 */
-//
-//                Box(
-//                    modifier = Modifier
-//                        .fillMaxWidth()
-//                        .height(50.dp)
-//                        .background(color = MaterialTheme.colors.background)
-//                        .padding(start = 20.dp)
-//                ) {
-//                    Row(
-//                        modifier = Modifier
-//                            .wrapContentSize()
-//                            .align(Alignment.CenterStart)
-//                    ) {
-//                        Prefab.CustomTitre(content = "Money : ")
-//                        /*
-//                Texte pour le score à modifier lors du jeu
-//                 */
-//                        Prefab.CustomTitre(content = Player.getInstance().getMoney().toString())
-//                        Prefab.CustomTitre(content = " CAD")
-//                    }
-//                }
-//
-//                /*
-//            Ui pour tout les éléments du shop
-//             */
-//                CustomComposable.Shop(swords = GameManager.getInstance().swords)
-//            }
-//            //Show version, dont remove this on the preview !
-//            Box(modifier = Modifier.align(Alignment.BottomStart)) {
-//                CustomComposable.ModeDisplay(name = "Preview Mode", version = "Version : 0.0.4")
-//            }
-//        }
-//    }
-//}
-//
-
 
 

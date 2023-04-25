@@ -1,6 +1,10 @@
 package com.appcovizzi.lepeenice.UIDisplay
 
+import android.Manifest
+import android.app.Activity
 import android.content.Context
+import android.content.pm.PackageManager
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -13,6 +17,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import com.appcovizzi.lepeenice.MemoryClassPackage.SaveManager
 import com.appcovizzi.lepeenice.R
@@ -20,12 +26,54 @@ import com.appcovizzi.lepeenice.SensorsUtilityClass
 
 class SplashScreen {
     companion object {
+        private const val REQUEST_BODY_SENSORS_PERMISSION = 1
+        private const val REQUEST_WRITE_EXTERNAL_STORAGE_PERMISSION = 2
         @Composable
         fun SplashScreen(navController: NavController, sensor : SensorsUtilityClass) {
             val currentContext: Context = LocalContext.current
             sensor.useAccelerometer(currentContext)
             sensor.unuseAccelerometer()
             sensor.isOnCombatScreen = false
+            val hasPermissionsensor = ContextCompat.checkSelfPermission(
+                currentContext,
+                Manifest.permission.BODY_SENSORS
+            ) == PackageManager.PERMISSION_GRANTED
+
+            val hasPermissionStorage = ContextCompat.checkSelfPermission(
+                currentContext,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ) == PackageManager.PERMISSION_GRANTED
+
+            if (!hasPermissionsensor) {
+                // L'autorisation d'accéder aux capteurs n'est pas encore accordée, donc on demande la permission à l'utilisateur
+                ActivityCompat.requestPermissions(
+                    currentContext as Activity,
+                    arrayOf(Manifest.permission.BODY_SENSORS),
+                    SplashScreen.REQUEST_BODY_SENSORS_PERMISSION
+                )
+                Toast.makeText(
+                    currentContext,
+                    "Accès aux capteurs non autorisé",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else if (!hasPermissionStorage) {
+                // L'autorisation d'écriture externe n'est pas encore accordée, donc on demande la permission à l'utilisateur
+                ActivityCompat.requestPermissions(
+                    currentContext as Activity,
+                    arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                    SplashScreen.REQUEST_WRITE_EXTERNAL_STORAGE_PERMISSION
+                )
+                Toast.makeText(
+                    currentContext,
+                    "Autorisation d'écriture externe requise pour sauvegarder les données",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
+                // Les deux autorisations ont été accordées
+            }
+
+
+
 
             SaveManager.getInstance().loadDataFromSharedPreferences(LocalContext.current)
             Box(
