@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.appcovizzi.lepeenice">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Ajoutez les permissions nécessaires -->
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.BODY_SENSORS" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        tools:ignore="ScopedStorage" />
 
     <!-- Ajoutez la déclaration de la fonctionnalité "android.hardware.sensor.accelerometer" -->
     <uses-feature android:name="android.hardware.sensor.accelerometer" android:required="true" />

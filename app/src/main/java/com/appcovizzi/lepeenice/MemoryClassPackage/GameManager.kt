@@ -179,12 +179,22 @@ class GameManager private constructor() {
 
         Player.getInstance().addMoney(10 * Player.getInstance().getLevel())
 
+        val EncodedPlayer = Json.encodeToString(Player.getInstance())
+        SaveManager.getInstance().saveDataToSharedPreferences_Player(currentContext,EncodedPlayer)
+        val EncodedGameManager = Json.encodeToString(getInstance())
+        SaveManager.getInstance().saveDataToSharedPreferences_GameManager(currentContext,EncodedGameManager)
+
         if (currentMonsterLife <= 0) {
             Player.getInstance().addXp(currentMonster.hp)
 
             Player.getInstance().addMoney(currentMonster.hp)
 
             NewMonster()
+
+            val EncodedPlayer = Json.encodeToString(Player.getInstance())
+            SaveManager.getInstance().saveDataToSharedPreferences_Player(currentContext,EncodedPlayer)
+            val EncodedGameManager = Json.encodeToString(getInstance())
+            SaveManager.getInstance().saveDataToSharedPreferences_GameManager(currentContext,EncodedGameManager)
         }
     }
 

@@ -39,7 +39,6 @@ class MainScreen {
     companion object {
         var Life = mutableStateOf(GameManager.getInstance().currentMonsterLife)
         private const val REQUEST_BODY_SENSORS_PERMISSION = 1
-        private const val REQUEST_WRITE_EXTERNAL_STORAGE_PERMISSION = 2
 
 
         @Composable
@@ -67,25 +66,15 @@ class MainScreen {
                     Toast.LENGTH_SHORT
                 ).show()
             }
-            val hasPermission = ContextCompat.checkSelfPermission(currentContext, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
-            if (hasPermission) {
-                val EncodedPlayer = Json.encodeToString(Player.getInstance())
-                SaveManager.getInstance()
-                    .saveDataToSharedPreferences_Player(currentContext, EncodedPlayer)
-                val EncodedGameManager = Json.encodeToString(GameManager.getInstance())
-                SaveManager.getInstance()
-                    .saveDataToSharedPreferences_GameManager(currentContext, EncodedGameManager)
-//                println("saved")
-            } else {
-                // L'autorisation d'écriture externe n'est pas encore accordée, donc on demande la permission à l'utilisateur
-                ActivityCompat.requestPermissions(currentContext as Activity, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), REQUEST_WRITE_EXTERNAL_STORAGE_PERMISSION)
-                // Afficher un message indiquant le problème
-            }
+
+            val EncodedPlayer:String = Json.encodeToString(Player.getInstance())
+            SaveManager.getInstance().saveDataToSharedPreferences_Player(currentContext,EncodedPlayer)
+            val EncodedGameManager:String = Json.encodeToString(GameManager.getInstance())
+            SaveManager.getInstance().saveDataToSharedPreferences_GameManager(currentContext,EncodedGameManager)
 
             sensor.isOnCombatScreen = true
 
             LEpeeNiceTheme {
-
 
 
                 Box(

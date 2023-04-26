@@ -27,9 +27,9 @@ import com.appcovizzi.lepeenice.SensorsUtilityClass
 class SplashScreen {
     companion object {
         private const val REQUEST_BODY_SENSORS_PERMISSION = 1
-        private const val REQUEST_WRITE_EXTERNAL_STORAGE_PERMISSION = 2
+
         @Composable
-        fun SplashScreen(navController: NavController, sensor : SensorsUtilityClass) {
+        fun SplashScreen(navController: NavController, sensor: SensorsUtilityClass) {
             val currentContext: Context = LocalContext.current
             sensor.useAccelerometer(currentContext)
             sensor.unuseAccelerometer()
@@ -37,11 +37,6 @@ class SplashScreen {
             val hasPermissionsensor = ContextCompat.checkSelfPermission(
                 currentContext,
                 Manifest.permission.BODY_SENSORS
-            ) == PackageManager.PERMISSION_GRANTED
-
-            val hasPermissionStorage = ContextCompat.checkSelfPermission(
-                currentContext,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
             ) == PackageManager.PERMISSION_GRANTED
 
             if (!hasPermissionsensor) {
@@ -56,20 +51,6 @@ class SplashScreen {
                     "Accès aux capteurs non autorisé",
                     Toast.LENGTH_SHORT
                 ).show()
-            } else if (!hasPermissionStorage) {
-                // L'autorisation d'écriture externe n'est pas encore accordée, donc on demande la permission à l'utilisateur
-                ActivityCompat.requestPermissions(
-                    currentContext as Activity,
-                    arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                    SplashScreen.REQUEST_WRITE_EXTERNAL_STORAGE_PERMISSION
-                )
-                Toast.makeText(
-                    currentContext,
-                    "Autorisation d'écriture externe requise pour sauvegarder les données",
-                    Toast.LENGTH_SHORT
-                ).show()
-            } else {
-                // Les deux autorisations ont été accordées
             }
 
 
