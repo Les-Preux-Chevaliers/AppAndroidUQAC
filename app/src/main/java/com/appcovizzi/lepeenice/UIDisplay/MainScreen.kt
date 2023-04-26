@@ -206,7 +206,7 @@ class MainScreen {
                                         "\n" +
                                         "Privilégiez des mouvements amples.\n" +
                                         "\n" +
-                                        "Pour chaque attaque réussite, vous obtiendrez une petite récompense, maintenant à vous de jouer !\n",
+                                        "Pour chaque attaque réussi, vous obtiendrez une petite récompense, maintenant à vous de jouer !\n",
                                 gifResource = com.appcovizzi.lepeenice.R.raw.attaque,
                                 onClose = {
                                     Player.getInstance().needfirsttuto = false

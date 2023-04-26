@@ -28,16 +28,16 @@ public class SaveManager private constructor() {
 
 
     fun saveDataToSharedPreferences_Player(context: Context, data: String) {
-//        val sharedPreferences =
-//            context.getSharedPreferences(PlayerKeySaved, Context.MODE_PRIVATE)
-//        sharedPreferences.edit().putString(PlayerKeySaved, data).apply()
+        val sharedPreferences =
+            context.getSharedPreferences(PlayerKeySaved, Context.MODE_PRIVATE)
+        sharedPreferences.edit().putString(PlayerKeySaved, data).apply()
     }
 
 
     fun saveDataToSharedPreferences_GameManager(context: Context, data: String) {
-//        val sharedPreferences =
-//            context.getSharedPreferences(GameManagerKeySaved, Context.MODE_PRIVATE)
-//        sharedPreferences.edit().putString(GameManagerKeySaved, data).apply()
+        val sharedPreferences =
+            context.getSharedPreferences(GameManagerKeySaved, Context.MODE_PRIVATE)
+        sharedPreferences.edit().putString(GameManagerKeySaved, data).apply()
     }
 
     /**

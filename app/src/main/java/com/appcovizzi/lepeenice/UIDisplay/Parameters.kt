@@ -107,6 +107,15 @@ class Parameters {
                             ),
                             onValueChangeFinished = { println("Value change finished") }
                         )
+                        Row(
+                            modifier = Modifier.fillMaxWidth()
+                                .padding(horizontal = 36.dp),
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        )
+                        {
+                            Text(text = "Faible")
+                            Text(text = "Forte")
+                        }
                         Button(
                             onClick = {
                                 GameManager.getInstance().sensibility = 12.0f

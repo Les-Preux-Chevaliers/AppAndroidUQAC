@@ -14,8 +14,8 @@ android {
         applicationId "com.appcovizzi.lepeenice"
         minSdk 29
         targetSdk 33
-        versionCode 19
-        versionName "1.5.9"
+        versionCode 22
+        versionName "1.6.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {

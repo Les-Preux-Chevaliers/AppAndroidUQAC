@@ -6,6 +6,7 @@ import android.content.Context
 import androidx.compose.runtime.*
 import com.appcovizzi.lepeenice.PlaySound
 import com.appcovizzi.lepeenice.R
+import com.appcovizzi.lepeenice.UIDisplay.ImageLibrairy
 import com.appcovizzi.lepeenice.UIDisplay.MainScreen
 import com.appcovizzi.lepeenice.Vibrate
 import kotlinx.coroutines.*
@@ -28,90 +29,81 @@ class GameManager private constructor() {
             50,
             0,
             0,
-            R.drawable.mob1,
-            R.drawable.mob1_evolved,
+            ImageLibrairy.ImageMobs.images["mob1"]!!,
             0,
-            R.raw.mob1_hurt
+            //R.raw.mob1_hurt
         ),
         Monster(
             "Tourmentum",
             100,
             0,
             0,
-            R.drawable.mob2,
-            R.drawable.mob1_evolved,
+            ImageLibrairy.ImageMobs.images["mob2"]!!,
             0,
-            R.raw.mob1_hurt
+            //R.raw.mob1_hurt
         ),
         Monster(
             "Assombros",
             200,
             0,
             0,
-            R.drawable.mob3,
-            R.drawable.mob1_evolved,
+            ImageLibrairy.ImageMobs.images["mob3"]!!,
             0,
-            R.raw.mob1_hurt
+            //R.raw.mob1_hurt
         ),
         Monster(
             "Grouillombre",
             275,
             0,
             0,
-            R.drawable.mob4,
-            R.drawable.mob1_evolved,
+            ImageLibrairy.ImageMobs.images["mob4"]!!,
             0,
-            R.raw.mob1_hurt
+            //R.raw.mob1_hurt
         ),
         Monster(
             "Rouillefureur",
             375,
             0,
             0,
-            R.drawable.mob5,
-            R.drawable.mob1_evolved,
+            ImageLibrairy.ImageMobs.images["mob5"]!!,
             0,
-            R.raw.mob1_hurt
+            //R.raw.mob1_hurt
         ),
         Monster(
             "Épinesang",
             550,
             0,
             0,
-            R.drawable.mob6,
-            R.drawable.mob1_evolved,
+            ImageLibrairy.ImageMobs.images["mob6"]!!,
             0,
-            R.raw.mob1_hurt
+            //R.raw.mob1_hurt
         ),
         Monster(
             "Crocsombre",
             650,
             0,
             0,
-            R.drawable.mob7,
-            R.drawable.mob1_evolved,
+            ImageLibrairy.ImageMobs.images["mob7"]!!,
             0,
-            R.raw.mob1_hurt
+            //R.raw.mob1_hurt
         ),
         Monster(
             "Glacécaille",
             850,
             0,
             0,
-            R.drawable.mob8,
-            R.drawable.mob1_evolved,
+            ImageLibrairy.ImageMobs.images["mob8"]!!,
             0,
-            R.raw.mob1_hurt
+            //R.raw.mob1_hurt
         ),
         Monster(
             "Crâneroc",
             1000,
             0,
             0,
-            R.drawable.mob9,
-            R.drawable.mob1_evolved,
+            ImageLibrairy.ImageMobs.images["mob9"]!!,
             0,
-            R.raw.mob1_hurt
+            //R.raw.mob1_hurt
         )
     )
 
@@ -241,6 +233,12 @@ class GameManager private constructor() {
                 PlaySound.playSound(currentContext, R.raw.damaged, false)
                 Vibrate.vibratePhone(currentContext, 500)
                 if (currentShildNumber == 0) {
+                    swords.forEach { item ->
+                        if (Player.getInstance().sword.name == item.name && item.name != "Épée d'entrainement") {
+                            item.isPurchased = false
+                            Player.getInstance().sword = swords[0]
+                        }
+                    }
                     currentShildNumber = 3
                     NewMonster()
                 }
@@ -279,7 +277,7 @@ class GameManager private constructor() {
                 1,
                 0,
                 true,
-                R.drawable.epeedentrainement
+                ImageLibrairy.ImageSwords.images["epeedentrainement"]!!
             )
         )
         swords.add(
@@ -288,7 +286,7 @@ class GameManager private constructor() {
                 10,
                 100,
                 false,
-                R.drawable.lamedelombrenocturne
+                ImageLibrairy.ImageSwords.images["lamedelombrenocturne"]!!
             )
         )
         swords.add(
@@ -297,7 +295,7 @@ class GameManager private constructor() {
                 25,
                 1500,
                 false,
-                R.drawable.epeedelalicornedoree
+                ImageLibrairy.ImageSwords.images["epeedelalicornedoree"]!!
             )
         )
         swords.add(
@@ -306,7 +304,7 @@ class GameManager private constructor() {
                 50,
                 5000,
                 false,
-                R.drawable.epeedelacoleredivine
+                ImageLibrairy.ImageSwords.images["epeedelacoleredivine"]!!
             )
         )
         swords.add(
@@ -315,7 +313,7 @@ class GameManager private constructor() {
                 75,
                 10000,
                 false,
-                R.drawable.epeedelavalleedesames
+                ImageLibrairy.ImageSwords.images["epeedelavalleedesames"]!!
             )
         )
         swords.add(
@@ -324,7 +322,7 @@ class GameManager private constructor() {
                 100,
                 15000,
                 false,
-                R.drawable.lamedufeuardent
+                ImageLibrairy.ImageSwords.images["lamedufeuardent"]!!
             )
         )
         // Fin création des Swords

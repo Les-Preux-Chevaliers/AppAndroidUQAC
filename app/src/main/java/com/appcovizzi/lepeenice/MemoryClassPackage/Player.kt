@@ -1,12 +1,13 @@
 package com.appcovizzi.lepeenice.MemoryClassPackage
 
+import com.appcovizzi.lepeenice.UIDisplay.ImageLibrairy
 import kotlinx.serialization.Serializable
 
 @Serializable
 public class Player private constructor() {
 
     var pseudo: String = "PlayerName"
-    var sword: Sword = Sword("Épée d'entrainement",1,0,true,com.appcovizzi.lepeenice.R.drawable.epeedentrainement)
+    var sword: Sword = Sword("Épée d'entrainement",1,0,true, ImageLibrairy.ImageSwords.images["epeedentrainement"]!!)
     var hp: Int = 100
     private var level: Int = 1
     private var curentXp: Int = 0
